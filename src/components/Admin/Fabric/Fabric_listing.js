@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
@@ -6,7 +6,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import "react-toastify/dist/ReactToastify.css";
-import { Fab } from "@material-ui/core";
+import  getEnvironment  from '../../../components/environment';
 const $ = require("jquery");
 $.DataTable = require("datatables.net");
 
@@ -19,34 +19,23 @@ class Fabric_listing extends React.Component {
   }
 
   async componentDidMount() {
+    const { apiUrl } = getEnvironment();
     $(".example").DataTable().destroy();
-    setTimeout(function () {
-      $(".example").DataTable({
-        pageLength: 50,
-      });
-    }, 1000);
-
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var url = "http://localhost/pramesh/backend/api/all_fabric_get";
-    } else {
-      var url = "https://prameshsilks.com/backend/api/all_fabric_get";
+    setTimeout(() => $(".example").DataTable({ pageLength: 50 }), 1000);
+  
+    try {
+      const response = await fetch(`${apiUrl}/all_fabric_get`);
+      const { data } = await response.json();
+      this.setState({ fabric: data });
+    } catch (error) {
+      console.error('Error in componentDidMount:', error);
     }
-    const response = await fetch(url);
-    const data = await response.json();
-    this.setState({ fabric: data.data });
   }
 
   deletedata(e) {
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var del = "http://localhost/pramesh/backend/api/delete_fabric";
-    } else {
-      var del = "https://prameshsilks.com/backend/api/delete_fabric";
-    }
+    const { apiUrl } = getEnvironment();
 
+    const del = `${apiUrl}/delete_fabric`;
     var iFabricId = e.target.id;
     const fd = new FormData();
     fd.append("iFabricId", iFabricId);

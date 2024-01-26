@@ -7,17 +7,12 @@ import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router";
+import  getEnvironment  from '../../../components/environment';
 
 const Image_content_edit = () => {
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
-
-  if (answer_array[2] == "localhost:3000") {
-    var url = "http://localhost/pramesh/backend/api/image_content_added";
-  } else {
-    var url = "https://prameshsilks.com/backend/api/image_content_added";
-  }
-
+  const { apiUrl } = getEnvironment();;
+  const url = `${apiUrl}/image_content_added`;
+ 
   let history = useHistory();
   const [Title, setTitle] = useState("");
   const [Image, setImage] = useState("");
@@ -30,9 +25,7 @@ const Image_content_edit = () => {
   const [DescError, setDescError] = useState("");
   const [disable, setdisable] = useState(false);
 
-  var iContentId = window.location.pathname.substring(
-    window.location.pathname.lastIndexOf("/") + 1
-  );
+  const { id: iContentId } = useParams();
 
   function addbanner_content() {
     if (Title) {
@@ -61,9 +54,7 @@ const Image_content_edit = () => {
 
     if (Title != "" && Image != "") {
       setGif(true);
-      const dataa = axios
-        .post(url, fd)
-        .then((res) => {
+      axios.post(url, fd).then((res) => {
           setdisable(true);
           if (res.data.Status == "0") {
             setdisable(true);
@@ -99,59 +90,24 @@ const Image_content_edit = () => {
     }
   }
 
-  // var answer = window.location.href;
-  // const answer_array = answer.split('/');
-  if (answer_array[2] == "localhost:3000") {
-    var urls = `http://localhost/pramesh/backend/api/all_image_content_get?iContentId=${iContentId}`;
-  } else {
-    var urls = `https://prameshsilks.com/backend/api/all_image_content_get?iContentId=${iContentId}`;
-  }
-
   useEffect(() => {
-    axios
-      .get(urls)
-      .then((res) => {
-        setTitle(res.data.data.vTitle);
-        setImage(res.data.data.vImage);
-        setDesc(res.data.data.tDescription);
-        setStatus(res.data.data.eStatus);
-        setImageType(res.data.data.vImageType);
-        // setBanner(res.data.data);
-      })
-      .catch((err) => {});
-  }, []);
-
-  if (Status == "Active") {
-    var select = "selected";
-  } else if (Status == "inActive") {
-    var select = "selected";
-  } else {
-    var select = "";
-  }
-
-  // if (ImageType == 1) {
-  //     var selectType = '';
-  //     var selectType = 'selected';
-  // }
-  // else if (ImageType == 2) {
-  //     var selectType = '';
-  //     var selectType = 'selected';
-  // }
-  // else if (ImageType == 3) {
-  //     var selectType = '';
-  //     var selectType = 'selected';
-  // }
-  // else if (ImageType == 4) {
-  //     var selectType = '';
-  //     var selectType = 'selected';
-  // }
-  // else if (ImageType == 5) {
-  //     var selectType = '';
-  //     var selectType = 'selected';
-  // }
-  // else {
-  //     var selectType = '';
-  // }
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${apiUrl}/all_image_content_get?iContentId=${iContentId}`);
+        const { vTitle, vImage, tDescription, eStatus, vImageType } = data.data;
+        setTitle(vTitle);
+        setImage(vImage);
+        setDesc(tDescription);
+        setStatus(eStatus);
+        setImageType(vImageType);
+      } catch (err) {
+        // Handle errors if needed
+        console.error('Error in useEffect:', err);
+      }
+    };
+  
+    fetchData();
+  }, [iContentId]);
 
   return (
     <>
@@ -202,10 +158,10 @@ const Image_content_edit = () => {
                               className="form-control"
                               onChange={(e) => setStatus(e.target.value)}
                             >
-                              <option selected={select} value="inActive">
+                              <option value="inActive" selected={Status === "inActive"}>
                                 Inactive
                               </option>
-                              <option selected={select} value="Active">
+                              <option value="Active" selected={Status === "Active"}>
                                 Active
                               </option>
                             </select>
@@ -266,6 +222,7 @@ const Image_content_edit = () => {
                               id="vImage"
                               onChange={(e) => setImage(e.target.files[0])}
                               className="form-control vImage"
+                              accept="image/*"
                             />
                             <img src={Image} className="img1 h-101" />
                             {Image ? (

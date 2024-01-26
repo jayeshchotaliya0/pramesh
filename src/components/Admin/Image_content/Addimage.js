@@ -7,17 +7,15 @@ import Dropzone from "react-dropzone-uploader";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
+import  getEnvironment  from '../../../components/environment';
+
 import "react-toastify/dist/ReactToastify.css";
 
 const AddImage = () => {
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
-  if (answer_array[2] == "localhost:3000") {
-    var url = "http://localhost/pramesh/backend/api/image_content_added";
-  } else {
-    var url = "https://prameshsilks.com/backend/api/image_content_added";
-  }
+  const { apiUrl } = getEnvironment();
 
+  const url = `${apiUrl}/image_content_added`;
+ 
   let history = useHistory();
   const [Title, setTitle] = useState("");
   const [Status, setStatus] = useState("inActive");
@@ -31,12 +29,7 @@ const AddImage = () => {
   const [disable, setdisable] = useState(false);
 
 
-  let images = [];
-  const handleChangeStatus = ({ meta }, status) => {
-    images.push(meta.name);
-  };
-
-  const addbanner = (files, allFiles) => {
+  const addbanner = () => {
     if (Title) {
       setTitleError("");
     } else {
@@ -139,39 +132,6 @@ const AddImage = () => {
                             <span className="red">{TitleError}</span>
                           </div>
                         </div>
-                        <div className="col-lg-6"> </div>
-
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
-                              Status
-                            </label>
-                            <select
-                              className="form-control"
-                              onChange={(e) => setStatus(e.target.value)}
-                            >
-                              <option value="inActive">Inactive</option>
-                              <option value="Active">Active</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
-                              Main Image (HomePage)
-                            </label>
-                            <select
-                              className="form-control"
-                              onChange={(e) => setImageType(e.target.value)}
-                            >
-                              <option value="1">First Image</option>
-                              <option value="2">Second Image</option>
-                              <option value="3">Third Image</option>
-                              <option value="4">Product First Image</option>
-                              <option value="5">Product Second Image</option>
-                            </select>
-                          </div>
-                        </div>
                         <div className="col-lg-6">
                           <div className="form-group">
                             <div className="form-group">
@@ -193,6 +153,25 @@ const AddImage = () => {
                           </div>
                         </div>
 
+                        
+                        <div className="col-lg-6">
+                          <div className="form-group">
+                            <label className="form-control-label" for="vEmail">
+                              Main Image (HomePage)
+                            </label>
+                            <select
+                              className="form-control"
+                              onChange={(e) => setImageType(e.target.value)}
+                            >
+                              <option value="1">First Image</option>
+                              <option value="2">Second Image</option>
+                              <option value="3">Third Image</option>
+                              <option value="4">Product First Image</option>
+                              <option value="5">Product Second Image</option>
+                            </select>
+                          </div>
+                        </div>
+
                         <div className="col-lg-6">
                           <div className="form-group">
                             <label
@@ -203,12 +182,27 @@ const AddImage = () => {
                             </label>
                             <textarea
                               id="vDescription"
-                              rows="4"
+                              rows="1"
                               className="form-control"
                               placeholder="Description..."
                               onChange={(e) => setDesc(e.target.value)}
                             ></textarea>
                             <span className="red">{DescError}</span>
+                          </div>
+                        </div>
+
+                        <div className="col-lg-6">
+                          <div className="form-group">
+                            <label className="form-control-label" for="vEmail">
+                              Status
+                            </label>
+                            <select
+                              className="form-control"
+                              onChange={(e) => setStatus(e.target.value)}
+                            >
+                              <option value="inActive">Inactive</option>
+                              <option value="Active">Active</option>
+                            </select>
                           </div>
                         </div>
 

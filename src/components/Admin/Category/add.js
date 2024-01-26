@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import  getEnvironment  from '../../../components/environment';
+
 
 const Categoryadd = () => {
   let history = useHistory();
+  const envConfig = getEnvironment();
+  const apiUrl    = envConfig.apiUrl;  
+
   const [Title, setTitle] = useState("");
   const [Image, setImage] = useState("");
   const [Status, setStatus] = useState("Inactive");
@@ -30,14 +35,8 @@ const Categoryadd = () => {
       setImageError("Please Select Image");
     }
 
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-
-    if (answer_array[2] == "localhost:3000") {
-      var url = "http://localhost/pramesh/backend/api/category_add";
-    } else {
-      var url = "https://prameshsilks.com/backend/api/category_add";
-    }
+    var url = `${apiUrl}/category_add`;
+   
     const fd = new FormData();
     fd.append("vTitle", Title);
     fd.append("vImage", Image);
@@ -136,6 +135,7 @@ const Categoryadd = () => {
                               id="vImage"
                               onChange={(e) => setImage(e.target.files[0])}
                               className="form-control vImage"
+                              accept="image/*"
                             />
                             <img src="" className="img1 h-101" />
                             {Image ? (

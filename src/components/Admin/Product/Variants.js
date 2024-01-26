@@ -78,45 +78,45 @@ class Variants extends React.Component {
             rows
         });
     };
-    handleAddRow = () => 
-    {
-        const indexid = this.state.rows?.length-1;
+    // handleAddRow = () => 
+    // {
+    //     const indexid = this.state.rows?.length-1;
 
-        if(this.state.rows?.length>0)
-        {
-            const price      = document.getElementsByClassName("price_"+indexid);
-            const optionName = document.getElementsByClassName("optionName_"+indexid);
+    //     if(this.state.rows?.length>0)
+    //     {
+    //         const price      = document.getElementsByClassName("price_"+indexid);
+    //         const optionName = document.getElementsByClassName("optionName_"+indexid);
 
-            if(price[0].value>0 && optionName[0].value>0)
-            {
-                price[0].style.border= "";
-                optionName[0].style.border= "";
-                const item = { iOptionId:"", vPrice: 0, vQty:"",vSku:"",vWeight:"" };
-                this.setState({ rows: [...this.state.rows, item] });
-            }
-            else
-            { 
-                if(price[0].value>0)
-                {
-                    price[0].style.border= "";
-                }
-                else
-                {
-                    price[0].style.border      = "1px solid red";
-                }
+    //         if(price[0].value>0 && optionName[0].value>0)
+    //         {
+    //             price[0].style.border= "";
+    //             optionName[0].style.border= "";
+    //             const item = { iOptionId:"", vPrice: 0, vQty:"",vSku:"",vWeight:"" };
+    //             this.setState({ rows: [...this.state.rows, item] });
+    //         }
+    //         else
+    //         { 
+    //             if(price[0].value>0)
+    //             {
+    //                 price[0].style.border= "";
+    //             }
+    //             else
+    //             {
+    //                 price[0].style.border      = "1px solid red";
+    //             }
 
-                if(optionName[0].value>0)
-                {
-                    optionName[0].style.border = "";
-                }
-                else
-                {
-                    optionName[0].style.border = "1px solid red";
-                }
-            }
-        }
+    //             if(optionName[0].value>0)
+    //             {
+    //                 optionName[0].style.border = "";
+    //             }
+    //             else
+    //             {
+    //                 optionName[0].style.border = "1px solid red";
+    //             }
+    //         }
+    //     }
         
-    };
+    // };
    
     handleRemoveSpecificRow = (idx) => () => {
         const rows = [...this.state.rows]
@@ -258,11 +258,11 @@ class Variants extends React.Component {
                                                     onChange={this.handleChange(idx)} className="form-control" />
                                             </td>
                                             <td>
-                                                { this?.state?.rows[idx]?.iVariantId != '0' ?
+                                                {/* { this?.state?.rows[idx]?.iVariantId != '0' ?
                                                         <a onClick={this.handleAddRow} id="click_add_row" className="btn btn-outline-primary btn-sm">Add Row</a>
                                                     :<></> }
                                                 
-                                                { idx!='0' ?  <button className="btn btn-outline-danger btn-sm" onClick={this.handleRemoveSpecificRow(idx)} > Remove</button> : "" }
+                                                { idx!='0' ?  <button className="btn btn-outline-danger btn-sm" onClick={this.handleRemoveSpecificRow(idx)} > Remove</button> : "" } */}
                                             </td>
                                         </tr>
                                     ))
