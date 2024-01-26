@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="%PUBLIC_URL%/Admin/assets/img/brand/0000003.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/Admin/assets/css/googlefamaily.css?family=Open+Sans:300,400,600,700">
+  <link rel="stylesheet" href="%PUBLIC_URL%/Admin/assets/vendor/nucleo/css/nucleo.css" type="text/css">
+  <meta name="author" content="Yamin Shaikh , Khusal dayala , Justcodenow">
+
+  <!-- <link rel="stylesheet" href="%PUBLIC_URL%/Admin/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    type="text/css">  -->
+
+  <link rel='stylesheet' id='fontawesome-css'  href='https://use.fontawesome.com/releases/v5.0.1/css/all.css?ver=4.9.1' type='text/css' media='all' /> 
+
+  <!-- <link rel="stylesheet" href="./Admin/assets/css/font-awesome.css" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+
+  <link rel="stylesheet" href="%PUBLIC_URL%/Admin/assets/css/pretty-checkbox.min.css">
+
+  <link rel="stylesheet" href="dist/pretty-checkbox.min.css">
+
+
+  <link rel="stylesheet" href="./Admin/assets/css/bootstrap.min.css" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/Admin/assets/css/argon.css?v=1.2.0" type="text/css">
+
+  <!-- DATATABLE CSS -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/Admin/assets/css/jquery.dataTables.min.css" type="text/css">
+
+  <link rel="stylesheet" href="sweetalert2.min.css">
+  <link href="./Admin/assets/css/select2.min.css" rel="stylesheet" />
+
+  <!-- CSS END  -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/v4-shims.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Pramesh</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root" class="root" style="height: 100%;"></div>
+  <!-- JS -->
+  <script src="%PUBLIC_URL%/Admin/assets/vendor/jquery/dist/jquery.min.js"></script>
+  <script src="%PUBLIC_URL%/Admin/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="%PUBLIC_URL%/Admin/assets/vendor/js-cookie/js.cookie.js"></script>
+  <script src="%PUBLIC_URL%/Admin/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+  <script src="%PUBLIC_URL%/Admin/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+  <!-- Optional JS -->
+  <script src="%PUBLIC_URL%/Admin/assets/vendor/chart.js/dist/Chart.min.js"></script>
+  <script src="%PUBLIC_URL%/Admin/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+  <!-- Argon JS -->
+  <script src="%PUBLIC_URL%/Admin/assets/js/argon.js?v=1.2.0"></script>
+  <!-- JS END -->
+  <script src="%PUBLIC_URL%/Admin/assets/js/select2.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <!-- <script src=" https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script> -->
+
+</body>
+
+</html>
+<script>
+
+  $(document).on('change', '.vImage', function () {
+
+    if (this.files && this.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('.img1').attr('src', e.target.result);
+      };
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  $(document).on('change', '.vImages', function () {
+    imagesPreview(this, 'div.gallery');
+  });
+
+  var imagesPreview = function (input, placeToInsertImagePreview) {
+    if (input.files) {
+      var filesAmount = input.files.length;
+      for (i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          $($.parseHTML('<img class="multiple_image">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+        }
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  };
+
+
+
+</script>
