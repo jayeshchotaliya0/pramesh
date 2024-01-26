@@ -8,7 +8,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import  getEnvironment  from '../../../components/environment';
 
-
 const Useradd = () => {
   let history = useHistory();
   const envConfig = getEnvironment();
