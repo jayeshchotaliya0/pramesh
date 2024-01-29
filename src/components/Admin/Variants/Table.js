@@ -1,8 +1,7 @@
-import React, { useState ,useEffect } from "react";
+import React from "react";
 
 class Table_Listing extends React.Component 
 {
-    
     render() 
     {   
         var banners = this.props.data;

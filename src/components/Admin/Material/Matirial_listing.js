@@ -21,19 +21,22 @@ class Matirial_listing extends React.Component {
   }
 
   async componentDidMount() {
-    const envConfig = getEnvironment();
-    const apiUrl    = envConfig.apiUrl;  
-    $(".example").DataTable().destroy();
-    setTimeout(function () {
+    const { apiUrl } = getEnvironment();
+    const url = `${apiUrl}/all_material_get`;
+
+    try {
+      const response = await fetch(url);
+      const { data } = await response.json();
+
+      $(".example").DataTable().destroy();
       $(".example").DataTable({
         pageLength: 50,
       });
-    }, 1000);
 
-    var url = `${apiUrl}/all_material_get`;
-    const response  = await fetch(url);
-    const data      = await response.json();
-    this.setState({ material_data_Array: data.data });
+      this.setState({ material_data_Array: data.data });
+    } catch (error) {
+      console.error('Error in componentDidMount:', error);
+    }
   }
 
   deleteMetirial(e) {

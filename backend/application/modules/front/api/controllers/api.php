@@ -1533,7 +1533,7 @@ class Api extends MX_Controller
 	public function color_add()
 	{	
 		
-		$iColorId = $_GET['iColorId'];
+		$iColorId 	= $_POST['iColorId'] ?? '';
 
 	    $data['vColor']              	= $_POST['vColor'];
         $data['dtAddedDate']            = date("Y-m-d h:i:s");

@@ -130,7 +130,7 @@ const Navbar = () => {
     const srories = `${apiUrl}/stories`;
     const url     = `${apiUrl}/main_product_listing`;
     const cartdatasave  = `${apiUrl}/addtocartdataget?cookie=${cookie}@@${iUserId}`;
-    const terms         = "${apiUrl}/all_terms_condition_get";
+    const terms         = `${apiUrl}/all_terms_condition_get`;
   
 
   const mainNavbar = async () => {

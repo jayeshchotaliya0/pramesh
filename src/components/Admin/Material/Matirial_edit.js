@@ -7,6 +7,7 @@ import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import  getEnvironment  from '../../../components/environment';
+import { useParams } from "react-router-dom/cjs/react-router-dom";
 
 const Material_edit = () => {
   let history     = useHistory();
@@ -20,7 +21,7 @@ const Material_edit = () => {
   const [TitleError, setTitleError] = useState("");
   const [disable, setdisable] = useState(false);
 
-  var iMaterialId = window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1);
+  const { id: iMaterialId } = useParams();
 
   function Update_Header_Menu() {
     if (Title) {
@@ -77,18 +78,22 @@ const Material_edit = () => {
     }
   }
 
- 
-  var urls = `${apiUrl}/all_material_get?iMaterialId=${iMaterialId}`;
- 
   useEffect(() => {
-    axios
-      .get(urls)
-      .then((res) => {
-        setTitle(res.data.data.vTitle);
-        setStatus(res.data.data.eStatus);
-      })
-      .catch((err) => {});
-  }, []);
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${apiUrl}/all_material_get?iMaterialId=${iMaterialId}`);
+        const { vTitle, eStatus } = data.data;
+        setTitle(vTitle);
+        setStatus(eStatus);
+      } catch (err) {
+        // Handle errors if needed
+        console.error('Error in useEffect:', err);
+      }
+    };
+  
+    fetchData();
+  }, [iMaterialId]);
+  
 
   return (
     <>

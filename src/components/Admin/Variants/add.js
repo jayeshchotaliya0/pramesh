@@ -5,17 +5,15 @@ import Sidebar from "../Sidebar";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
+import  getEnvironment  from '../../../components/environment';
+
 import "react-toastify/dist/ReactToastify.css";
 
 const Variantsadd = () => {
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
-  if (answer_array[2] == "localhost:3000") {
-    var url = "http://localhost/pramesh/backend/api/variants_add";
-  } else {
-    var url = "https://prameshsilks.com/backend/api/variants_add";
-  }
-
+  const { apiUrl } = getEnvironment();
+  
+  var url = `${apiUrl}/variants_add`;
+ 
   let history = useHistory();
   const [Title, setTitle] = useState("");
   const [Status, setStatus] = useState("Inactive");
@@ -37,7 +35,6 @@ const Variantsadd = () => {
         .post(url, fd)
         .then((res) => {
           setdisable(true);
-
           if (res.data.Status == "0") {
             setdisable(true);
 

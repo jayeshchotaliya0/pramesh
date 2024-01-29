@@ -1,36 +1,45 @@
-import React, { useState, useEffect,useMemo } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import getEnvironment from '../../../components/environment';
 import Swal from "sweetalert2";
+import "react-toastify/dist/ReactToastify.css";
+import  getEnvironment  from '../../../components/environment';
+const $ = require("jquery");
+$.DataTable = require("datatables.net");
 
-const Listing = () => {
-  const [userdata, setUserdata] = useState([]);
+class Listing extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userdata: [],
+    };
+  }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  async componentDidMount() {
+    const { apiUrl } = getEnvironment();
+    $(".example").DataTable().destroy();
+    setTimeout(() => $(".example").DataTable({ pageLength: 50 }), 1000);
+  
     try {
-      const envConfig = getEnvironment();
-      const apiUrl = envConfig.apiUrl;
-      const url = `${apiUrl}/all_use_listing`;
-
-      const response = await axios.get(url);
-      setUserdata(response.data.data);
+      const response = await fetch(`${apiUrl}/all_use_listing`);
+      const { data } = await response.json();
+      this.setState({ userdata: data });
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error in componentDidMount:', error);
     }
-  };
+  }
 
-  const deleteData = (e) => {
+  deletedata(e) {
+    const { apiUrl } = getEnvironment();
+    const del = `${apiUrl}/delete_user`;
     const iUserId = e.target.id;
-    if (iUserId) {
+    const fd = new FormData();
+    fd.append("iUserId", iUserId);
+    if (iUserId != "undefined") {
+     
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -39,34 +48,52 @@ const Listing = () => {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const del = `https://prameshsilks.com/backend/api/delete_user`; // Update your delete API endpoint
-
-          const fd = new FormData();
-          fd.append("iUserId", iUserId);
-
-          axios
-            .post(del, fd)
-            .then((res) => {
-              if (res.data.Status === "0") {
-                Swal.fire("Deleted!", "Your record has been deleted.", "success");
-                fetchData(); // Fetch data again after deletion
-              } else {
-                alert("Your record has not been deleted");
-              }
-            })
-            .catch((error) => {
-              console.error("Error:", error);
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios.post(del, fd);
+            Swal.fire("Deleted!", "Your record has been deleted.", "success");
+            setTimeout(() => {
+              window.location.reload(1);
+            }, 1000);
+          }
+        })
+        .then((res) => {
+          if (res.data.Status == "0") {
+            toast.success(res.data.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
             });
-        }
-      });
-    }
-  };
 
-  return (
-    <>
-      <Sidebar />
+            setTimeout(function () {
+              window.location.reload(1);
+            }, 1000);
+          } else {
+            toast.error(res.data.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        })
+        .catch((error) => {});
+    }
+  }
+
+  render() {
+    var fabrics = this.state.fabric;
+    return (
+      <>
+        <Sidebar />
       <div className="main-content" id="panel">
         <Header />
         <div className="container-fluid">
@@ -86,7 +113,7 @@ const Listing = () => {
                   </div>
                 </div>
                 <div className="table-responsive">
-                  {userdata.length > 0 ? (
+                  {this.state.userdata.length > 0 ? (
                     <table className="table align-items-center table-flush example">
                       <thead className="thead-light">
                         <tr>
@@ -100,7 +127,7 @@ const Listing = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {userdata.map((user, index) => (
+                        {this.state.userdata.map((user, index) => (
                           <tr  key={index}>
                             <th>{index + 1}</th>
                             <td>{user.vFirstName}</td>
@@ -112,11 +139,7 @@ const Listing = () => {
                               <Link to={`/admin/user/edit/${user.iUserId}`}>
                                 <button className="btn myBtn3">Edit</button>
                               </Link>
-                              <button
-                                id={`${user.iUserId}`}
-                                className="btn myBtn2"
-                                onClick={deleteData}
-                              >
+                              <button id={`${user.iUserId}`} className="btn myBtn2" onClick={this.deletedata}>
                                 Delete
                               </button>
                             </td>
@@ -144,8 +167,8 @@ const Listing = () => {
           </div>
         </div>
       </div>
-    </>
-  );
-};
-
+      </>
+    );
+  }
+}
 export default Listing;

@@ -6,6 +6,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import "react-toastify/dist/ReactToastify.css";
+import  getEnvironment  from '../../../components/environment';
+
 const $ = require("jquery");
 $.DataTable = require("datatables.net");
 
@@ -18,40 +20,42 @@ class Color_listing extends React.Component {
   }
 
   async componentDidMount() {
-    $(".example").DataTable().destroy();
+    const envConfig = getEnvironment();
+    const apiUrl = envConfig.apiUrl;
+  
+    // Destroy DataTable if it exists
+    const dataTable = $(".example").DataTable();
+    if (dataTable) {
+      dataTable.destroy();
+    }
+  
+    // Initialize DataTable after a delay
     setTimeout(function () {
       $(".example").DataTable({
         pageLength: 50,
       });
     }, 1000);
-
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var url = "http://localhost/pramesh/backend/api/all_color_get";
-    } else {
-      var url = "https://prameshsilks.com/backend/api/all_color_get";
+  
+    try {
+      const response = await fetch(`${apiUrl}/all_color_get`);
+      const data = await response.json();
+  
+      this.setState({ color: data.data });
+    } catch (error) {
+      console.error('Error in componentDidMount:', error);
     }
-    const response = await fetch(url);
-    const data = await response.json();
-
-    this.setState({ color: data.data });
   }
+  
 
   deletedata(e) {
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var del = "http://localhost/pramesh/backend/api/delete_color";
-    } else {
-      var del = "https://prameshsilks.com/backend/api/delete_color";
-    }
-
+    const envConfig = getEnvironment();
+    const apiUrl = envConfig.apiUrl;
     var iColorId = e.target.id;
     const fd = new FormData();
     fd.append("iColorId", iColorId);
+
     if (iColorId != "undefined") {
-      const dataa = axios.post(del, fd);
+      axios.post(`${apiUrl}/delete_color`, fd);
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",

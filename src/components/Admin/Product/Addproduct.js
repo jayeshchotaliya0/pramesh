@@ -146,7 +146,7 @@ const Addproduct = () => {
 
     if(inputEle==0)
     {
-      document.getElementById("click_add_row").click();
+      // document.getElementById("click_add_row").click();
       var error = true;
     }
     else

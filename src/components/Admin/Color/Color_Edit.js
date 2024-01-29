@@ -6,14 +6,18 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import  getEnvironment  from '../../../components/environment';
+import { useParams } from "react-router-dom/cjs/react-router-dom";
+
 
 const Color_Edit = () => {
   let history = useHistory();
+  const envConfig = getEnvironment();
+  const apiUrl    = envConfig.apiUrl;       
+
   var answer = window.location.href;
   const answer_array = answer.split("/");
-  var iColorId = window.location.pathname.substring(
-    window.location.pathname.lastIndexOf("/") + 1
-  );
+  const { id } = useParams();
   const [Color, setColor] = useState("");
   const [ColorError, setColorError] = useState("");
 
@@ -22,79 +26,57 @@ const Color_Edit = () => {
   const [disable, setdisable] = useState(false);
 
   function Editcolor() {
-    if (Color) {
-      setColorError("");
-    } else {
-      setColorError("Please Enter Color Name");
-    }
-
-    if (answer_array[2] == "localhost:3000") {
-      var url = `http://localhost/pramesh/backend/api/color_add?iColorId=${iColorId}`;
-    } else {
-      var url = `https://prameshsilks.com/backend/api/color_add?iColorId=${iColorId}`;
-    }
+    setColorError(Color ? "" : "Please Enter Color Name");
+  
+    if (!Color) return;
+  
     const fd = new FormData();
     fd.append("vColor", Color);
     fd.append("eStatus", Status);
-    if (Color) {
-      setGif(true);
-      const dataa = axios
-        .post(url, fd)
-        .then((res) => {
-          setdisable(true);
-
-          if (res.data.Status == "0") {
-            setdisable(true);
-
-            setGif(false);
-            toast.success(res.data.message, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            setTimeout(function () {
-              history.push("/admin/color/listing");
-              // window.location.reload(1);
-            }, 2000);
-          } else {
-            setGif(false);
-            setdisable(false);
-
-            toast.error(res.data.message, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-          }
-        })
-        .catch((error) => {});
-    }
-  }
-
-  if (answer_array[2] == "localhost:3000") {
-    var url = `http://localhost/pramesh/backend/api/all_color_get?iColorId=${iColorId}`;
-  } else {
-    var url = `https://prameshsilks.com/backend/api/all_color_get?iColorId=${iColorId}`;
-  }
-
-  useEffect(() => {
-    axios
-      .get(url)
+    fd.append("iColorId", id);
+    
+    setGif(true);
+  
+    axios.post(`${apiUrl}/color_add`, fd)
       .then((res) => {
-        setColor(res.data.data.vColor);
-        setStatus(res.data.data.eStatus);
+        setdisable(res.data.Status === "0");
+        setGif(false);
+        const toastFunction = res.data.Status === "0" ? toast.success : toast.error;
+        toastFunction(res.data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+  
+        if (res.data.Status === "0") {
+          setTimeout(() => history.push("/admin/color/listing"), 2000);
+        }
       })
-      .catch((err) => {});
-  }, []);
+      .catch((error) => {});
+  }
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const res = await axios.get(`${apiUrl}/all_color_get?iColorId=${id}`);
+          const { vColor, eStatus } = res.data.data;
+          setColor(vColor);
+          setStatus(eStatus);
+        } catch (err) {
+          // Handle errors if needed
+        }
+      };
+  
+      if (id) {
+        fetchData();
+      }
+    }, [id]);
+  
+
 
   return (
     <>
