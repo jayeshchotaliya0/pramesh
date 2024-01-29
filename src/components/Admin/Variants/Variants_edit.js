@@ -5,25 +5,17 @@ import Sidebar from "../Sidebar";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router";
+import  getEnvironment  from '../../../components/environment';
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Variants_edit = () => {
-  var iVariantId = window.location.pathname.substring(
-    window.location.pathname.lastIndexOf("/") + 1
-  );
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
-  if (answer_array[2] == "localhost:3000") {
-    var urls = `http://localhost/pramesh/backend/api/all_variants_get?iVariantId=${iVariantId}`;
-    var url = "http://localhost/pramesh/backend/api/variants_add";
-  } else {
-    var urls = `https://prameshsilks.com/backend/api/all_variants_get?iVariantId=${iVariantId}`;
-    var url = "https://prameshsilks.com/backend/api/variants_add";
-  }
+  const { apiUrl } = getEnvironment();
+  const { id: iVariantId } = useParams();
 
   let history = useHistory();
-  const [Title, setTitle] = useState("");
+  const [Title, setTitle]   = useState("");
   const [Status, setStatus] = useState("");
   const [TitleError, setTitleError] = useState("");
   const [disable, setdisable] = useState(false);
@@ -41,7 +33,7 @@ const Variants_edit = () => {
     fd.append("iVariantId", iVariantId);
     if (Title && Status && iVariantId) {
       const dataa = axios
-        .post(url, fd)
+        .post(`${apiUrl}/variants_add`, fd)
         .then((res) => {
           setdisable(true);
 
@@ -81,7 +73,7 @@ const Variants_edit = () => {
 
   useEffect(() => {
     axios
-      .get(urls)
+      .get(`${apiUrl}/all_variants_get?iVariantId=${iVariantId}`)
       .then((res) => {
         setTitle(res.data.data.vLabel);
         setStatus(res.data.data.eStatus);

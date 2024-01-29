@@ -6,6 +6,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import  getEnvironment  from '../../../components/environment';
 const $ = require("jquery");
 $.DataTable = require("datatables.net");
 
@@ -18,41 +19,40 @@ class Newsletter_listing extends React.Component {
   }
 
   async componentDidMount() {
-    $(".example").DataTable().destroy();
+    const { apiUrl } = getEnvironment();
+    // Destroy existing DataTable before reinitializing
+    const dataTable = $(".example").DataTable();
+    if (dataTable !== null) {
+      dataTable.destroy();
+    }
+  
     setTimeout(function () {
+      // Reinitialize DataTable after destroying
       $(".example").DataTable({
         pageLength: 50,
       });
     }, 1000);
-
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var url = "http://localhost/pramesh/backend/api/all_news_letter_get";
-    } else {
-      var url =
-        "https://prameshsilks.com/backend/api/all_news_letter_get";
+  
+    const url = `${apiUrl}/all_news_letter_get`;
+  
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      this.setState({ news_letter: data.data });
+    } catch (error) {
+      // Handle errors if needed
+      console.error('Error fetching data:', error);
     }
-    const response = await fetch(url);
-    const data = await response.json();
-    this.setState({ news_letter: data.data });
   }
-
+  
   deletedata(e) {
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var del = "http://localhost/pramesh/backend/api/delete_news_letter";
-    } else {
-      var del =
-        "https://prameshsilks.com/backend/api/delete_news_letter";
-    }
-
-    var iNewsLetterId = e.target.id;
+    const { apiUrl } = getEnvironment();
+    const del = `${apiUrl}/delete_news_letter`;
+    const iNewsLetterId = e.target.id;
     const fd = new FormData();
     fd.append("iNewsLetterId", iNewsLetterId);
     if (iNewsLetterId != "undefined") {
-      const dataa = axios.post(del, fd);
+      
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -64,6 +64,7 @@ class Newsletter_listing extends React.Component {
       })
         .then((result) => {
           if (result.isConfirmed) {
+            const data = axios.post(del, fd);
             Swal.fire("Deleted!", "Your record has been deleted.", "success");
             setTimeout(() => {
               window.location.reload(1);
@@ -71,7 +72,7 @@ class Newsletter_listing extends React.Component {
           }
         })
         .then((res) => {
-          if (res.data.Status == "0") {
+          if (res.data.Status === "0") {
             toast.success(res.data.message, {
               position: "top-center",
               autoClose: 5000,

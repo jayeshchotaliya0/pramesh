@@ -385,6 +385,7 @@ class App extends React.Component {
             <Route exact path="/termscondition" component={TermsConditions} />
             <Route exact path="/paymentsuccess" component={PaymentSuccess} />
             <Route exact path="/loginType" component={iUserId ? HomePage : GuestCheckout} />
+            
 
             <Route
               exact
