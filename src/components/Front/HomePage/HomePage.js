@@ -24,10 +24,6 @@ const HomePage = () => {
     const dispatch = useDispatch();
 
     var urls        = `${apiUrl}/banner`;
-    var minibanner  = `${apiUrl}/mini_banner`;
-    var FirstImage  = `${apiUrl}/first_image`;
-    var Secondimage = `${apiUrl}/second_image`;
-    var Thirdimage  = `${apiUrl}/third_image`;
     var homepage_producturl = `${apiUrl}/homepage_product`;
     
     // *******************banner Data Get*****************************
@@ -35,41 +31,23 @@ const HomePage = () => {
         const response = await axios.get(urls).catch((err) => {
         });
 
-        const res = await axios.get(minibanner).catch((err) => {
-        });
-
-        const firstimage = await axios.get(FirstImage).catch((err) => {
-        });
-
         if (response.data.data) {
             dispatch(setProducts(response.data.data));
             setMobileBanner(response.data.mobile);
-        }
-        if (res.data.data) {
-            dispatch(setMinibanner(res.data.data));
-        }
-        if (firstimage.data.data) {
-            dispatch(setFirstImage(firstimage.data.data));
+            dispatch(setMinibanner(response.data.mini_banner));
+            dispatch(setFirstImage(response.data.first_image));
+            dispatch(setSecondImage(response.data.second_image));
+            dispatch(setThirdImage(response.data.third_image));
         }
 
+
     };
-    const fetchsecondimage = async () => {
-        const secondimage = await axios.get(Secondimage).catch((err) => {
-        });
-        if (secondimage.data.data) {
-            dispatch(setSecondImage(secondimage.data.data));
-        }
-    };
+   
     const fetchthirddimage = async () => {
-        const thirdimage = await axios.get(Thirdimage).catch((err) => {
-        });
-
+        
         const homepage_data = await axios.get(homepage_producturl).catch((err) => {
         });
 
-        if (thirdimage.data.data) {
-            dispatch(setThirdImage(thirdimage.data.data));
-        }
         if (homepage_data.data.data) {
             dispatch(setHomepagedata(homepage_data.data.data));
         }
@@ -77,7 +55,7 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchbanner();
-        fetchsecondimage();
+        // fetchsecondimage();
     }, []);
 
     useEffect(() => {
@@ -90,31 +68,18 @@ const HomePage = () => {
 
     const products_data     = useSelector((state) => state.allProducts.products);
     const mini_banner       = useSelector((state) => state.minibanner.minibanner);
-    const firstiamgedata    = useSelector((state) => state.FirstimageData.FirstiamgeArray);
-    const secondiamgedata   = useSelector((state) => state.SecondimageData.SecondiamgeArray);
-    const thirdiamgedata    = useSelector((state) => state.ThirdimageData.ThirdiamgeArray);
+    const { vImage: img }   = useSelector((state) => state.FirstimageData.FirstiamgeArray);
+    const { vImage: img1 }  = useSelector((state) => state.SecondimageData.SecondiamgeArray);
+    const { vImage: img2 }  = useSelector((state) => state.ThirdimageData.ThirdiamgeArray);
     const homepage_productdata = useSelector((state) => state.Homepageproduct.HomepageproductArray);
 
-    var img     = firstiamgedata.vImage;
-    var img1    = secondiamgedata.vImage;
-    var img2    = thirdiamgedata.vImage;
-
-    const bannerList = products_data.map((pro, index) => {
-        if (index == '0') {
-            var ac = 'active';
-        }
-        else {
-            var ac = '';
-        }
-        return (
-            <div className={`carousel-item  ${ac}`}>
-                <Link to='/product-listing'>
-                    <img className="d-block w-100  myslider" src={pro.vImage} alt="First slide" />
-                </Link>
-
-            </div>
-        );
-    })
+    const bannerList = products_data.map((pro, index) => (
+        <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+          <Link to='/product-listing'>
+            <img className="d-block w-100 myslider" src={pro.vImage} alt={`Slide ${index + 1}`} />
+          </Link>
+        </div>
+      ));
     // *****************************************BannerMobile  Dynamic************************************
     const Mobilebanner = MobileBanner.map((pro1, index1) => {
         if (index1 == '0') {

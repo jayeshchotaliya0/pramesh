@@ -1,0 +1,90 @@
+[21-Oct-2023 13:15:48 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:48
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->login()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 48
+[21-Oct-2023 02:52:03 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[21-Oct-2023 02:52:03 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[21-Oct-2023 14:22:03 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:2381
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->third_image()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 2381
+[21-Oct-2023 14:22:03 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:2363
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->second_image()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 2363
+[21-Oct-2023 14:22:08 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:2345
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->first_image()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 2345
+[21-Oct-2023 04:07:52 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[21-Oct-2023 04:07:52 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[21-Oct-2023 04:07:52 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[21-Oct-2023 04:07:52 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[21-Oct-2023 04:07:52 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[21-Oct-2023 15:37:52 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:2363
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->second_image()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 2363
+[21-Oct-2023 15:37:52 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:2381
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->third_image()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 2381
+[21-Oct-2023 15:37:56 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:2345
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->first_image()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 2345
+[21-Oct-2023 05:46:43 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[21-Oct-2023 17:16:43 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:48
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->login()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 48
+[22-Oct-2023 00:48:47 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[22-Oct-2023 00:48:47 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[22-Oct-2023 12:18:47 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:875
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->all_product()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 875
+[22-Oct-2023 12:19:02 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:875
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->all_product()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 875
+[22-Oct-2023 12:19:50 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:875
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->all_product()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 875
+[22-Oct-2023 12:20:06 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:875
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->all_product()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 875
+[22-Oct-2023 12:23:00 Asia/Calcutta] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, stdClass given in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php:874
+Stack trace:
+#0 /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/CodeIgniter.php(359): Api->all_product()
+#1 /home2/ustcoden/public_html/prameshsilks.com/backend/index.php(181): require_once('/home2/ustcoden...')
+#2 {main}
+  thrown in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 874
+[22-Oct-2023 00:56:55 America/Boise] PHP Deprecated:  Optional parameter $level declared before required parameter $message is implicitly treated as a required parameter in /home2/ustcoden/public_html/prameshsilks.com/backend/system/core/Common.php on line 349
+[22-Oct-2023 01:30:39 America/Boise] PHP Parse error:  syntax error, unexpected token "}" in /home2/ustcoden/public_html/prameshsilks.com/backend/application/modules/front/api/controllers/api.php on line 905

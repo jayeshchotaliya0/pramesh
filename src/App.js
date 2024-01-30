@@ -435,11 +435,7 @@ class App extends React.Component {
             {/* *********************************BANNER COMPONENT************************************ */}
             <Route exact path="/admin/banner" component={LazyBanner_listing} />
             <Route exact path="/admin/banner/add" component={LazyAdd} />
-            <Route
-              exact
-              path="/admin/banner/edit/:id"
-              component={LazyBanner_edit}
-            />
+            <Route exact path="/admin/banner/edit/:id" component={LazyBanner_edit}/>
 
             {/* *********************************IMAGE CONTENT COMPONENT************************************ */}
             <Route

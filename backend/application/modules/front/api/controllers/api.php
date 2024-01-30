@@ -2329,12 +2329,22 @@ class Api extends MX_Controller
 	{
 		$desktop     		= $this->content_model->get_by_all_banner_front();
 		$mobile     		= $this->content_model->get_by_all_banner_front_mobile();
+		$mini_banner     	= $this->content_model->get_by_all_mini_banner_front();
+		$first_image     	= $this->content_model->get_by_all_first_image();
+		$second_image       = $this->content_model->get_by_all_second_image();
+		$third_image     	= $this->content_model->get_by_all_third_image();
+
+
 		if(count($desktop) > 0 || count($mobile) > 0)
 		{
 			$data['Status']     = '1';
 			$data['message']  	= 'Banner Data Get Successfully';
 			$data['data']       = $desktop;
 			$data['mobile']     = $mobile;
+			$data['mini_banner'] = $mini_banner;
+			$data['first_image'] = $first_image;
+			$data['second_image'] = $second_image;
+			$data['third_image']  = $third_image;
 		}
 		else
 		{
@@ -2346,78 +2356,78 @@ class Api extends MX_Controller
  		echo json_encode($data);
 	}
 
-	public function mini_banner()
-	{
-		$result     		= $this->content_model->get_by_all_mini_banner_front();
-		if(count($result) > 0)
-		{
-			$data['Status']     = '1';
-			$data['message']  	= 'Banner Data Get Successfully';
-			$data['data']       = $result;
-		}
-		else
-		{
-			$data['Status']     = '0';
-			$data['message']  	= 'Data Not Found';
-			$data['data']     	= array();
-		}
+	// public function mini_banner()
+	// {
+	// 	$result     		= $this->content_model->get_by_all_mini_banner_front();
+	// 	if(count($result) > 0)
+	// 	{
+	// 		$data['Status']     = '1';
+	// 		$data['message']  	= 'Banner Data Get Successfully';
+	// 		$data['data']       = $result;
+	// 	}
+	// 	else
+	// 	{
+	// 		$data['Status']     = '0';
+	// 		$data['message']  	= 'Data Not Found';
+	// 		$data['data']     	= array();
+	// 	}
 		
- 		echo json_encode($data);
-	}
-	public function first_image()
-	{
-		$result     		= $this->content_model->get_by_all_first_image();
-		if(count($result) > 0)
-		{
-			$data['Status']     = '1';
-			$data['message']  	= 'Image Data Get Successfully';
-			$data['data']       = $result;
-		}
-		else
-		{
-			$data['Status']     = '0';
-			$data['message']  	= 'Data Not Found';
-			$data['data']     	= array();
-		}
+ 	// 	echo json_encode($data);
+	// }
+	// public function first_image()
+	// {
+	// 	$result     		= $this->content_model->get_by_all_first_image();
+	// 	if(count($result) > 0)
+	// 	{
+	// 		$data['Status']     = '1';
+	// 		$data['message']  	= 'Image Data Get Successfully';
+	// 		$data['data']       = $result;
+	// 	}
+	// 	else
+	// 	{
+	// 		$data['Status']     = '0';
+	// 		$data['message']  	= 'Data Not Found';
+	// 		$data['data']     	= array();
+	// 	}
 		
- 		echo json_encode($data);
-	}
-	public function second_image()
-	{
-		$result     		= $this->content_model->get_by_all_second_image();
-		if(count($result) > 0)
-		{
-			$data['Status']     = '1';
-			$data['message']  	= 'Image Data Get Successfully';
-			$data['data']       = $result;
-		}
-		else
-		{
-			$data['Status']     = '0';
-			$data['message']  	= 'Data Not Found';
-			$data['data']     	= array();
-		}
+ 	// 	echo json_encode($data);
+	// }
+	// public function second_image()
+	// {
+	// 	$result     		= $this->content_model->get_by_all_second_image();
+	// 	if(count($result) > 0)
+	// 	{
+	// 		$data['Status']     = '1';
+	// 		$data['message']  	= 'Image Data Get Successfully';
+	// 		$data['data']       = $result;
+	// 	}
+	// 	else
+	// 	{
+	// 		$data['Status']     = '0';
+	// 		$data['message']  	= 'Data Not Found';
+	// 		$data['data']     	= array();
+	// 	}
 		
- 		echo json_encode($data);
-	}
-	public function third_image()
-	{
-		$result     		= $this->content_model->get_by_all_third_image();
-		if(count($result) > 0)
-		{
-			$data['Status']     = '1';
-			$data['message']  	= 'Image Data Get Successfully';
-			$data['data']       = $result;
-		}
-		else
-		{
-			$data['Status']     = '0';
-			$data['message']  	= 'Data Not Found';
-			$data['data']     	= array();
-		}
+ 	// 	echo json_encode($data);
+	// }
+	// public function third_image()
+	// {
+	// 	$result     		= $this->content_model->get_by_all_third_image();
+	// 	if(count($result) > 0)
+	// 	{
+	// 		$data['Status']     = '1';
+	// 		$data['message']  	= 'Image Data Get Successfully';
+	// 		$data['data']       = $result;
+	// 	}
+	// 	else
+	// 	{
+	// 		$data['Status']     = '0';
+	// 		$data['message']  	= 'Data Not Found';
+	// 		$data['data']     	= array();
+	// 	}
 		
- 		echo json_encode($data);
-	}
+ 	// 	echo json_encode($data);
+	// }
 	public function homepage_product()
 	{
 		$result     		= $this->product_model->get_by_homepage_product();

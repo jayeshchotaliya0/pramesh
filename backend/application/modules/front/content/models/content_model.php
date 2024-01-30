@@ -157,6 +157,7 @@ class Content_model extends CI_Model
 // ******************************FRONT API *************************************************
     public function get_by_all_banner_front()
     {   
+        $this->db->select('vImage');
         $this->db->from($this->table);
         $this->db->where('eStatus','Active');
         $this->db->where('vBannerType','1');
@@ -182,6 +183,7 @@ class Content_model extends CI_Model
 
     public function get_by_all_mini_banner_front()
     {   
+        $this->db->select('vImage');
         $this->db->from($this->table);
         $this->db->where('eStatus','Active');
         $this->db->where('vBannerType','2');
