@@ -10,15 +10,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { gsap } from "gsap/all";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import {
-  setAddtocartpage,
-  setAddtocartsavedata,
-  setAddtocartsubtotal,
-  setWishlist
-} from "../../../redux/actions/productActions";
+import {setAddtocartpage,setAddtocartsavedata,setAddtocartsubtotal,setWishlist} from "../../../redux/actions/productActions";
 import { Link } from "react-router-dom";
+import  getEnvironment  from '../../../components/environment';
 
 const Addtocart = () => {
+  const { apiUrl } = getEnvironment();
   // *****************************Single Data get query**************************************
   const Single_product = useSelector((state) => state.MainAddtocartPage.MainAddtocartArray);
 
@@ -51,31 +48,35 @@ const Addtocart = () => {
   var vPrice          = atob(answer_array[5]);
 
   const AddtocartProduct = async () => {
-    if (answer_array[2] == "localhost:3000") {
-      var product_listing = `http://localhost/pramesh/backend/api/single_product_get?iProductId=${iProductId}@@${vPrice}`;
-      var cartdatasave = `http://localhost/pramesh/backend/api/addtocartdataget?cookie=${cookie}@@${iUserId}`;
-    } else {
-      var product_listing = `https://prameshsilks.com/backend/api/single_product_get?iProductId=${iProductId}@@${vPrice}`;
-      var cartdatasave = `https://prameshsilks.com/backend/api/addtocartdataget?cookie=${cookie}@@${iUserId}`;
-    }
+    try {
+        const product_listing = `${apiUrl}/single_product_get`;
+        const cartdatasave = `${apiUrl}/addtocartdataget`;
 
-    const productdata = await axios.get(product_listing);
-    if (productdata.data.data) 
-    {
-      dispatch(setAddtocartpage(productdata.data.data));
-      setSliderArray(productdata.data.Slider);
-    }
-    // *********************ADD TO CART DATA ********************
-    const addtocart = await axios.get(cartdatasave);
+        // Fetch product data
+        const productdata = await axios.post(product_listing, { iProductId, vPrice });
 
-    if (addtocart.data.data) {
-      dispatch(setAddtocartsavedata(addtocart.data.data));
-      dispatch(setAddtocartsubtotal(addtocart.data.subtotal));
+        if (productdata.data.data) {
+            dispatch(setAddtocartpage(productdata.data.data));
+            setSliderArray(productdata.data.Slider.length > 4 ? productdata.data.Slider : []);
+        }
+
+        // Fetch cart data
+        const addtocart = await axios.post(cartdatasave, { cookie, iUserId });
+
+        if (addtocart.data.data) {
+            dispatch(setAddtocartsavedata(addtocart.data.data));
+            dispatch(setAddtocartsubtotal(addtocart.data.subtotal));
+        }
+    } catch (error) {
+        console.error("Error adding to cart:", error);
     }
   };
+
   useEffect(() => {
-    AddtocartProduct();
+      AddtocartProduct();
   }, []);
+
+
   useEffect(() => {
     if(Single_product[0]?.product_variants.length==0)
     {
@@ -229,7 +230,12 @@ const Addtocart = () => {
       }
     }
   };
-  // ************************************************WISH LIST ADDED DATA************************************************
+  
+  const numberWithCommas = (number) => {
+    const fixedNumber = Number(number).toFixed(2);
+    return fixedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
   const wishlistAdded = (e) => {
     var iProductId = e.target.id;
     const fd = new FormData();
@@ -342,12 +348,12 @@ const Addtocart = () => {
                   <input type="hidden" id="sizedata" value={product.iOptionId} />
                   {
                     Pricenum ? <div>
-                      <p className="mb-5 pri"> र {Pricenum} </p>
+                      <p className="mb-5 pri"> र {numberWithCommas(Pricenum)} </p>
                       <input type="hidden" id="vPrice" value={Pricenum} />
                     </div>
                       :
                       <div>
-                        <p className="mb-5 pri"> र {product.vPrice} </p>
+                        <p className="mb-5 pri"> र {numberWithCommas(product.vPrice)} </p>
                         <input type="hidden" id="vPrice" value={product.vPrice} />
                       </div>
                   }
@@ -464,7 +470,7 @@ const Addtocart = () => {
         <div className="slickslider">
           <Slider {...settings}>
             {
-              SliderArray.map(function (slider, index) {
+              SliderArray?.map(function (slider, index) {
                 return <div className="sliderImg">
                   {
                     slider.image.map(function (img, index) {
@@ -476,7 +482,7 @@ const Addtocart = () => {
                     })
                   }
                   <h3 className="text-center">{slider.vProductName}</h3>
-                  <p className="text-center">र {slider.vPrice}</p>
+                  <p className="text-center">र {numberWithCommas(slider.vPrice)}</p>
                 </div>
               })
             }

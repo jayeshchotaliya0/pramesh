@@ -66,6 +66,11 @@ const HomePage = () => {
         setimage_zooming(e.currentTarget.src)
     }
 
+    const numberWithCommas = (number) => {
+        const fixedNumber = Number(number).toFixed(2);
+        return fixedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
     const products_data     = useSelector((state) => state.allProducts.products);
     const mini_banner       = useSelector((state) => state.minibanner.minibanner);
     const { vImage: img }   = useSelector((state) => state.FirstimageData.FirstiamgeArray);
@@ -308,7 +313,7 @@ const HomePage = () => {
                                         </Link>
                                     </div>
                                     <h3>{product.vProductName}</h3>
-                                    <p> र {product.vPrice}</p>
+                                    <p> र {numberWithCommas(product.vPrice)}</p>
                                 </div>
                             </>
                         ))

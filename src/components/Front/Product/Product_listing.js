@@ -16,8 +16,7 @@ import  getEnvironment  from '../../../components/environment';
 
 const Product_listing = () => {
   const { id } = useParams();
-  const envConfig = getEnvironment();
-  const apiUrl    = envConfig.apiUrl;  
+  const { apiUrl } = getEnvironment(); 
 
   var iUserId = localStorage.getItem("iUserId");
   var answer = window.location.href;
@@ -30,30 +29,21 @@ const Product_listing = () => {
   const [filterslide, setfilterslide] = useState(false);
   const [SelectedPrice, setSelectedPrice] = useState("");
   const [ColorArray, setColorArray] = useState([]);
-  const [FabricArray, setFabricArray] = useState([]);
   const [Pagenumber, setPagenumber] = useState(0);
   const [iFabricId, setiFabricId] = useState("");
   const [Sort, setSort] = useState("");
-  const [ColorFilter, setColorFilter] = useState("");
+  const [iColorId, setColorFilter] = useState("");
 
-  const Product_data = useSelector(
-    (state) => state.MainProductListing.MainProductListingArray
-  );
+  const Product_data = useSelector((state) => state.MainProductListing.MainProductListingArray);
 
   // ********************** Load Time  Data Get ***************************
   const dispatch = useDispatch();
   const iSubCategoryId = id;
-  const Filter = iFabricId + "/" + SelectedPrice + "/" + ColorFilter + "/" + Sort + "/" + "" + "/" + iSubCategoryId;
+  // const Filter = iFabricId + "/" + SelectedPrice + "/" + iColorId + "/" + Sort + "/" + "" + "/" + iSubCategoryId;
  
   
-  const product_listing = `${apiUrl}/product_listing`;
-  const Color           = `${apiUrl}/get_category`;
- 
-
   const mainNavbar = async () => {
-    const fd = new FormData();
-    fd.append("iSubCategoryId", iSubCategoryId);
-    const data = axios.post(product_listing, fd)
+    axios.post(`${apiUrl}/product_listing`, {iSubCategoryId})
     .then((response) => {
       if (response?.data?.data) {
         dispatch(setProductListing(response?.data?.data));
@@ -61,133 +51,95 @@ const Product_listing = () => {
     }).catch((err) => {});
    
     // *************************COLOR DATA GET***********************
-    const colordata = await axios.get(Color).catch((err) => {});
+    const colordata = await axios.get(`${apiUrl}/get_category`).catch((err) => {});
     if (colordata.data.color) {
       setColorArray(colordata.data.color);
-    }
-    if (colordata.data.fabric) {
-      setFabricArray(colordata.data.fabric);
     }
   };
 
   useEffect(() => {
     mainNavbar();
-  }, []);
+  }, [id]);
   // ********************************** Filter ***********************************
   const filterclick = async (e) => {
-    var SortByFilter = e.target.value;
+    const SortByFilter = e.target.value;
     setSort(SortByFilter);
-    var Price = SelectedPrice;
-    var Filter =
-      iFabricId +
-      "/" +
-      Price +
-      "/" +
-      ColorFilter +
-      "/" +
-      SortByFilter +
-      "/" +
-      "" +
-      "/" +
-      iSubCategoryId;
-
-    if (answer_array[2] == "localhost:3000") {
-      var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-    } else {
-      var product_listing = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
+    const Price = SelectedPrice;
+    const filters = { iFabricId, Price, iColorId,SortByFilter,iSubCategoryId };
+    const filteredFilters = {};
+    for (const key in filters) {
+        if (filters[key] !== '') {
+            filteredFilters[key] = filters[key];
+        }
     }
 
-    const productdata = await axios.get(product_listing);
-
-    if (productdata.data.data) {
-      dispatch(setProductListing(productdata.data.data));
+    try {
+        const product_listing = `${apiUrl}/product_listing`;
+        const productdata = await axios.post(product_listing, filteredFilters);
+        if (productdata.data.data) {
+            dispatch(setProductListing(productdata.data.data));
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
   };
-  // ********************************* PRICE WISE FILTER*************************************
-  const category_filter = async (e) => {
-    var Price = e.target.value;
+
+  const priceFilter = async (e) => {
+    const Price = e.target.value;
     setSelectedPrice(Price);
-
-    var Filter =
-      iFabricId +
-      "/" +
-      Price +
-      "/" +
-      ColorFilter +
-      "/" +
-      Sort +
-      "/" +
-      "" +
-      "/" +
-      iSubCategoryId;
-
-    if (answer_array[2] == "localhost:3000") {
-      var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-    } else {
-      var product_listing = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
-    }
-
-    const productdata = await axios.get(product_listing);
-
-    if (productdata.data.data) {
-      dispatch(setProductListing(productdata.data.data));
+    
+    const filters = {iFabricId,Price,iColorId, Sort, iSubCategoryId };
+     // Filter out blank variables before sending the request
+     const filteredFilters = {};
+     for (const key in filters) {
+         if (filters[key] !== '') {
+             filteredFilters[key] = filters[key];
+         }
+     }
+  
+    try {
+      const productdata = await axios.post(`${apiUrl}/product_listing`, filteredFilters);
+      
+      if (productdata.data && productdata.data.data) {
+        dispatch(setProductListing(productdata.data.data));
+      } else {
+        console.error("Invalid response from server:", productdata);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
-  // *****************************************************FABRIC FILTER********************************************
-  const fabric_filter = async (e) => {
-    var iFabricIddata = e.target.value;
-    setiFabricId(iFabricIddata);
-    var Price = SelectedPrice;
-    var Filter =
-      iFabricIddata +
-      "/" +
-      Price +
-      "/" +
-      ColorFilter +
-      "/" +
-      Sort +
-      "/" +
-      "" +
-      "/" +
-      iSubCategoryId;
-    if (answer_array[2] == "localhost:3000") {
-      var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-    } else {
-      var product_listing = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
-    }
-    const productdata = await axios.get(product_listing);
-    if (productdata.data.data) {
-      dispatch(setProductListing(productdata.data.data));
-    }
-  };
-  // *****************************************************COLOR WISE FILTER********************************************
+  
   const ClickColorFilter = async (e) => {
-    var iColorId = e.target.value;
+    const iColorId = e.target.value;
     setColorFilter(iColorId);
-    var Price = SelectedPrice;
-    var Filter =
-      iFabricId +
-      "/" +
-      Price +
-      "/" +
-      iColorId +
-      "/" +
-      Sort +
-      "/" +
-      "" +
-      "/" +
-      iSubCategoryId;
+    const Price = SelectedPrice;
+    const FilterData = { iFabricId,Price,iColorId, Sort,iSubCategoryId};
 
-    if (answer_array[2] == "localhost:3000") {
-      var color_url = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-    } else {
-      var color_url = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
+    // Filter out blank variables
+    const filteredData = {};
+    for (const key in FilterData) {
+        if (FilterData[key] !== '') {
+            filteredData[key] = FilterData[key];
+        }
     }
-    const productdata = await axios.get(color_url);
 
-    if (productdata.data.data) {
-      dispatch(setProductListing(productdata.data.data));
+    try {
+        const productdata = await axios.post(`${apiUrl}/product_listing`, filteredData);
+
+        if (productdata.data && productdata.data.data) {
+            dispatch(setProductListing(productdata.data.data));
+        } else {
+            console.error("Invalid response from server:", productdata);
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
+  };
+
+  const numberWithCommas = (number) => {
+    const fixedNumber = Number(number).toFixed(2);
+    return fixedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
   // ************************************************WISH LIST ADDED DATA************************************************
   const wishlistAdded = (e) => {
@@ -197,15 +149,8 @@ const Product_listing = () => {
     fd.append("iUserId", iUserId);
 
     if (iProductId != "0") {
-      if (answer_array[2] == "localhost:3000") {
-        var wishlist_url = "http://localhost/pramesh/backend/api/wishlishadded";
-      } else {
-        var wishlist_url =
-          "https://prameshsilks.com/backend/api/wishlishadded";
-      }
-      const dataa = axios
-        .post(wishlist_url, fd)
-        .then((res) => {
+      const wishlist_url = `${apiUrl}/wishlishadded`;
+      axios.post(wishlist_url, fd).then((res) => {
           if (res.data.Status == "0") {
             mainNavbar();
             dispatch(setWishlist(res.data.data));
@@ -227,7 +172,7 @@ const Product_listing = () => {
   };
   // ************************************************WISH LIST ADDED DATA END************************************************
 
-  const usersPerPage = 12;
+  const usersPerPage = 56;
   const pagesvisited = Pagenumber * usersPerPage;
   const displayproduct = Product_data.slice(
     pagesvisited,
@@ -286,7 +231,7 @@ const Product_listing = () => {
             })}
           </div>
           <h3>{product.vProductName}</h3>
-          <p> र {product.vPrice}</p>
+          <p> र {numberWithCommas(product.vPrice)}</p>
         </div>
       );
     } else {
@@ -426,9 +371,10 @@ const Product_listing = () => {
                     <div className="pretty p-icon p-smooth">
                       <input
                         type="radio"
-                        onClick={category_filter}
+                        onClick={priceFilter}
                         name="price1"
                         id="price1"
+                        value="ALL"
                       />
                       <div className="state p-maroon">
                         <i className="icon fa fa-check"></i>
@@ -439,51 +385,60 @@ const Product_listing = () => {
                     <div className="pretty p-icon p-smooth">
                       <input
                         type="radio"
-                        onClick={category_filter}
+                        onClick={priceFilter}
                         value="5000-10000"
                         name="price1"
                         id="price1"
                       />
                       <div className="state p-maroon">
                         <i className="icon fa fa-check"></i>
-                        <label htmlFor="price1">5000 - 10000</label>
+                        <label htmlFor="price1">5,000 - 10,000</label>
                       </div>
                     </div>
                     <div className="pretty p-icon p-smooth">
                       <input
                         type="radio"
-                        onClick={category_filter}
+                        onClick={priceFilter}
                         value="10000-20000"
                         name="price1"
                         id="price2"
                       />
                       <div className="state p-maroon">
                         <i className="icon fa fa-check"></i>
-                        <label htmlFor="price2">10000 - 20000</label>
+                        <label htmlFor="price2">10,000 - 20,000</label>
                       </div>
                     </div>
                     <div className="pretty p-icon p-smooth">
                       <input
                         type="radio"
-                        onClick={category_filter}
+                        onClick={priceFilter}
                         value="30000-40000"
                         name="price1"
                         id="price3"
                       />
                       <div className="state p-maroon">
                         <i className="icon fa fa-check"></i>
-                        <label htmlFor="price3">30000 - 40000</label>
+                        <label htmlFor="price3">30,000 - 40,000</label>
+                      </div>
+                    </div>
+                    <div className="pretty p-icon p-smooth">
+                      <input
+                        type="radio"
+                        onClick={priceFilter}
+                        value="40000"
+                        name="price4"
+                        id="price3"
+                      />
+                      <div className="state p-maroon">
+                        <i className="icon fa fa-check"></i>
+                        <label htmlFor="price4">40,000 - More</label>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="color">
-                  <h2
-                    onClick={show_2}
-                    className="d-flex justify-content-between"
-                  >
-                    
+                  <h2 onClick={show_2} className="d-flex justify-content-between">
                     <span>COLOUR</span>
                     <span className="ml-5">
                       <i className="fa fa-chevron-down" aria-hidden="true"></i>
@@ -491,12 +446,7 @@ const Product_listing = () => {
                   </h2>
                   <div id="show2" className={`flex ${show2 ? "d-none" : ""}`}>
                     <div className="pretty p-icon p-smooth">
-                      <input
-                        type="radio"
-                        onClick={ClickColorFilter}
-                        name="colour"
-                        id="allcolor"
-                      />
+                      <input type="radio" value="ALL" onClick={ClickColorFilter} name="colour" id="allcolor"/>
                       <div className="state p-maroon">
                         <i className="icon fa fa-check"></i>
                         <label htmlFor="allcolor">All COLOR {show2}</label>
@@ -505,54 +455,11 @@ const Product_listing = () => {
                     {ColorArray.map(function (color, index) {
                       return (
                         <div className="pretty p-icon p-smooth">
-                          <input
-                            type="radio"
-                            onClick={ClickColorFilter}
-                            value={color.iColorId}
-                            name="colour"
-                            id="yellow"
-                          />
+                          <input type="radio" onClick={ClickColorFilter} value={color.iColorId}  name="colour"
+                            id="yellow" />
                           <div className="state p-maroon">
                             <i className="icon fa fa-check"></i>
                             <label htmlFor="yellow">{color.vColor}</label>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="fabric" style={{display:'none'}}>
-                  <h2 onClick={show_3} className="d-flex justify-content-between" >
-                    <span>FABRIC</span>
-                    <span className="ml-5"><i className="fa fa-chevron-down" aria-hidden="true"></i></span>
-                  </h2>
-                  <div id="show3" className={`flex ${show3 ? "d-none" : ""}`}>
-                    <div className="pretty p-icon p-smooth">
-                      <input
-                        type="radio"
-                        onClick={fabric_filter}
-                        name="silk"
-                        id="silk"
-                      />
-                      <div className="state p-maroon">
-                        <i className="icon fa fa-check"></i>
-                        <label htmlFor="silk">All FABRIC</label>
-                      </div>
-                    </div>
-                    {FabricArray.map(function (Fabric, index) {
-                      return (
-                        <div className="pretty p-icon p-smooth">
-                          <input
-                            type="radio"
-                            onClick={fabric_filter}
-                            value={Fabric.iFabricId}
-                            name="silk"
-                            id="silk"
-                          />
-                          <div className="state p-maroon">
-                            <i className="icon fa fa-check"></i>
-                            <label htmlFor="silk">{Fabric.vTitle}</label>
                           </div>
                         </div>
                       );
@@ -564,7 +471,7 @@ const Product_listing = () => {
           </div>
         </div>
 
-        {/* ********CATEGORIES SECTION ********** */}
+        {/* ******** CATEGORIES SECTION ********** */}
 
         <section className=" container-fluid categories mb-5">
           <div className="dropdown" id="sort">

@@ -418,50 +418,52 @@ class Product_model extends CI_Model
     }
     public function get_by_all_product_listing($critearea=array())
     { 
+        // echo "<pre>";
+        // print_r($critearea);
+        // exit;
 
-        $Price  = explode("-",$Price);
-        $this->db->select('t.*,t2.vPrice');
+        $this->db->select('t.*,MAX(t2.vPrice) as vPrice');
         $this->db->from($this->table. ' t');
         $this->db->join($this->table_product_variants.' t2','t.iProductId=t2.iProductId');
-
-        if(!empty($critearea['iFabricId']))
-        {
-            $this->db->where('t.iFabricId',$critearea['iFabricId']);
-        }
-
+       
         if(!empty($critearea['vPrice']))
         {  
-            $Price = explode("-",$critearea['vPrice']);
-            $this->db->where('t2.vPrice >=' ,(int)$Price[0]);
-            $this->db->where('t2.vPrice <=' , (int)$Price[1]);
+            $Price = explode("-", $critearea['vPrice']);
+            if(!empty($Price[0]))
+            {
+                $this->db->where('t2.vPrice >=' ,(int)$Price[0]);
+            }
+            if(!empty($Price[1]))
+            {
+                $this->db->where('t2.vPrice <=' , (int)$Price[1]);
+            }
+        
             if($critearea['OrderBy']!='HIGHEST' && $critearea['OrderBy']!='LOWEST')
             {
                 $this->db->order_by('t2.vPrice','DESC');
             }
         }
 
-        if(!empty($critearea['vProductName']))
-        {
-            $this->db->where('t.vProductName',$critearea['vProductName']);
-        }
-        
-
         if(!empty($critearea['iColorId']))
         {
             $this->db->where('t.iColorId',$critearea['iColorId']);
         }
+        // if(!empty($critearea['vProductName']))
+        // {
+        //     $this->db->where('t.vProductName',$critearea['vProductName']);
+        // }
         
         if($critearea['OrderBy'] == 'HIGHEST')
         {
-            $this->db->order_by('t2.vPrice','DESC');
+            $this->db->order_by('vPrice','DESC');
         }
         if($critearea['OrderBy'] == 'LOWEST')
         {
-            $this->db->order_by('t2.vPrice','ASC');
+            $this->db->order_by('vPrice','ASC');
         }
         if($critearea['OrderBy'] == 'DESC')
         {
-            $this->db->order_by('t.iProductId','DESC');
+            $this->db->order_by('iProductId','DESC');
         }
 
         if(!empty($critearea['iCategoryId']))
@@ -474,11 +476,15 @@ class Product_model extends CI_Model
             $this->db->where('t.iSubcategoryId',$critearea['iSubcategoryId']);
         }
 
-        $this->db->group_by('t2.iProductId');
         $this->db->where('t.eStatus','Active');
         $this->db->where('t2.vPrice !=','');
         $this->db->where('t.vProductName !=','');
+        $this->db->group_by('t2.iProductId');
         $query=$this->db->get();
+
+        // echo $this->db->last_query();
+        // exit;
+
         $data = $query->result();
 
         foreach($data as $key => $value)

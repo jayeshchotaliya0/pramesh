@@ -16,19 +16,15 @@ import  getEnvironment  from '../../environment';
 
 const AllProduct = () => {
     const iUserId   = localStorage.getItem("iUserId");
-    const envConfig = getEnvironment();
-    const apiUrl    = envConfig.apiUrl; 
+    const { apiUrl } = getEnvironment(); 
     const { id } = useParams();
     const [animation2, setanimation2]   = useState(false);
-    const [filter, setfilter]           = useState(false);
     const [show1, setshow1]             = useState(false)
     const [show2, setshow2]             = useState(false)
     const [show3, setshow3]             = useState(false)
     const [ColorArray, setColorArray]   = useState([]);
-    const [FabricArray, setFabricArray] = useState([]);
-    const [ColorFilter, setColorFilter] = useState("");
+    const [iColorId, setColorFilter] = useState("");
     const [SelectedPrice, setSelectedPrice] = useState("");
-    const [iFabricId, setiFabricId]         = useState("");
     const [Sort, setSort]                   = useState("");
     const [Pagenumber, setPagenumber]       = useState(0);
     const [filterslide, setfilterslide]             = useState(false);
@@ -38,47 +34,38 @@ const AllProduct = () => {
     const answer_array = answer.split("/");
 
     
+    // if (answer_array.length == 4) 
+    // {
+    //     var iCategoryId = "";
+    //     var vProductName = '';
+    // } else 
+    // {
+    //     var vProductNm = answer_array[4];
+    //     var vProductName = vProductNm.split("/");
 
-    if (answer_array.length == 4) 
-    {
-        var iCategoryId = "";
-        var vProductName = '';
-    } else 
-    {
-        var vProductNm = answer_array[4];
-        var vProductName = vProductNm.split("/");
+    //     if (vProductName[0]=='search')
+    //     {
+    //         var vProductName = 'Search'+'@@'+vProductName[1];
+    //         var iCategoryId = "";
+    //     }
+    //     else if (vProductName[0] == 'color')
+    //     {
+    //         var vProductName = 'color' + '@@' + vProductName[1];
+    //         var iCategoryId = "";
+    //     }
+    //     else
+    //     {
+    //         var iCategoryId = answer_array[4];
+    //     }
+    // }
 
-        if (vProductName[0]=='search')
-        {
-            var vProductName = 'Search'+'@@'+vProductName[1];
-            var iCategoryId = "";
-        }
-        else if (vProductName[0] == 'color')
-        {
-            var vProductName = 'color' + '@@' + vProductName[1];
-            var iCategoryId = "";
-        }
-        else
-        {
-            var iCategoryId = answer_array[4];
-        }
-    }
-
-    const Filter = iFabricId + '/' + SelectedPrice + '/' + ColorFilter + '/' + Sort + '/' + iCategoryId + '/' + vProductName;
+    // const Filter = SelectedPrice + '/' + iColorId + '/' + Sort + '/' + iCategoryId + '/' + vProductName;
     
-
-    
-
-
-    const product_listing = `${apiUrl}/product_listing`;
     const Color = `${apiUrl}/get_category`;
     
-
     const mainNavbar = async () => {
-        const fd = new FormData();
-        fd.append("iCategoryId",id);
-        const data = axios.post(product_listing, fd)
-        .then((response) => {
+        const iCategoryId = atob(id)
+        axios.post(`${apiUrl}/product_listing`, { iCategoryId }).then((response) => {
           if (response?.data?.data) {
             dispatch(setProductListing(response?.data?.data));
           }
@@ -91,27 +78,28 @@ const AllProduct = () => {
         if (colordata.data.color) {
             setColorArray(colordata.data.color);
         }
-        if (colordata.data.fabric) {
-            setFabricArray(colordata.data.fabric);
-        }
     };
-    const AddtocartProduct = async (e) => {
-        var iProductId = e.target.id;
-        var vPrice = e.target.getAttribute("data-id");
+   
+    useEffect(() => {
+        mainNavbar();
+    }, []);
 
-        if (answer_array[2] == "localhost:3000") {
-            var product_listing = `http://localhost/pramesh/backend/api/single_product_get?iProductId=${iProductId}@@${vPrice}`;
-        } else {
-            var product_listing = `https://prameshsilks.com/backend/api/single_product_get?iProductId=${iProductId}@@${vPrice}`;
-        }
+    const AddtocartProduct = async (e) => {
+        const iProductId = e.target.id;
+        const vPrice = e.target.getAttribute("data-id");
+
+        const product_listing = `${apiUrl}/single_product_get?iProductId=${iProductId}@@${vPrice}`;
+       
         const productdata = await axios.get(product_listing);
         if (productdata.data.data) {
             dispatch(setAddtocartpage(productdata.data.data));
         }
     };
-    useEffect(() => {
-        mainNavbar();
-    }, []);
+
+    const numberWithCommas = (number) => {
+        const fixedNumber = Number(number).toFixed(2);
+        return fixedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
 
 // ************************************************WISH LIST ADDED DATA************************************************
     const wishlistAdded = (e) =>
@@ -123,12 +111,8 @@ const AllProduct = () => {
 
         if (iProductId != '0') 
         {
-            if (answer_array[2] == "localhost:3000") 
-            {
-                var wishlist_url = "http://localhost/pramesh/backend/api/wishlishadded";
-            } else {
-                var wishlist_url = "https://prameshsilks.com/backend/api/wishlishadded";
-            }
+            const wishlist_url = `${apiUrl}/wishlishadded`;
+            
             const dataa = axios
                 .post(wishlist_url, fd)
                 .then((res) => {
@@ -157,7 +141,7 @@ const AllProduct = () => {
     }
 // ************************************************WISH LIST ADDED DATA END************************************************
     const Product_data = useSelector((state) => state.MainProductListing.MainProductListingArray);
-    const usersPerPage = 28;
+    const usersPerPage = 56;
     const pagesvisited = Pagenumber * usersPerPage;
 
     const displayproduct = Product_data.slice(
@@ -184,48 +168,31 @@ const AllProduct = () => {
                                 <Link to="/login">
                                         <i className="fa fa-heart" aria-hidden="true"></i>
                                 </Link>
-
                             }
                            
                         </div>
-                        {product.image.map(function (Pimg, index) {
-                            // var $productid = encode_id(Pimg.iProductId);
-
-                            if (index == 0) {
-                                if (Pimg.vImage != "") {
-                                    var imagestyle = "";
-                                } else {
-                                    var imagestyle = "";
-                                }
-                            } else {
-                                if (Pimg.vImage != "") {
-                                    var imagestyle = "img2";
-                                } else {
-                                    var imagestyle = "";
-                                }
-                            }
-                            return (
-                                <>
-                                    <Link
-                                        to={`/addtocart/${btoa(Pimg.iProductId)}/${btoa(
-                                            product.vPrice
-                                        )}`}
-                                    >
+                        {
+                            product.image.map((Pimg, index) => {
+                                const imagestyle = index === 0 ? '' : Pimg.vImage !== '' ? 'img2' : '';
+                                return (
+                                    <Link to={`/addtocart/${btoa(Pimg.iProductId)}/${btoa(product.vPrice)}`}
+                                        key={Pimg.iProductId} >
                                         <img
-                                            id={`${Pimg.iProductId}`}
-                                            data-id={`${product.vPrice}`}
+                                            id={Pimg.iProductId}
+                                            data-id={product.vPrice}
                                             onClick={AddtocartProduct}
                                             src={Pimg.vImage}
                                             className={`img-fluid catoImg ${imagestyle}`}
                                             alt="Image"
                                         />
                                     </Link>
-                                </>
-                            );
-                        })}
+                                );
+                            })
+                        }
+
                     </div>
                     <h3>{product.vProductName}</h3>
-                    <p> र {product.vPrice}</p>
+                    <p> र {numberWithCommas(product.vPrice)}</p>
                 </div>
             );
         }
@@ -241,7 +208,7 @@ const AllProduct = () => {
         var SortByFilter = e.target.value;
         setSort(SortByFilter);
         var Price = SelectedPrice;
-        var Filter = iFabricId + '/' + Price + '/' + ColorFilter + '/' + SortByFilter;
+        var Filter = Price + '/' + iColorId + '/' + SortByFilter;
 
         if (answer_array[2] == "localhost:3000") {
             var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
@@ -256,58 +223,56 @@ const AllProduct = () => {
         }
     };
     // *********************************FILTER*************************************
-    const category_filter = async (e) => {
-        var Price = e.target.value;
+    const priceFilter = async (e) => {
+        const Price = e.target.value;
         setSelectedPrice(Price);
-
-        var Filter = iFabricId + '/' + Price + '/' + ColorFilter + '/' + Sort;
-
-        if (answer_array[2] == "localhost:3000") {
-            var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-        } else {
-            var product_listing = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
+        const filters = { Price, iColorId,Sort};
+    
+        // Filter out blank variables
+        const filteredFilters = {};
+        for (const key in filters) {
+            if (filters[key] !== '') {
+                filteredFilters[key] = filters[key];
+            }
         }
-
-        const productdata = await axios.get(product_listing);
-
-        if (productdata.data.data) {
-            dispatch(setProductListing(productdata.data.data));
+        try {
+            const productdata = await axios.post(`${apiUrl}/product_listing`, filteredFilters);
+    
+            if (productdata.data && productdata.data.data) {
+                dispatch(setProductListing(productdata.data.data));
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
     };
+    
     // *****************************************************SUBCATEGORY FILTER********************************************
-    const fabric_filter = async (e) => {
-        var iFabricIddata = e.target.value;
-        setiFabricId(iFabricIddata);
-        var Price = SelectedPrice;
-        var Filter = iFabricIddata + '/' + Price + '/' + ColorFilter + '/' + Sort;
-        if (answer_array[2] == "localhost:3000") {
-            var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-        } else {
-            var product_listing = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
-        }
-        const productdata = await axios.get(product_listing);
-        if (productdata.data.data) {
-            dispatch(setProductListing(productdata.data.data));
-        }
-    };
 
     const ClickColorFilter = async (e) => {
-        var iColorId = e.target.value;
+        const iColorId = e.target.value;
         setColorFilter(iColorId);
-        var Price = SelectedPrice;
-        var Filter = iFabricId + '/' + Price + '/' + iColorId + '/' + Sort;
-
-        if (answer_array[2] == "localhost:3000") {
-            var color_url = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-        } else {
-            var color_url = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
+        const Price = SelectedPrice;
+        const FilterData = {Price,iColorId,Sort};
+    
+        // Filter out blank variables
+        const filteredData = {};
+        for (const key in FilterData) {
+            if (FilterData[key] !== '') {
+                filteredData[key] = FilterData[key];
+            }
         }
-        const productdata = await axios.get(color_url);
-
-        if (productdata.data.data) {
-            dispatch(setProductListing(productdata.data.data));
+    
+        try {
+            const productdata = await axios.post(`${apiUrl}/product_listing`, filteredData);
+    
+            if (productdata.data && productdata.data.data) {
+                dispatch(setProductListing(productdata.data.data));
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
     };
+    
 
     const maindata = useSelector((state) => state.Mainproductlisting.MainproductArray);
 
@@ -375,6 +340,7 @@ const AllProduct = () => {
         }
 
     }
+   
 
     return (
         <>
@@ -423,8 +389,9 @@ const AllProduct = () => {
                                         <div className="pretty p-icon p-smooth">
                                             <input
                                                 type="radio"
-                                                onClick={category_filter}
+                                                onClick={priceFilter}
                                                 name="price1"
+                                                value="ALL"
                                                 id="price1"
                                             />
                                             <div className="state p-maroon">
@@ -436,7 +403,7 @@ const AllProduct = () => {
                                         <div className="pretty p-icon p-smooth">
                                             <input
                                                 type="radio"
-                                                onClick={category_filter}
+                                                onClick={priceFilter}
                                                 value="5000-10000"
                                                 name="price1"
                                                 id="price1"
@@ -449,7 +416,7 @@ const AllProduct = () => {
                                         <div className="pretty p-icon p-smooth">
                                             <input
                                                 type="radio"
-                                                onClick={category_filter}
+                                                onClick={priceFilter}
                                                 value="10000-20000"
                                                 name="price1"
                                                 id="price2"
@@ -462,7 +429,7 @@ const AllProduct = () => {
                                         <div className="pretty p-icon p-smooth">
                                             <input
                                                 type="radio"
-                                                onClick={category_filter}
+                                                onClick={priceFilter}
                                                 value="30000-40000"
                                                 name="price1"
                                                 id="price3"
@@ -472,6 +439,13 @@ const AllProduct = () => {
                                                 <label htmlFor="price3">30000 - 40000</label>
                                             </div>
                                         </div>
+                                        <div className="pretty p-icon p-smooth">
+                                            <input type="radio" onClick={priceFilter} value="40000" name="price4" id="price3"/>
+                                            <div className="state p-maroon">
+                                                <i className="icon fa fa-check"></i>
+                                                <label htmlFor="price4">40,000 - More</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -479,7 +453,7 @@ const AllProduct = () => {
                                     <h2 onClick={show_2} className="d-flex justify-content-between"> <span>COLOUR</span>  <span className="ml-5"><i className="fa fa-chevron-down" aria-hidden="true"></i></span></h2>
                                     <div id="show2" className={`flex ${show2 ? "d-none" : ""}`}>
                                         <div className="pretty p-icon p-smooth">
-                                            <input type="radio" onClick={ClickColorFilter} name="colour" id="allcolor" />
+                                            <input type="radio" value="ALL" onClick={ClickColorFilter} name="colour" id="allcolor" />
                                             <div className="state p-maroon">
                                                 <i className="icon fa fa-check"></i>
                                                 <label htmlFor="allcolor">All COLOR {show2}</label>
@@ -496,36 +470,6 @@ const AllProduct = () => {
                                                 </div>
                                             })
                                         }
-                                    </div>
-                                </div>
-
-                                <div className="fabric" style={{display:'none'}}>
-                                    <h2 onClick={show_3} className="d-flex justify-content-between"> <span>FABRIC</span>  <span className="ml-5"><i className="fa fa-chevron-down" aria-hidden="true"></i></span></h2>
-                                    <div id='show3' className={`flex ${show3 ? "d-none" : ""}`}>
-                                        <div className="pretty p-icon p-smooth">
-                                            <input type="radio" onClick={fabric_filter} name="silk" id="silk" />
-                                            <div className="state p-maroon">
-                                                <i className="icon fa fa-check"></i>
-                                                <label htmlFor="silk">All FABRIC</label>
-                                            </div>
-                                        </div>
-                                        {FabricArray.map(function (Fabric, index) {
-                                            return (
-                                                <div className="pretty p-icon p-smooth">
-                                                    <input
-                                                        type="radio"
-                                                        onClick={fabric_filter}
-                                                        value={Fabric.iFabricId}
-                                                        name="silk"
-                                                        id="silk"
-                                                    />
-                                                    <div className="state p-maroon">
-                                                        <i className="icon fa fa-check"></i>
-                                                        <label htmlFor="silk">{Fabric.vTitle}</label>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
                                     </div>
                                 </div>
                             </div>
