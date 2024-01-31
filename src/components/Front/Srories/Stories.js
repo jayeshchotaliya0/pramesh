@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import "../../../css/home.css";
 import "slick-carousel/slick/slick.css";
@@ -6,8 +6,12 @@ import "slick-carousel/slick/slick-theme.css";
 import { useSelector } from "react-redux";
 import Footer from "../Footer";
 import { Link } from "react-router-dom";
+import  getEnvironment  from '../../../components/environment';
+import axios from "axios";
 
 const Stories = () => {
+  const {apiUrl} = getEnvironment(); 
+  const [story, setStory] = useState([]);
   var settings = {
     dots: false,
     cssEase: "linear",
@@ -44,26 +48,37 @@ const Stories = () => {
     ],
   };
 
-  const StoriesArray = useSelector(
-    (state) => state.MainMiniallstoriesdata.AllstoriesdataArray
-  );
+
+
+  const storyData = async () => {
+    const StoriesArray = await axios.get(`${apiUrl}/stories`);
+    if (StoriesArray?.data?.data) {
+      setStory(StoriesArray?.data?.data);
+    }
+  };
+  useEffect(() => {
+    storyData();
+  }, []);
+
+
+  const StoriesArray = useSelector((state) => state.MainMiniallstoriesdata.AllstoriesdataArray);
   // **************First  Stage *************************
-  var vStories1_image = StoriesArray.vStories1_image;
-  var vStories1_Title = StoriesArray.vStories1_Title;
-  var vStories1_Desc = StoriesArray.vStories1_Desc;
+  var vStories1_image = story.vStories1_image;
+  var vStories1_Title = story.vStories1_Title;
+  var vStories1_Desc = story.vStories1_Desc;
   // ************** Second Stage *************************
-  var vSecond_image1 = StoriesArray.vSecond_image1;
-  var vSecond_image2 = StoriesArray.vSecond_image2;
-  var vSecond_image3 = StoriesArray.vSecond_image3;
+  var vSecond_image1 = story.vSecond_image1;
+  var vSecond_image2 = story.vSecond_image2;
+  var vSecond_image3 = story.vSecond_image3;
   // ************** Third Stage *************************
-  var vVideo_Link1 = StoriesArray.vVideo_Link1;
-  var vVideo_Link2 = StoriesArray.vVideo_Link2;
+  var vVideo_Link1 = story.vVideo_Link1;
+  var vVideo_Link2 = story.vVideo_Link2;
   // var vVideo_Link3 = StoriesArray.vVideo_Link3;
   // var vVideo_Link4 = StoriesArray.vVideo_Link4;
   // ************** Four Stage *************************
-  var vSecond_image = StoriesArray.vSecond_image;
-  var vSecond_Title = StoriesArray.vSecond_Title;
-  var vSecond_Desc = StoriesArray.vSecond_Desc;
+  var vSecond_image = story.vSecond_image;
+  var vSecond_Title = story.vSecond_Title;
+  var vSecond_Desc = story.vSecond_Desc;
 
   return (
     <>

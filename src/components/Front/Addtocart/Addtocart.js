@@ -545,7 +545,7 @@ const Addtocart = () => {
 
           <div className="total p-3">
             <h2>CART SUBTOTAL :</h2>
-            <h3>र {SubTotal}</h3>
+            <h3>र {numberWithCommas(SubTotal)}</h3>
           </div>
 
           <div className="checkout">

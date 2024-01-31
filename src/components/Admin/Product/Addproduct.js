@@ -61,12 +61,16 @@ const Addproduct = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data    = new FormData(event.target);
-    var Color     = event.target.iColorId.value;
-    var FabricId  = event.target.iFabricId.value;
+    const data      = new FormData(event.target);
+    const Color     = event.target.iColorId.value;
+    const FabricId  = event.target.iFabricId.value;
 
-    var inputEle  = document.getElementsByName("price[]")[0].value;
-    
+    const inputEle = document.getElementsByName("price[]")[0].value;
+    const priceElement = document.getElementsByName("price[]")[0];
+
+    const inputqty = document.getElementsByName("qty[]")[0].value;
+    const qtyElement = document.getElementsByName("qty[]")[0];
+   
     var error = false;
     if (Product != "") {
       setErrroProduct("");
@@ -119,16 +123,6 @@ const Addproduct = () => {
       var error = true;
     }
 
-    // if(iMaterialId)
-    // {
-    //   setMaterialError("");
-    // }
-    // else
-    // {
-    //   setMaterialError("Please Select Material");
-    //   var error = true;
-    // }
-
     if (Color) {
       setColorerror("");
       
@@ -144,16 +138,20 @@ const Addproduct = () => {
       var error = true;
     }
 
-    if(inputEle==0)
-    {
-      // document.getElementById("click_add_row").click();
+    if (inputEle === "0" || inputEle === "") {
+      priceElement.style.border = "1px solid red";
       var error = true;
+    } else {
+        priceElement.style.border = "";
     }
-    else
-    {
-      const price= document.getElementsByClassName("price_0");
-      price[0].style.border= "";
+    
+    if (inputqty === "0" || inputqty === "") {
+      qtyElement.style.border = "1px solid red";
+      var error = true;
+    } else {
+      qtyElement.style.border = "";
     }
+
    
     if (error==false) 
     {

@@ -32,9 +32,7 @@ const Variants_edit = () => {
     fd.append("eStatus", Status);
     fd.append("iVariantId", iVariantId);
     if (Title && Status && iVariantId) {
-      const dataa = axios
-        .post(`${apiUrl}/variants_add`, fd)
-        .then((res) => {
+      axios.post(`${apiUrl}/variants_add`, fd).then((res) => {
           setdisable(true);
 
           if (res.data.Status == "0") {

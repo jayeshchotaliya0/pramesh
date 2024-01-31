@@ -5,12 +5,14 @@ import Sidebar from "../Sidebar";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
+import  getEnvironment  from '../../../components/environment';
+
 import "react-toastify/dist/ReactToastify.css";
 
 const User_Edit = () => {
   let history = useHistory();
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
+  const { apiUrl } = getEnvironment();
+
   const [FirstName, setFirstname] = useState("");
   const [LastName, setLastname] = useState("");
   const [Email, setEmail] = useState("");
@@ -21,12 +23,9 @@ const User_Edit = () => {
   const [ErrorLastName, setErrorLastname] = useState("");
   const [ErrorEmail, setErrorEmail] = useState("");
   const [ErrorStatus, setErrorStatus] = useState("");
-  const [EmailDone, setEmailDone] = useState("0");
   const [disable, setdisable] = useState(false);
 
-  var iUserId = window.location.pathname.substring(
-    window.location.pathname.lastIndexOf("/") + 1
-  );
+  var iUserId = window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1);
 
   function edituserdata() {
     var error = false;
@@ -35,31 +34,31 @@ const User_Edit = () => {
       setErrorFirstname("");
     } else {
       setErrorFirstname("Please Enter Firstname");
-      var error = true;
+      error = true;
     }
 
     if (LastName) {
       setErrorLastname("");
     } else {
       setErrorLastname("Please Enter Lastname");
-      var error = true;
+      error = true;
     }
 
     if (Email) {
       setErrorEmail("");
     } else {
       setErrorEmail("Please Enter Email Address");
-      var error = true;
+      error = true;
     }
 
     if (Status) {
       setErrorStatus("");
     } else {
       setErrorStatus("Please Select Status");
-      var error = true;
+      error = true;
     }
 
-    if (error == false) {
+    if (error === false) {
       setGif(true);
       const fd = new FormData();
       fd.append("vFirstName", FirstName);
@@ -67,16 +66,9 @@ const User_Edit = () => {
       fd.append("eStatus", Status);
       fd.append("iUserId", iUserId);
 
-      if (answer_array[2] == "localhost:3000") {
-        var url = "http://localhost/pramesh/backend/api/useradd";
-      } else {
-        var url = "https://prameshsilks.com/backend/api/useradd";
-      }
-      const dataa = axios
-        .post(url, fd)
-        .then((res) => {
+      axios.post(`${apiUrl}/useradd`, fd).then((res) => {
           setdisable(true);
-          if (res.data.Status == "0") {
+          if (res.data.Status === "0") {
               setGif(false);
               setdisable(true);
             toast.success(res.data.message, {
@@ -108,16 +100,12 @@ const User_Edit = () => {
         .catch((error) => {});
     }
   }
-
-  if (answer_array[2] == "localhost:3000") {
-    var urls = `http://localhost/pramesh/backend/api/all_user_get?iUserId=${iUserId}`;
-  } else {
-    var urls = `https://prameshsilks.com/backend/api/all_user_get?iUserId=${iUserId}`;
-  }
+ 
 
   useEffect(() => {
+    const { apiUrl } = getEnvironment();
     axios
-      .get(urls)
+      .get(`${apiUrl}/all_user_get?iUserId=${iUserId}`)
       .then((res) => {
         setFirstname(res.data.data.vFirstName);
         setLastname(res.data.data.vLastName);
@@ -125,16 +113,16 @@ const User_Edit = () => {
         setStatus(res.data.data.eStatus);
       })
       .catch((err) => {});
-  }, []);
+  }, [iUserId]);
 
-  if (Status == "Active") {
-    var Active = "selected";
-  } else if (Status == "Inactive") {
-    var Inactive = "selected";
-  } else {
-    var Active = "";
-    var Inactive = "";
-  }
+  // if (Status === "Active") {
+  //   var Active = "selected";
+  // } else if (Status === "Inactive") {
+  //   var Inactive = "selected";
+  // } else {
+  //   var Active = "";
+  //   var Inactive = "";
+  // }
 
   return (
     <>
@@ -226,10 +214,10 @@ const User_Edit = () => {
                               onChange={(e) => setStatus(e.target.value)}
                             >
                               <option value="">Select Status</option>
-                              <option selected={Inactive} value="inactive">
+                              <option selected={Status === "Inactive" ? "selected" : ""} value="inactive">
                                 Inactive
                               </option>
-                              <option selected={Active} value="Active">
+                              <option selected={Status === "Active" ? "selected" : ""} value="Active">
                                 Active
                               </option>
                             </select>
@@ -245,7 +233,7 @@ const User_Edit = () => {
                                 disable ? "disabled" : ""
                               }`}
                             >
-                              {Gif == true ? (
+                              {Gif === true ? (
                                 <img
                                   className="loding_gif"
                                   src={process.env.PUBLIC_URL + "/Images/3.svg"}
@@ -255,16 +243,7 @@ const User_Edit = () => {
                                 <>Submit</>
                               )}
                             </button>
-                            <Link to="/admin/listing">
-                              <a>
-                                <button
-                                  type="button"
-                                  className="btn btn-warning"
-                                >
-                                  Back
-                                </button>
-                              </a>
-                            </Link>
+                            <Link to="/admin/listing" className="btn btn-warning">Back</Link>
                           </div>
                           <ToastContainer
                             position="top-right"

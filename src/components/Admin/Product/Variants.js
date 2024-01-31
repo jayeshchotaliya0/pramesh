@@ -15,8 +15,8 @@ class Variants extends React.Component {
     
     async componentDidMount() 
     {
-        const envConfig = getEnvironment();
-        const apiUrl    = envConfig.apiUrl;
+        const {apiUrl} = getEnvironment();
+    
         //*******************************variants data get ***************************** */
         const variant_url =  `${apiUrl}/get_variants`;
         const response = await fetch(variant_url);
@@ -50,8 +50,7 @@ class Variants extends React.Component {
     
     option_create(iVariantsId)
     {
-        const envConfig = getEnvironment();
-        const apiUrl    = envConfig.apiUrl;
+        const { apiUrl } = getEnvironment();
         var urls = `${apiUrl}/get_variants_wise_option?iVariantsId=${iVariantsId}`;
     
         axios.get(urls)
@@ -126,21 +125,13 @@ class Variants extends React.Component {
 
     delete = (idx) => () => 
     {
-        var answer = window.location.href;
-        const answer_array = answer.split('/');
-        if (answer_array[2] == 'localhost:3000') {
-            var del = 'http://localhost/pramesh/backend/api/product_variyant_delete';
-        }
-        else {
-            var del = 'https://prameshsilks.com/backend/api/product_variyant_delete';
-        }
+        const { apiUrl } = getEnvironment();
+
+        const del = `${apiUrl}/product_variyant_delete`;
+      
         const fd = new FormData();
         fd.append("iProduct_variantsId", idx);
-        axios({
-            method: "post",
-            url: del,
-            data: fd,
-        })
+        axios({method: "post",url: del,data: fd,})
         .then(function (res) {
             if (res.data.Status == '0') {
                 toast.success(res.data.message, {
@@ -154,7 +145,6 @@ class Variants extends React.Component {
                 });
 
                 setTimeout(function () {
-                    // history.push("/admin/product/listing");
                     window.location.reload(1);
                 }, 1000);
             }
@@ -247,7 +237,7 @@ class Variants extends React.Component {
                                             <td>
                                                 <input
                                                     type="number" name="qty[]" value={this?.state?.rows[idx]?.vQty} onChange={this.handleChange(idx)}
-                                                    className="form-control"/>
+                                                    className={`form-control qty_${idx} `}/>
                                             </td>
                                             <td>
                                                 <input type="text" name="sku[]" value={this?.state?.rows[idx]?.vSku}

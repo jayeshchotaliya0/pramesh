@@ -28,12 +28,8 @@ const AllProduct = () => {
     const [Sort, setSort]                   = useState("");
     const [Pagenumber, setPagenumber]       = useState(0);
     const [filterslide, setfilterslide]             = useState(false);
-    
     const dispatch = useDispatch();
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
 
-    
     // if (answer_array.length == 4) 
     // {
     //     var iCategoryId = "";
@@ -141,7 +137,7 @@ const AllProduct = () => {
     }
 // ************************************************WISH LIST ADDED DATA END************************************************
     const Product_data = useSelector((state) => state.MainProductListing.MainProductListingArray);
-    const usersPerPage = 56;
+    const usersPerPage = 29;
     const pagesvisited = Pagenumber * usersPerPage;
 
     const displayproduct = Product_data.slice(
@@ -168,31 +164,46 @@ const AllProduct = () => {
                                 <Link to="/login">
                                         <i className="fa fa-heart" aria-hidden="true"></i>
                                 </Link>
+
                             }
                            
                         </div>
-                        {
-                            product.image.map((Pimg, index) => {
-                                const imagestyle = index === 0 ? '' : Pimg.vImage !== '' ? 'img2' : '';
-                                return (
-                                    <Link to={`/addtocart/${btoa(Pimg.iProductId)}/${btoa(product.vPrice)}`}
-                                        key={Pimg.iProductId} >
+                        {product.image.map(function (Pimg, index) {
+                            if (index == 0) {
+                                if (Pimg.vImage != "") {
+                                    var imagestyle = "";
+                                } else {
+                                    var imagestyle = "";
+                                }
+                            } else {
+                                if (Pimg.vImage != "") {
+                                    var imagestyle = "img2";
+                                } else {
+                                    var imagestyle = "";
+                                }
+                            }
+                            return (
+                                <>
+                                    <Link
+                                        to={`/addtocart/${btoa(Pimg.iProductId)}/${btoa(
+                                            product.vPrice
+                                        )}`}
+                                    >
                                         <img
-                                            id={Pimg.iProductId}
-                                            data-id={product.vPrice}
+                                            id={`${Pimg.iProductId}`}
+                                            data-id={`${product.vPrice}`}
                                             onClick={AddtocartProduct}
                                             src={Pimg.vImage}
                                             className={`img-fluid catoImg ${imagestyle}`}
                                             alt="Image"
                                         />
                                     </Link>
-                                );
-                            })
-                        }
-
+                                </>
+                            );
+                        })}
                     </div>
                     <h3>{product.vProductName}</h3>
-                    <p> र {numberWithCommas(product.vPrice)}</p>
+                    <p> र {product.vPrice}</p>
                 </div>
             );
         }
@@ -205,28 +216,35 @@ const AllProduct = () => {
     };
 
     const filterclick = async (e) => {
-        var SortByFilter = e.target.value;
-        setSort(SortByFilter);
-        var Price = SelectedPrice;
-        var Filter = Price + '/' + iColorId + '/' + SortByFilter;
-
-        if (answer_array[2] == "localhost:3000") {
-            var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-        } else {
-            var product_listing = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
-        }
-
-        const productdata = await axios.get(product_listing);
+        try {
+            var SortByFilter = e.target.value;
+            const iCategoryId = atob(id)
+            
+            setSort(SortByFilter);
+            // var Price = SelectedPrice;
         
-        if (productdata.data.data) {
-            dispatch(setProductListing(productdata.data.data));
+            const filters = {Price:SelectedPrice,iColorId,SortByFilter,iCategoryId};
+            const filteredFilters = {};
+            for (const key in filters) {
+                if (filters[key] !== '') {
+                    filteredFilters[key] = filters[key];
+                }
+            }
+            const response = await axios.post(`${apiUrl}/product_listing`, filteredFilters);
+            if (response.data.data) {
+                dispatch(setProductListing(response.data.data));
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
+
     // *********************************FILTER*************************************
     const priceFilter = async (e) => {
         const Price = e.target.value;
+        const iCategoryId = atob(id)
         setSelectedPrice(Price);
-        const filters = { Price, iColorId,Sort};
+        const filters = { Price, iColorId,Sort,iCategoryId};
     
         // Filter out blank variables
         const filteredFilters = {};
@@ -273,9 +291,6 @@ const AllProduct = () => {
         }
     };
     
-
-    const maindata = useSelector((state) => state.Mainproductlisting.MainproductArray);
-
     const show_1 = () => {
         if (show1 == false) {
             setshow1(true);
@@ -341,12 +356,10 @@ const AllProduct = () => {
 
     }
    
-
     return (
         <>
             <Navbar />
             <ScrollToTop />
-
             <section className="festive2 container-fluid mt-5 position-relative" style={{ overflowX: "hidden" }}>
                 <h1>FESTIVE ENSEMBLES</h1>
                 <p>EFFORTLESS STYLES TO THROW ON AND GO... </p>
@@ -440,7 +453,7 @@ const AllProduct = () => {
                                             </div>
                                         </div>
                                         <div className="pretty p-icon p-smooth">
-                                            <input type="radio" onClick={priceFilter} value="40000" name="price4" id="price3"/>
+                                            <input type="radio" onClick={priceFilter} value="40000" name="price1" id="price3"/>
                                             <div className="state p-maroon">
                                                 <i className="icon fa fa-check"></i>
                                                 <label htmlFor="price4">40,000 - More</label>

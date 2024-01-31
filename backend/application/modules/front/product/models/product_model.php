@@ -387,14 +387,10 @@ class Product_model extends CI_Model
         $this->db->update($this->table_product_image, $data, $where);
         return $this->db->affected_rows();
     }
-
-    
-
     // ************************************************FRONT****************************
-    
     public function get_by_homepage_product()
     { 
-        $this->db->select('t.*,t1.vImage,t2.vPrice');
+        $this->db->select('t.iProductId,t.vProductName,t.iSubcategoryId,t.iCategoryId,t1.vImage,t2.vPrice');
         // $this->db->select('t.*,t1.vImage');
         $this->db->from($this->table. ' t');
         $this->db->join($this->table_product_image.' t1','t.iProductId=t1.iProductId');
@@ -465,6 +461,7 @@ class Product_model extends CI_Model
         {
             $this->db->order_by('iProductId','DESC');
         }
+
 
         if(!empty($critearea['iCategoryId']))
         {

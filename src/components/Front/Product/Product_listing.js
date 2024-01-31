@@ -19,9 +19,6 @@ const Product_listing = () => {
   const { apiUrl } = getEnvironment(); 
 
   var iUserId = localStorage.getItem("iUserId");
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
-
   const [animation2, setanimation2] = useState(false);
   const [show1, setshow1] = useState(false);
   const [show2, setshow2] = useState(false);
@@ -39,9 +36,7 @@ const Product_listing = () => {
   // ********************** Load Time  Data Get ***************************
   const dispatch = useDispatch();
   const iSubCategoryId = id;
-  // const Filter = iFabricId + "/" + SelectedPrice + "/" + iColorId + "/" + Sort + "/" + "" + "/" + iSubCategoryId;
- 
-  
+
   const mainNavbar = async () => {
     axios.post(`${apiUrl}/product_listing`, {iSubCategoryId})
     .then((response) => {
@@ -141,7 +136,7 @@ const Product_listing = () => {
     const fixedNumber = Number(number).toFixed(2);
     return fixedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
-  // ************************************************WISH LIST ADDED DATA************************************************
+ 
   const wishlistAdded = (e) => {
     var iProductId = e.target.id;
     const fd = new FormData();
@@ -170,7 +165,6 @@ const Product_listing = () => {
         .catch((error) => {});
     }
   };
-  // ************************************************WISH LIST ADDED DATA END************************************************
 
   const usersPerPage = 56;
   const pagesvisited = Pagenumber * usersPerPage;
@@ -320,9 +314,6 @@ const Product_listing = () => {
     }
   };
 
-  const maindata = useSelector(
-    (state) => state.Mainproductlisting.MainproductArray
-  );
   return (
     <>
       <Navbar />
@@ -426,8 +417,8 @@ const Product_listing = () => {
                         type="radio"
                         onClick={priceFilter}
                         value="40000"
-                        name="price4"
-                        id="price3"
+                        name="price1"
+                        id="price4"
                       />
                       <div className="state p-maroon">
                         <i className="icon fa fa-check"></i>

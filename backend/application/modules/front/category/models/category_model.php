@@ -272,6 +272,7 @@ class Category_model extends CI_Model
 
     public function get_by_front_category()
     {   
+        $this->db->select('iHeaderId,vTitle');
         $this->db->from($this->table_header_menu);
         $this->db->where("eStatus", "Active");
         $query=$this->db->get();
@@ -281,6 +282,7 @@ class Category_model extends CI_Model
         {
             if(!empty($value->iHeaderId))
             {
+                $this->db->select('iSubcategoryId,iHeaderId,iFabricId,vSubTitle,vImage');
                 $this->db->from($this->table_subcategory);
                 $this->db->where('iHeaderId',$value->iHeaderId);
                 $this->db->where('eStatus',"Active");

@@ -2508,10 +2508,6 @@ class Api extends MX_Controller
 		$json 			= file_get_contents('php://input');
         $postData 		= json_decode($json, true);
 
-		// echo "<pre>";
-		// print_r($postData);
-		// exit;
-
 		$iSubCategoryId = $postData['iSubCategoryId'] ?  $postData['iSubCategoryId'] : '';
 		$vPrice 		= $postData['Price'] ?  $postData['Price'] : '';
 		
@@ -2519,7 +2515,7 @@ class Api extends MX_Controller
 		$critearea['iSubcategoryId']  	= $iSubCategoryId;
 		$critearea['vPrice'] 	= ($postData['Price'] !== 'ALL') ? $vPrice : null;
 		$critearea['iColorId'] 	= ($postData['iColorId'] !== 'ALL') ? $postData['iColorId'] : null;			
-		$critearea['OrderBy']    = $postData['SortByFilter'] ?  $postData['SortByFilter'] : '';
+		$critearea['OrderBy']    = $postData['SortByFilter'] ?  $postData['SortByFilter'] : 'DESC';
 		$critearea['iCategoryId']    = $postData['iCategoryId'] ?  $postData['iCategoryId'] : '';
 
 		$result   = $this->product_model->get_by_all_product_listing($critearea);
