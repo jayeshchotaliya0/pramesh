@@ -16,49 +16,37 @@ import  getEnvironment  from '../../../components/environment';
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
-    const envConfig = getEnvironment();
-    const apiUrl    = envConfig.apiUrl;
-
     const [image_zooming, setimage_zooming] = useState('');
     const [MobileBanner, setMobileBanner]   = useState([]);
     const dispatch = useDispatch();
 
-    var urls        = `${apiUrl}/banner`;
-    var homepage_producturl = `${apiUrl}/homepage_product`;
-    
     // *******************banner Data Get*****************************
-    const fetchbanner = async () => {
-        const response = await axios.get(urls).catch((err) => {
-        });
-
-        if (response.data.data) {
-            dispatch(setProducts(response.data.data));
-            setMobileBanner(response.data.mobile);
-            dispatch(setMinibanner(response.data.mini_banner));
-            dispatch(setFirstImage(response.data.first_image));
-            dispatch(setSecondImage(response.data.second_image));
-            dispatch(setThirdImage(response.data.third_image));
-        }
-
-
-    };
-   
-    const fetchthirddimage = async () => {
-        
-        const homepage_data = await axios.get(homepage_producturl).catch((err) => {
-        });
-
-        if (homepage_data.data.data) {
-            dispatch(setHomepagedata(homepage_data.data.data));
-        }
-    };
-
+    
     useEffect(() => {
+        const {apiUrl} = getEnvironment();
+        const fetchbanner = async () => {
+            const response = await axios.get(`${apiUrl}/banner`).catch((err) => {
+            });
+            if (response.data.data) {
+                dispatch(setProducts(response.data.data));
+                setMobileBanner(response.data.mobile);
+                dispatch(setMinibanner(response.data.mini_banner));
+                dispatch(setFirstImage(response.data.first_image));
+                dispatch(setSecondImage(response.data.second_image));
+                dispatch(setThirdImage(response.data.third_image));
+            }
+        };
         fetchbanner();
-        // fetchsecondimage();
     }, []);
 
     useEffect(() => {
+        const {apiUrl} = getEnvironment();
+        const fetchthirddimage = async () => {
+            const homepage_data = await axios.get(`${apiUrl}/homepage_product`).catch((err) => { });
+            if (homepage_data.data.data) {
+                dispatch(setHomepagedata(homepage_data.data.data));
+            }
+        };
         fetchthirddimage();
     }, []);
 

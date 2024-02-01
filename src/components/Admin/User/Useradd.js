@@ -5,14 +5,13 @@ import Sidebar from "../Sidebar";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
+import  getEnvironment  from '../../../components/environment';
+
 import "react-toastify/dist/ReactToastify.css";
-import validator from "validator";
 
 const Useradd = () => {
   let history = useHistory();
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
-
+  const { apiUrl } = getEnvironment();
   const [FirstName, setFirstname] = useState("");
   const [LastName, setLastname] = useState("");
   const [Email, setEmail] = useState("");
@@ -26,7 +25,6 @@ const Useradd = () => {
   const [ErrorPassword, setErrorPassword] = useState("");
   const [ErrorStatus, setErrorStatus] = useState("");
   const [EmailDone, setEmailDone] = useState(0);
-  const [Buttonenable, setButtonenable] = useState(0);
   const [disable, setdisable] = useState(false);
 
   const Emailchnage = (e) => {
@@ -36,24 +34,17 @@ const Useradd = () => {
   };
 
   function validateEmail() {
-    var emailText = document.getElementById("vEmail").value;
-    var pattern =
-      /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
-    if (pattern.test(emailText)) {
-      if (answer_array[2] == "localhost:3000") {
-        var email_verify = "http://localhost/pramesh/backend/api/email_varify";
-      } else {
-        var email_verify =
-          "https://prameshsilks.com/backend/api/email_varify";
-      }
+    const emailText = document.getElementById("vEmail").value;
+    const pattern = /^[a-zA-Z0-9-_]+(\.[a-zA-Z0-9-_]+)*@[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
 
+    if (pattern.test(emailText)) {
+     
+      var email_verify = `${apiUrl}/email_varify`;
       const fd = new FormData();
       fd.append("vEmail", emailText);
 
-      const dataa = axios
-        .post(email_verify, fd)
-        .then((res) => {
-          if (res.data.Status == "1") {
+      axios.post(email_verify, fd).then((res) => {
+          if (res.data.Status === "1") {
             setEmailDone(0);
             setErrorEmail("email address already exists");
             return false;
@@ -76,41 +67,40 @@ const Useradd = () => {
     var errormsg = false;
 
     if (EmailDone === 0) {
-      var errormsg = true;
+      errormsg = true;
     } else {
-      var errormsg = false;
+      errormsg = false;
     }
 
-    if (FirstName != "") {
+    if (FirstName !== "") {
       setErrorFirstname("");
     } else {
       setErrorFirstname("Please Enter Firstname");
-      var errormsg = true;
+      errormsg = true;
     }
 
-    if (LastName != "") {
+    if (LastName !== "") {
       setErrorLastname("");
     } else {
       setErrorLastname("Please Enter Lastname");
-      var errormsg = true;
+      errormsg = true;
     }
 
-    if (Password != "") {
+    if (Password !== "") {
       setErrorPassword("");
     } else {
       setErrorPassword("Please Enter Password");
-      var errormsg = true;
+      errormsg = true;
     }
 
     if (Status) {
       setErrorStatus("");
     } else {
       setErrorStatus("Please Select Status");
-      var errormsg = true;
+      errormsg = true;
     }
 
-    if (errormsg == false) {
-      setButtonenable(1);
+    if (errormsg === false) {
       const fd = new FormData();
       fd.append("vFirstName", FirstName);
       fd.append("vLastName", LastName);
@@ -119,16 +109,12 @@ const Useradd = () => {
       fd.append("eStatus", Status);
 
       setGif(true);
-      if (answer_array[2] == "localhost:3000") {
-        var url = "http://localhost/pramesh/backend/api/useradd";
-      } else {
-        var url = "https://prameshsilks.com/backend/api/useradd";
-      }
-      const dataa = axios
-        .post(url, fd)
-        .then((res) => {
+     
+      const url = `${apiUrl}/useradd`;
+      
+       axios.post(url, fd).then((res) => {
           setdisable(true);
-          if (res.data.Status == "0") {
+          if (res.data.Status === "0") {
             setdisable(true);
             setGif(false);
             toast.success(res.data.message, {
@@ -158,9 +144,7 @@ const Useradd = () => {
           }
         })
         .catch((error) => {});
-    } else {
-      setButtonenable(0);
-    }
+    } 
   }
   return (
     <>
@@ -277,7 +261,7 @@ const Useradd = () => {
                                 disable ? "disabled" : ""
                               }`}
                             >
-                              {Gif == true ? (
+                              {Gif === true ? (
                                 <img
                                   className="loding_gif"
                                   src={process.env.PUBLIC_URL + "/Images/3.svg"}
@@ -287,16 +271,7 @@ const Useradd = () => {
                                 <>Submit</>
                               )}
                             </button>
-                            <Link to="/admin/listing">
-                              <a>
-                                <button
-                                  type="button"
-                                  className="btn btn-warning"
-                                >
-                                  Back
-                                </button>
-                              </a>
-                            </Link>
+                            <Link to="/admin/listing" className="btn btn-warning">Back</Link>
                           </div>
                           <ToastContainer
                             position="top-right"

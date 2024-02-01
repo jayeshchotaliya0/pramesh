@@ -524,7 +524,7 @@ class App extends React.Component {
 
             <Route
               exact
-              path="/admin/subcategory/listing/:id"
+              path="/admin/subcategory/listing"
               component={LazySubcategory_listing}
             />
             <Route

@@ -86,7 +86,7 @@ const Sidebar = () =>
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to='/admin/subcategory/listing/0' className="nav-link">
+                            <Link to='/admin/subcategory/listing' className="nav-link">
                                 <i className="fas fa-subway"></i>
                                 <span className="nav-link-text">Material</span>
                             </Link>

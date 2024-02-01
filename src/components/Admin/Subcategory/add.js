@@ -23,8 +23,6 @@ const Subcategoryadd = () => {
   const [Fabric, setFabric]           = useState("");
   const [ErrorFabric, setErrorFabric] = useState("");
   const [Gif, setGif]                 = useState(false);
-
-  const [ProductType, setProductType] = useState("0");
   const [Status, setStatus]           = useState("Inactive");
   const [TitleError, setTitleError]   = useState("");
 
@@ -64,11 +62,10 @@ const Subcategoryadd = () => {
 
     if (Title && iHeaderId && Image) {
       setGif(true);
-      const dataa = axios
-        .post(url, fd)
+      axios.post(url, fd)
         .then((res) => {
           setdisable(true);
-          if (res.data.Status == "0") {
+          if (res.data.Status === "0") {
             setdisable(true);
 
             setGif(false);
@@ -83,7 +80,7 @@ const Subcategoryadd = () => {
             });
 
             setTimeout(function () {
-              history.push("/admin/subcategory/listing/0");
+              history.push("/admin/subcategory/listing");
             }, 2000);
           } else {
             setGif(false);
@@ -104,18 +101,15 @@ const Subcategoryadd = () => {
     }
   }
  
-  const urls = `${apiUrl}/get_category`;
- 
-
   useEffect(() => {
     axios
-      .get(urls)
+      .get(`${apiUrl}/get_category`)
       .then((res) => {
         setHeaderIdArray(res?.data?.data?.filter((v,i)=>v.eStatus==='Active'));
         setFabricArray(res.data.fabric);
       })
       .catch((err) => {});
-  }, []);
+  }, [apiUrl]);
 
   return (
     <>
@@ -173,7 +167,7 @@ const Subcategoryadd = () => {
                                     >
                                       <option>Select Fabric</option>
                                       { 
-                                        FabricArray.filter((v,i)=>v.iHeaderId==iHeaderId && v.eStatus=='Active').map((cat, index) => (
+                                        FabricArray.filter((v,i)=>v.iHeaderId===iHeaderId && v.eStatus==='Active').map((cat, index) => (
                                         <option value={cat.iFabricId}>
                                           {cat.vTitle}
                                         </option>
@@ -218,7 +212,7 @@ const Subcategoryadd = () => {
                               onChange={(e) => setImage(e.target.files[0])}
                               className="form-control vImage"
                             />
-                            <img src="" className="img1 h-101" />
+                            <img src="" alt="A beautiful sunset over the mountains" className="img1 h-101" />
                             {Image ? (
                               <span className="red"></span>
                             ) : (
@@ -251,7 +245,7 @@ const Subcategoryadd = () => {
                                 disable ? "disabled" : ""
                               }`}
                             >
-                              {Gif == true ? (
+                              {Gif === true ? (
                                 <img
                                   className="loding_gif"
                                   src={process.env.PUBLIC_URL + "/Images/3.svg"}
@@ -261,16 +255,7 @@ const Subcategoryadd = () => {
                                 <>Submit</>
                               )}
                             </button>
-                            <Link to="/admin/subcategory/listing/0">
-                              <a>
-                                <button
-                                  type="button"
-                                  className="btn btn-warning"
-                                >
-                                  Back
-                                </button>
-                              </a>
-                            </Link>
+                            <Link to="/admin/subcategory/listing" className="btn btn-warning">Back</Link>
                           </div>
 
                           <ToastContainer

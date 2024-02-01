@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
@@ -43,8 +43,8 @@ class Variants_listing extends React.Component {
     var iVariantId = e.target.id;
     const fd = new FormData();
     fd.append("iVariantId", iVariantId);
-    if (iVariantId != "undefined") {
-      const dataa = axios.post(del, fd);
+    if (iVariantId !== "undefined") {
+      axios.post(del, fd);
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -63,7 +63,7 @@ class Variants_listing extends React.Component {
           }
         })
         .then((res) => {
-          if (res.data.Status == "0") {
+          if (res.data.Status === "0") {
             toast.success(res.data.message, {
               position: "top-center",
               autoClose: 5000,
@@ -111,8 +111,8 @@ class Variants_listing extends React.Component {
                         <h3 className="mb-0">Variants Listing</h3>
                       </div>
                       <div className="col text-right">
-                        <Link to="/admin/variants/add">
-                          <a className="btn myBtn4">Add</a>
+                        <Link to="/admin/variants/add" className="btn myBtn4">
+                          Add
                         </Link>
                       </div>
                     </div>

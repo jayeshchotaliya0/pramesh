@@ -3,7 +3,6 @@ import Navbar from "../Navbar";
 import "../../../css/home.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useSelector } from "react-redux";
 import Footer from "../Footer";
 import { Link } from "react-router-dom";
 import  getEnvironment  from '../../../components/environment';
@@ -12,56 +11,55 @@ import axios from "axios";
 const Stories = () => {
   const {apiUrl} = getEnvironment(); 
   const [story, setStory] = useState([]);
-  var settings = {
-    dots: false,
-    cssEase: "linear",
-    infinite: true,
-    speed: 1000,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 1000,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 550,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+  // var settings = {
+  //   dots: false,
+  //   cssEase: "linear",
+  //   infinite: true,
+  //   speed: 1000,
+  //   slidesToShow: 4,
+  //   slidesToScroll: 1,
+  //   initialSlide: 0,
+  //   responsive: [
+  //     {
+  //       breakpoint: 1200,
+  //       settings: {
+  //         slidesToShow: 3,
+  //         slidesToScroll: 3,
+  //         infinite: true,
+  //         dots: false,
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 1000,
+  //       settings: {
+  //         slidesToShow: 2,
+  //         slidesToScroll: 2,
+  //         initialSlide: 2,
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 550,
+  //       settings: {
+  //         slidesToShow: 1,
+  //         slidesToScroll: 1,
+  //       },
+  //     },
+  //   ],
+  // };
 
-
-
-  const storyData = async () => {
-    const StoriesArray = await axios.get(`${apiUrl}/stories`);
-    if (StoriesArray?.data?.data) {
-      setStory(StoriesArray?.data?.data);
-    }
-  };
+  
   useEffect(() => {
+    const storyData = async () => {
+      const StoriesArray = await axios.get(`${apiUrl}/stories`);
+      if (StoriesArray?.data?.data) {
+        setStory(StoriesArray?.data?.data);
+      }
+    };
     storyData();
-  }, []);
+  }, [apiUrl]);
 
 
-  const StoriesArray = useSelector((state) => state.MainMiniallstoriesdata.AllstoriesdataArray);
+  // const StoriesArray = useSelector((state) => state.MainMiniallstoriesdata.AllstoriesdataArray);
   // **************First  Stage *************************
   var vStories1_image = story.vStories1_image;
   var vStories1_Title = story.vStories1_Title;
@@ -133,6 +131,7 @@ const Stories = () => {
                 width="100%"
                 height="350"
                 src={vVideo_Link1}
+                title="Video Player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
@@ -145,6 +144,7 @@ const Stories = () => {
                 width="100%"
                 height="350"
                 src={vVideo_Link2}
+                title="Video Player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
@@ -161,6 +161,7 @@ const Stories = () => {
                 width="100%"
                 height="350"
                 src={vVideo_Link1}
+                title="Video Player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
@@ -173,6 +174,7 @@ const Stories = () => {
                 width="100%"
                 height="350"
                 src={vVideo_Link2}
+                title="Video Player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen

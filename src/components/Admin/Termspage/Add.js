@@ -8,12 +8,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw } from "draft-js";
+import  getEnvironment  from '../../../components/environment';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
-import htmlToDraft from "html-to-draftjs";
+
 
 function Add() {
   let history = useHistory();
+  const { apiUrl } = getEnvironment();
   const [Aboutus, setAboutus] = useState("");
   const [Exchange, setExchange] = useState("");
   const [TermsCondition, setTermsCondition] = useState("");
@@ -59,23 +61,11 @@ function Add() {
 
     if (Aboutus) {
       setGif(true);
-      var answer = window.location.href;
-      const answer_array = answer.split("/");
-
-      if (answer_array[2] == "localhost:3000") {
-        var url = "http://localhost/pramesh/backend/api/terms_page_save_data";
-      } else {
-        var url =
-          "https://prameshsilks.com/backend/api/terms_page_save_data";
-      }
-      const dataa = axios
-        .post(url, fd)
+      axios.post(`${apiUrl}/terms_page_save_data`, fd)
         .then((res) => {
           setdisable(true);
-
-          if (res.data.Status == "0") {
+          if (res.data.Status === "0") {
             setdisable(true);
-
             setGif(false);
             toast.success(res.data.message, {
               position: "top-center",

@@ -62,9 +62,8 @@ const Subcategory_edit = () => {
     
         if (Title && iSubcategoryId && Fabric && Image) {
             setGif(true);
-            const dataa = axios.post(url, fd)
-                .then(res => {
-                    if (res.data.Status == '0') {
+            axios.post(url, fd).then(res => {
+                    if (res.data.Status === '0') {
                         setGif(false);
                         toast.success(res.data.message, {
                             position: "top-center",
@@ -77,7 +76,7 @@ const Subcategory_edit = () => {
                         });
 
                         setTimeout(function () {
-                            history.push("/admin/subcategory/listing/0");
+                            history.push("/admin/subcategory/listing");
                         }, 2000);
                     }
                     else {
@@ -98,11 +97,10 @@ const Subcategory_edit = () => {
         }
 
     }
-
-    const urls = `${apiUrl}/all_subcategory_get?iSubcategoryId=${iSubcategoryId}`;
+    
     
     useEffect(()=>{
-        axios.get(urls)
+        axios.get(`${apiUrl}/all_subcategory_get?iSubcategoryId=${iSubcategoryId}`)
         .then(res=>{
             setHeaderId(res.data.data.iHeaderId)
             setTitle(res.data.data.vTitle);
@@ -114,11 +112,8 @@ const Subcategory_edit = () => {
             setFabricArray(res?.data?.fabric);
             setHeaderMenuArray(res?.data?.HeaderMenuArray);
         })
-        .catch(err =>{
-            
-        })
-        
-    },[])
+        .catch(err =>{  })
+    },[iSubcategoryId])
     
     return (
         <>
@@ -153,7 +148,7 @@ const Subcategory_edit = () => {
                                                             {iHeaderMenuArray?.map(function (v, i) {
                                                                 return (<option
                                                                     selected={
-                                                                        v.iHeaderId == iHeaderId
+                                                                        v.iHeaderId === iHeaderId
                                                                         ? "selected"
                                                                         : ""
                                                                     }
@@ -175,12 +170,11 @@ const Subcategory_edit = () => {
                                                                 if(cat.iHeaderId==iHeaderId)
                                                                 {
                                                                     return <option 
-                                                                        selected={cat.iFabricId == iFabricId ? 'selected' : ''}
+                                                                        selected={cat.iFabricId === iFabricId ? 'selected' : ''}
                                                                     value={cat.iFabricId}>{cat.vTitle}</option>
                                                                 }
                                                             })}
                                                         </select>
-
                                                         <span className="red">{ErrorFabric}</span>
                                                     </div>
                                                 </div>
@@ -196,7 +190,7 @@ const Subcategory_edit = () => {
                                                     <div className="form-group">
                                                         <label className="form-control-label" for="vImage">Material Image</label>
                                                         <input type="file" id="vImage" onChange={(e) => setImage(e.target.files[0])} className="form-control vImage" />
-                                                        <img src={Image} className="img1 h-101" />
+                                                        <img src={Image} alt={Image} className="img1 h-101" />
                                                         {
                                                             Image ?
                                                                 (<span className="red"></span>)
@@ -212,13 +206,13 @@ const Subcategory_edit = () => {
                                                         <label className="form-control-label" for="vEmail">Status</label>
                                                         <select className="form-control" onChange={(e) => setStatus(e.target.value)}>
                                                             <option selected={
-                                                                Status=='Inactive' ?
+                                                                Status==='Inactive' ?
                                                                 'selected'
                                                                 :
                                                                 ''
                                                             } value="inActive">Inactive</option>
                                                             <option selected={
-                                                                Status == 'Active' ?
+                                                                Status === 'Active' ?
                                                                     'selected'
                                                                     :
                                                                     ''
@@ -232,15 +226,13 @@ const Subcategory_edit = () => {
                                                     <div className="form-group">
                                                         <button type="button" onClick={addcategory} className="btn  btn-primary">
                                                             {
-                                                                Gif == true ?
+                                                                Gif === true ?
                                                                     <img className="loding_gif" src={process.env.PUBLIC_URL + "/Images/3.svg"} alt="img" />
                                                                     :
                                                                     <>Submit</>
                                                             }
                                                         </button>
-                                                        <Link to='/admin/subcategory/listing/0'>
-                                                            <a><button type="button" className="btn btn-warning">Back</button></a>
-                                                        </Link>
+                                                        <Link to='/admin/subcategory/listing' className="btn btn-warning">Back</Link>
                                                        
                                                     </div>
                                                     <ToastContainer
