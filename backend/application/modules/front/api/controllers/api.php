@@ -21,6 +21,56 @@ class Api extends MX_Controller
         date_default_timezone_set('Asia/Calcutta');
 
     }
+	public function delete_image()
+	{
+		$table = $_POST['table'];
+		
+		$dbImages = [];
+		$result  = $this->content_model->get_by_all_table_image($table);
+	
+		foreach ($result as $file) 
+		{
+			array_push($dbImages,basename($file->vImage));
+		}
+
+		$base_path = $this->config->item('base_path');
+		if($table==='banner')
+		{ 
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/banner/";
+		}
+		else if($table==='category')
+		{
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/category/";
+		}
+		else if($table==='image_content')
+		{
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/Image_content/";
+		}
+		else if($table==='product_image')
+		{
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/Product/";
+		}
+		else if($table==='subcategory')
+		{
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/subcategory/";
+		}
+
+		$files = scandir($imageDir);
+
+		foreach ($files as $file) {
+			if (!in_array($file, $dbImages)) {
+				$filePath = $imageDir . '/' . $file;
+				if (unlink($filePath)) {
+					echo "Deleted file: $file <br>";
+				} 
+			}
+		}
+	}
 
 	public function login()
 	{	
