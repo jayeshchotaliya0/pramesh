@@ -11,11 +11,10 @@ import  getEnvironment  from '../../components/environment';
 import "../../css/home.css";
 
 import {
-  setMainheader,
   setProductListing,
   setAddtocartsavedata,
   setAddtocartsubtotal,
-  setAllfabric,
+  // setAllfabric,
   setSearchdata,
   setWishlist,
   setTermsCondition,
@@ -38,7 +37,8 @@ const Navbar = () => {
   const [stick, setstick]   = useState(false);
   const [image_zooming, setimage_zooming] = useState("");
   const [Calorcategory, setCalorcategory] = useState([]);
-  // const [SingleProductSearch, setSingleProductSearch] = useState("");
+  const [headerMenu, setHeaderMenu] = useState([]);
+  const [subHeaderMenu, setsubHeaderMenu] = useState([]);
 
   const poped = () => {
     if (pop == false) {
@@ -138,8 +138,10 @@ const Navbar = () => {
     // ***************HEADER***************
     const headerdata = await axios.get(header).catch((err) => { });
     if (headerdata.data.data) {
-      dispatch(setMainheader(headerdata.data.data));
-      dispatch(setAllfabric(headerdata.data.fabric));
+      setHeaderMenu(headerdata?.data?.data)
+      setsubHeaderMenu(headerdata.data.fabric);
+      // dispatch(setMainheader(headerdata.data.data));
+      // dispatch(setAllfabric(headerdata.data.fabric));
     }
     // *********************ADD TO CART DATA ******************
     const addtocart = await axios.get(cartdatasave);
@@ -184,22 +186,12 @@ const Navbar = () => {
     }
   };
 
-  const Header_data = useSelector((state) => state.Mainheader.MainheaderArray);
-  const Addtocart = useSelector(
-    (state) => state.MainAddtocartsavedata.MainAddtocartsavedataArray
-  );
-  const SubTotal = useSelector(
-    (state) => state.MainAddtocartsubtotal.MainAddtocartsubtotalArray
-  );
-  const AllFabricData = useSelector(
-    (state) => state.MainMiniallfabricdata.AllFabricdataArray
-  );
-  const SearchData = useSelector(
-    (state) => state.MainMiniallsearchdata.AllSearchdataArray
-  );
-  const WishlistData = useSelector(
-    (state) => state.MainMiniallwishdata.AllWishlistArray
-  );
+  // const Header_data = useSelector((state) => state.Mainheader.MainheaderArray);
+  const Addtocart   = useSelector((state) => state.MainAddtocartsavedata.MainAddtocartsavedataArray);
+  const SubTotal    = useSelector((state) => state.MainAddtocartsubtotal.MainAddtocartsubtotalArray);
+  // const AllFabricData = useSelector((state) => state.MainMiniallfabricdata.AllFabricdataArray);
+  const SearchData    = useSelector((state) => state.MainMiniallsearchdata.AllSearchdataArray);
+  const WishlistData  = useSelector((state) => state.MainMiniallwishdata.AllWishlistArray);
 
   if (SearchData.length == 1) {
   }
@@ -272,7 +264,7 @@ const Navbar = () => {
 
         <div className="  collapse navbar-collapse " id="navbarNavDropdown">
           <ul className="navbar-nav">
-            {Header_data.map(function (header, index) {
+            {headerMenu.map(function (header, index) {
               if (header.sub.length > 0) {
                 var x = header.sub.length;
                 if (x > 20) {
@@ -299,7 +291,7 @@ const Navbar = () => {
                       aria-labelledby="navbarDropdownMenuLink"
                     >
                       {/* <div className="row nItem pl-5"> */}
-                      {AllFabricData.map(function (fabric, ids) {
+                      {subHeaderMenu.map(function (fabric, ids) {
                         if (fabric.iHeaderId == header.iHeaderId) {
                           return (
                             <>

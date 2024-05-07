@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../../css/home.css";
+// import "../../../css/home.css";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import { useSelector } from "react-redux";
@@ -11,11 +11,14 @@ import "slick-carousel/slick/slick-theme.css";
 import { gsap } from "gsap/all";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {setAddtocartpage,setAddtocartsavedata,setAddtocartsubtotal,setWishlist} from "../../../redux/actions/productActions";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import  getEnvironment  from '../../../components/environment';
 
 const Addtocart = () => {
-  const { apiUrl } = getEnvironment();
+  const { apiUrl,fullPath } = getEnvironment();
+  const location = useLocation();
+
+
   // *****************************Single Data get query**************************************
   const Single_product = useSelector((state) => state.MainAddtocartPage.MainAddtocartArray);
 
@@ -38,9 +41,6 @@ const Addtocart = () => {
   const [ErrorSize, setErrorSize]       = useState("");
   const [SliderArray, setSliderArray]   = useState([]);
 
-  
-
-
   const dispatch      = useDispatch();
   var answer          = window.location.href;
   const answer_array  = answer.split("/");
@@ -51,7 +51,6 @@ const Addtocart = () => {
     try {
         const product_listing = `${apiUrl}/single_product_get`;
         const cartdatasave = `${apiUrl}/addtocartdataget`;
-
         // Fetch product data
         const productdata = await axios.post(product_listing, { iProductId, vPrice });
 
@@ -234,6 +233,20 @@ const Addtocart = () => {
   const numberWithCommas = (number) => {
     const fixedNumber = Number(number).toFixed(2);
     return fixedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+const handleWhatsAppClick = () => {
+  // Replace PHONE_NUMBER with the actual phone number
+  const phoneNumber = '+919978944051';
+  
+  // const url = fullPath+''+location.pathname;
+  const fullPath = window.location.origin;
+  const url = fullPath + location.pathname;
+    console.log(url)  
+  // Generate the WhatsApp URL with the phone number and message
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(url)}&app_absent=0`;
+  
+  // Open the WhatsApp URL
+  window.open(whatsappUrl, '_blank');
 };
 
   const wishlistAdded = (e) => {
@@ -424,24 +437,20 @@ const Addtocart = () => {
                      
 
                     }
-                    
                     <span className="heart ml-4">
                       {
-                        iUserId ?
-                          <i
-                            onClick={wishlistAdded}
-                            id={`${product.iProductId}`}
-                            className={`fa fa-heart ${product.vWishlist == '1' ? 'hartred' : ''
-                              }`}
-                            aria-hidden="true">
-                          </i>
-                          :
-                          <Link to="/login">
-                            <i className="fa fa-heart" style={{color:'#e8b5b5'}} aria-hidden="true"></i>
-                          </Link>
-
+                        iUserId ? <i onClick={wishlistAdded} id={`${product.iProductId}`} className={`fa fa-heart ${product.vWishlist == '1' ? 'hartred' : ''
+                              }`} aria-hidden="true"></i>
+                          : <Link to="/login"> <i className="fa fa-heart" style={{color:'#e8b5b5'}} aria-hidden="true"></i></Link>
                       }
                     </span>
+                    <span className="heart ml-4">
+                      {
+                         <img className="h-5" onClick={handleWhatsAppClick} src={process.env.PUBLIC_URL + "/Images/icon/1.png"} />
+                      }
+                    </span>
+
+
                   </div>
                   <h2 className="mt-5">Estimated Shipping : 10-12 DAYS</h2>
                   <div className="desc">

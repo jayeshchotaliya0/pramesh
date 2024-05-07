@@ -10,9 +10,11 @@ const getEnvironment = () => {
     const environments = {
       development: {
         apiUrl: process.env.REACT_APP_API_URL || 'http://localhost/pramesh/backend/api',
+        fullPath :  'http://localhost:3000'
       },
       production: {
         apiUrl: process.env.REACT_APP_API_URL || 'https://prameshsilks.com/backend/api',
+        fullPath :  'https://prameshsilks.com'
       },
     };
   

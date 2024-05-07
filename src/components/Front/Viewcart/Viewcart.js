@@ -23,23 +23,23 @@ const Viewcart = () => {
 
     const [cart, setCart] = useState([]);
     const dispatch        = useDispatch();
-    var answer            = window.location.href;
-    const AddtocartProduct = async () => {
-  
-    var cartdatasave = `${apiUrl}/addtocartdataget?cookie=${cookie}@@${iUserId}`;
-    
-    // *********************ADD TO CART DATA ********************
-    const addtocart = await axios.get(cartdatasave);
 
-    if (addtocart.data.data) {
-      setCart(addtocart.data.data);
-      dispatch(setAddtocartsavedata(addtocart.data.data));
-      dispatch(setAddtocartsubtotal(addtocart.data.subtotal));
-    }
-  };
-  useEffect(() => {
-    AddtocartProduct();
-  }, []);
+    useEffect(() => {
+      const AddtocartProduct = async () => {
+          var cartdatasave = `${apiUrl}/addtocartdataget?cookie=${cookie}@@${iUserId}`;
+          // *********************ADD TO CART DATA ********************
+          const addtocart = await axios.get(cartdatasave);
+  
+          if (addtocart.data.data) {
+              setCart(addtocart.data.data);
+              dispatch(setAddtocartsavedata(addtocart.data.data));
+              dispatch(setAddtocartsubtotal(addtocart.data.subtotal));
+          }
+      };
+  
+      AddtocartProduct(); // Call the function inside the useEffect
+  }, [cookie,iUserId,apiUrl,dispatch]);
+  
 
   const Remove_addtocart = (e) => {
     var iAddtocartId    = e.target.id;
@@ -49,11 +49,9 @@ const Viewcart = () => {
     fd.append("iAddtocartId", iAddtocartId);
     fd.append("vCookie", cookie);
     fd.append("iUserId", iUserId);
-    if (iAddtocartId != "undefined") {
-      const dataa = axios
-        .post(remove_product, fd)
-        .then((res) => {
-          if (res.data.Status == "0") {
+    if (iAddtocartId !== "undefined") {
+      axios.post(remove_product, fd).then((res) => {
+          if (res.data.Status === "0") {
             setCart(res.data.data);
             dispatch(setAddtocartsavedata(res.data.data));
             dispatch(setAddtocartsubtotal(res.data.subtotal));
@@ -97,7 +95,7 @@ const Viewcart = () => {
 
   const CartproductUpdate = (cart_id,action) => {
     var iAddtocartId      = cart_id;
-    var action            = action;
+    // var action            = action;
     const remove_product  = `${apiUrl}/viewcartUpdateData`;
    
     const fd = new FormData();
@@ -105,15 +103,13 @@ const Viewcart = () => {
     fd.append("action", action);
     fd.append("vCookie", cookie);
     fd.append("iUserId", iUserId);
-    if (iAddtocartId != "undefined") 
+    if (iAddtocartId !== "undefined") 
     {
-      const dataa = axios
-        .post(remove_product, fd)
-        .then((res) => {
-          if (res.data.Status == "0") 
+       axios.post(remove_product, fd).then((res) => {
+          if (res.data.Status === "0") 
           {
-              dispatch(setAddtocartsavedata(res.data.data));
-              dispatch(setAddtocartsubtotal(res.data.subtotal));
+            dispatch(setAddtocartsavedata(res.data.data));
+            dispatch(setAddtocartsubtotal(res.data.subtotal));
 
             toast.success('Quantity Update Successfully!', {
               position: "top-center",
@@ -124,7 +120,7 @@ const Viewcart = () => {
               draggable: true,
               progress: undefined,
               theme: "light",
-              });
+            });
 
           } 
           else 
@@ -189,7 +185,7 @@ const Viewcart = () => {
                         className="col-xl-5 col-lg-5  col-md-3 col-sm-3
               col-md-4 col-sm-4 d-flex"
                       >
-                        <img src={add.vImage} alt="Image" className="mr-3" />
+                        <img src={add.vImage} alt="Advertisement" className="mr-3" />
                         <div>
                           <h2>{add.vProductName}</h2>
                           {add.vSize.length > 0 ? <h2>SIZE : {add.vSize}</h2> : ""}
@@ -248,7 +244,7 @@ const Viewcart = () => {
             <img
               src={process.env.PUBLIC_URL + "/Images/Record_not_found.svg"}
               className="img-fluid catoImgs recordNotFound"
-              alt="Image"
+              alt="AdvertisementImage"
             />
           </div>
       }

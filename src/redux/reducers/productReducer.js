@@ -8,7 +8,7 @@ const initialState = {
     HomepageproductArray : [],
     MainproductArray: [],
     MainproductimageArray: [],
-    MainheaderArray: [],
+    // MainheaderArray: [],
     MainProductListingArray: [],
     MainAddtocartArray: [],
     MainAddtocartsavedataArray: [],
@@ -91,14 +91,14 @@ export const miniMainproductimage = (state = initialState, { type, payload }) =>
             return state;
     }
 }
-export const miniHeadertimage = (state = initialState, { type, payload }) => {
-    switch (type) {
-        case Actiontype.HEADER:
-            return { ...state, MainheaderArray: payload };
-        default:
-            return state;
-    }
-}
+// export const miniHeadertimage = (state = initialState, { type, payload }) => {
+//     switch (type) {
+//         case Actiontype.HEADER:
+//             return { ...state, MainheaderArray: payload };
+//         default:
+//             return state;
+//     }
+// }
 export const miniProductListing = (state = initialState, { type, payload }) => {
     switch (type) {
         case Actiontype.PRODUCT_LISTING:

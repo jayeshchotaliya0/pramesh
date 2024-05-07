@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "../../Front/Navbar";
 import Footer from "../../Front/Footer";
 import ScrollToTop from "../../Front/ScrollToTop";
@@ -21,7 +21,6 @@ const AllProduct = () => {
     const [animation2, setanimation2]   = useState(false);
     const [show1, setshow1]             = useState(false)
     const [show2, setshow2]             = useState(false)
-    const [show3, setshow3]             = useState(false)
     const [ColorArray, setColorArray]   = useState([]);
     const [iColorId, setColorFilter] = useState("");
     const [SelectedPrice, setSelectedPrice] = useState("");
@@ -30,55 +29,28 @@ const AllProduct = () => {
     const [filterslide, setfilterslide]             = useState(false);
     const dispatch = useDispatch();
 
-    // if (answer_array.length == 4) 
-    // {
-    //     var iCategoryId = "";
-    //     var vProductName = '';
-    // } else 
-    // {
-    //     var vProductNm = answer_array[4];
-    //     var vProductName = vProductNm.split("/");
-
-    //     if (vProductName[0]=='search')
-    //     {
-    //         var vProductName = 'Search'+'@@'+vProductName[1];
-    //         var iCategoryId = "";
-    //     }
-    //     else if (vProductName[0] == 'color')
-    //     {
-    //         var vProductName = 'color' + '@@' + vProductName[1];
-    //         var iCategoryId = "";
-    //     }
-    //     else
-    //     {
-    //         var iCategoryId = answer_array[4];
-    //     }
-    // }
-
-    // const Filter = SelectedPrice + '/' + iColorId + '/' + Sort + '/' + iCategoryId + '/' + vProductName;
+ 
+    const mainNavbar = useCallback(async () => {
+        const iCategoryId = atob(id);
+        try {
+            const response = await axios.post(`${apiUrl}/product_listing`, { iCategoryId });
+            if (response?.data?.data) {
+                dispatch(setProductListing(response?.data?.data));
+            }
+        } catch (error) { console.log("AllProduct.js",error) }
     
-    const Color = `${apiUrl}/get_category`;
+        try {
+            const colordata = await axios.get(`${apiUrl}/get_category`);
+            if (colordata.data.color) {
+                setColorArray(colordata.data.color);
+            }
+        } catch (error) { console.log("AllProduct.js",error) }
+    }, [id, apiUrl, dispatch, setColorArray]);
     
-    const mainNavbar = async () => {
-        const iCategoryId = atob(id)
-        axios.post(`${apiUrl}/product_listing`, { iCategoryId }).then((response) => {
-          if (response?.data?.data) {
-            dispatch(setProductListing(response?.data?.data));
-          }
-        }).catch((err) => {});
-
-        // *************************COLOR DATA GET***********************
-        const colordata = await axios.get(Color).catch((err) => {
-            
-        });
-        if (colordata.data.color) {
-            setColorArray(colordata.data.color);
-        }
-    };
-   
     useEffect(() => {
         mainNavbar();
-    }, []);
+    }, [mainNavbar]);
+    
 
     const AddtocartProduct = async (e) => {
         const iProductId = e.target.id;
@@ -105,14 +77,12 @@ const AllProduct = () => {
         fd.append("iProductId", iProductId);
         fd.append("iUserId", iUserId);
 
-        if (iProductId != '0') 
+        if (iProductId !== '0') 
         {
             const wishlist_url = `${apiUrl}/wishlishadded`;
             
-            const dataa = axios
-                .post(wishlist_url, fd)
-                .then((res) => {
-                    if (res.data.Status == "0") 
+            axios.post(wishlist_url, fd).then((res) => {
+                    if (res.data.Status === "0") 
                     {
                         mainNavbar();
                         dispatch(setWishlist(res.data.data));
@@ -156,7 +126,7 @@ const AllProduct = () => {
                                         onClick={wishlistAdded} 
                                         id={`${product.iProductId}`} 
                                         className={`fa fa-heart ${
-                                            product.vWishlist=='1' ? 'hartred' : ''
+                                            product.vWishlist==='1' ? 'hartred' : ''
                                         }`} 
                                         aria-hidden="true">
                                     </i>
@@ -169,19 +139,12 @@ const AllProduct = () => {
                            
                         </div>
                         {product.image.map(function (Pimg, index) {
-                            if (index == 0) {
-                                if (Pimg.vImage != "") {
-                                    var imagestyle = "";
-                                } else {
-                                    var imagestyle = "";
-                                }
-                            } else {
-                                if (Pimg.vImage != "") {
-                                    var imagestyle = "img2";
-                                } else {
-                                    var imagestyle = "";
-                                }
-                            }
+                           var imagestyle = "";
+                           if (index === 0 && Pimg.vImage !== "") {
+                               imagestyle = "";
+                           } else if (Pimg.vImage !== "") {
+                               imagestyle = "img2";
+                           }
                             return (
                                 <>
                                     <Link
@@ -195,7 +158,7 @@ const AllProduct = () => {
                                             onClick={AddtocartProduct}
                                             src={Pimg.vImage}
                                             className={`img-fluid catoImg ${imagestyle}`}
-                                            alt="Image"
+                                            alt={`Product: ${product.vProductName}`}
                                         />
                                     </Link>
                                 </>
@@ -203,7 +166,7 @@ const AllProduct = () => {
                         })}
                     </div>
                     <h3>{product.vProductName}</h3>
-                    <p> र {product.vPrice}</p>
+                    <p> र {numberWithCommas(product.vPrice)}</p>
                 </div>
             );
         }
@@ -292,10 +255,10 @@ const AllProduct = () => {
     };
     
     const show_1 = () => {
-        if (show1 == false) {
+        if (show1 === false) {
             setshow1(true);
         }
-        if (show1 == true) {
+        if (show1 === true) {
             setshow1(false);
             gsap.fromTo(
                 "#show1",
@@ -306,10 +269,10 @@ const AllProduct = () => {
     };
 
     const show_2 = () => {
-        if (show2 == false) {
+        if (show2 === false) {
             setshow2(true);
         }
-        if (show2 == true) {
+        if (show2 === true) {
             setshow2(false);
             gsap.fromTo(
                 "#show2",
@@ -319,22 +282,22 @@ const AllProduct = () => {
         }
     };
 
-    const show_3 = () => {
-        if (show3 == false) {
-            setshow3(true);
-        }
-        if (show3 == true) {
-            setshow3(false);
-            gsap.fromTo(
-                "#show3",
-                { y: -50, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.5 }
-            );
-        }
-    };
+    // const show_3 = () => {
+    //     if (show3 === false) {
+    //         setshow3(true);
+    //     }
+    //     if (show3 === true) {
+    //         setshow3(false);
+    //         gsap.fromTo(
+    //             "#show3",
+    //             { y: -50, opacity: 0 },
+    //             { y: 0, opacity: 1, duration: 0.5 }
+    //         );
+    //     }
+    // };
 
     function animEffect2() {
-        if (animation2 == false) {
+        if (animation2 === false) {
             setanimation2(true);
             gsap.fromTo(
                 ".catoFlex2",
@@ -342,13 +305,13 @@ const AllProduct = () => {
                 { y: 0, opacity: 1, duration: 0.5 }
             );
         }
-        if (animation2 == true) {
+        if (animation2 === true) {
             setanimation2(false);
         }
     }
 
     const filterSlide = () => {
-        if (filterslide == false) {
+        if (filterslide === false) {
             setfilterslide(true)
         } else {
             setfilterslide(false)
@@ -567,7 +530,7 @@ const AllProduct = () => {
                             <img
                                 src={process.env.PUBLIC_URL + "/Images/Record_not_found.svg"}
                                 className="img-fluid catoImg"
-                                alt="Image"
+                                alt={process.env.PUBLIC_URL + "/Images/Record_not_found.svg"}
                             />
                         </div>
                     )}
