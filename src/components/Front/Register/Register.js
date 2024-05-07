@@ -37,7 +37,6 @@ const Register = () => {
       setEmailDone(true);
       return false;
     }
-  
     try {
       const fd = new FormData();
       fd.append("vEmail", emailText);
