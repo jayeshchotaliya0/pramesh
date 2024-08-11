@@ -125,7 +125,7 @@ const Category_edit = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Category Title
                             </label>
                             <input
@@ -142,7 +142,7 @@ const Category_edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vImage">
+                            <label className="form-control-label" htmlFor="vImage">
                               Category Image
                             </label>
                             <input
@@ -162,7 +162,7 @@ const Category_edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select

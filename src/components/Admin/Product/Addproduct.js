@@ -260,7 +260,7 @@ const Addproduct = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Product Name <span style={{color:'red'}}>*</span>
                             </label>
                             <input
@@ -280,7 +280,7 @@ const Addproduct = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Product Image <span style={{color:'red'}}>*</span>
                               </label>
@@ -310,7 +310,7 @@ const Addproduct = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Header Menu <span style={{color:'red'}}>*</span>
                             </label>
                             <select
@@ -334,7 +334,7 @@ const Addproduct = () => {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <div className="form-group">
-                              <label className="form-control-label" for="vTitle">Fabric <span style={{color:'red'}}>*</span></label>
+                              <label className="form-control-label" htmlFor="vTitle">Fabric <span style={{color:'red'}}>*</span></label>
                                 <select name="iFabricId" className="form-control" onChange={headerMenuchangeevent}>
                                     <option value="">Select Fabric Name</option>
                                     {
@@ -353,7 +353,7 @@ const Addproduct = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vTitle"
+                                htmlFor="vTitle"
                               >
                                 Material <span style={{color:'red'}}>*</span>
                               </label>
@@ -380,7 +380,7 @@ const Addproduct = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vTitle"
+                                htmlFor="vTitle"
                               >
                                 Category <span style={{color:'red'}}>*</span>
                               </label>
@@ -405,7 +405,7 @@ const Addproduct = () => {
                         {/* <div className="col-lg-6">
                           <div className="form-group">
                             <div className="form-group">
-                              <label className="form-control-label" for="vTitle">Material <span style={{color:'red'}}>*</span></label>
+                              <label className="form-control-label" htmlFor="vTitle">Material <span style={{color:'red'}}>*</span></label>
                               <select name="iMaterialId" className="form-control" onChange={(e)=>setiMaterialId(e.target.value)}>
                                 <option value="">Please Material</option>
                                 {   
@@ -423,7 +423,7 @@ const Addproduct = () => {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <div className="form-group">
-                              <label className="form-control-label" for="vTitle">Color <span style={{color:'red'}}>*</span></label>
+                              <label className="form-control-label" htmlFor="vTitle">Color <span style={{color:'red'}}>*</span></label>
                               <select name="iColorId" className="form-control">
                                   <option value="">Select Color Name</option>
                                   { Color.map((color, index) => (
@@ -444,7 +444,7 @@ const Addproduct = () => {
 
                         <div className="col-lg-6 mt-4">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Description <span style={{color:'red'}}>*</span>
                             </label>
                             <textarea
@@ -460,7 +460,7 @@ const Addproduct = () => {
 
                         <div className="col-lg-6 mt-4">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               More Information <span style={{color:'red'}}>*</span>
                             </label>
                             <textarea
@@ -476,7 +476,7 @@ const Addproduct = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select
@@ -492,7 +492,7 @@ const Addproduct = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               HomePage Display{" "}
                             </label>
                             <select

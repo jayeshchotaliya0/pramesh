@@ -95,7 +95,7 @@ const Variantsadd = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Variant Name(Size,Color)
                             </label>
                             <input
@@ -112,7 +112,7 @@ const Variantsadd = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select

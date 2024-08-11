@@ -123,7 +123,7 @@ const Fabric_add = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Header Menu
                             </label>
                             <select
@@ -145,7 +145,7 @@ const Fabric_add = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Fabric
                             </label>
                             <input
@@ -161,7 +161,7 @@ const Fabric_add = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select

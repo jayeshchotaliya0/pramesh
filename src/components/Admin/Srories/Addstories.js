@@ -222,7 +222,7 @@ const Addstories = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Stories Image
                               </label>
@@ -240,7 +240,7 @@ const Addstories = () => {
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Title
                             </label>
                             <input
@@ -258,7 +258,7 @@ const Addstories = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vDescription"
+                              htmlFor="vDescription"
                             >
                               Description
                             </label>
@@ -279,7 +279,7 @@ const Addstories = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 First Image
                               </label>
@@ -300,7 +300,7 @@ const Addstories = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Second Image
                               </label>
@@ -320,7 +320,7 @@ const Addstories = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Third Image
                               </label>
@@ -340,14 +340,14 @@ const Addstories = () => {
                         {/* <div className="col-lg-3">
                                                     <div className="form-group">
                                                         <div className="form-group">
-                                                            <label className="form-control-label" for="vVideo">Stories Video</label>
+                                                            <label className="form-control-label" htmlFor="vVideo">Stories Video</label>
                                                             <input type="file" name="stories_video" className="vVideo_change" accept="video/*" className="form-control" />
                                                         </div>
                                                     </div>
                                                 </div> */}
                         <div className="col-lg-3">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Video Link 1
                             </label>
                             <input
@@ -363,7 +363,7 @@ const Addstories = () => {
                         </div>
                         <div className="col-lg-3">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Video Link 2
                             </label>
                             <input
@@ -379,7 +379,7 @@ const Addstories = () => {
                         </div>
                         <div className="col-lg-3">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Video Link 3
                             </label>
                             <input
@@ -395,7 +395,7 @@ const Addstories = () => {
                         </div>
                         <div className="col-lg-3">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Video Link 4
                             </label>
                             <input
@@ -411,7 +411,7 @@ const Addstories = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Title
                             </label>
                             <input
@@ -429,7 +429,7 @@ const Addstories = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vDescription"
+                              htmlFor="vDescription"
                             >
                               Description
                             </label>
@@ -451,7 +451,7 @@ const Addstories = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Stories Image
                               </label>
@@ -469,7 +469,7 @@ const Addstories = () => {
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Title
                             </label>
                             <input
@@ -487,7 +487,7 @@ const Addstories = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vDescription"
+                              htmlFor="vDescription"
                             >
                               Description
                             </label>
@@ -505,7 +505,7 @@ const Addstories = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select name="eStatus" className="form-control">

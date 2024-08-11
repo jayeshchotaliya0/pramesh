@@ -173,7 +173,7 @@ const Useradd = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vFirstName"
+                              htmlFor="vFirstName"
                             >
                               FirstName
                             </label>
@@ -191,7 +191,7 @@ const Useradd = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vLastName"
+                              htmlFor="vLastName"
                             >
                               LastName
                             </label>
@@ -207,7 +207,7 @@ const Useradd = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Email
                             </label>
                             <input
@@ -222,7 +222,7 @@ const Useradd = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Password
                             </label>
                             <input
@@ -237,7 +237,7 @@ const Useradd = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select

@@ -119,7 +119,7 @@ const Option_edit = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Variants Name
                             </label>
                             <input
@@ -134,7 +134,7 @@ const Option_edit = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Option Name(Red,Black)
                             </label>
                             <input
@@ -151,7 +151,7 @@ const Option_edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select

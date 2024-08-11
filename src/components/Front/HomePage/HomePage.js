@@ -29,7 +29,7 @@ const HomePage = () => {
             });
             if (response.data.data) {
                 dispatch(setProducts(response.data.data));
-                setMobileBanner(response.data.mobile);
+                setMobileBanner(response?.data?.mobile || []);
                 dispatch(setMinibanner(response.data.mini_banner));
                 dispatch(setFirstImage(response.data.first_image));
                 dispatch(setSecondImage(response.data.second_image));
@@ -74,22 +74,17 @@ const HomePage = () => {
         </div>
       ));
     // *****************************************BannerMobile  Dynamic************************************
-    const Mobilebanner = MobileBanner.map((pro1, index1) => {
-        if (index1 == '0') {
-            var ac1 = 'active';
-        }
-        else {
-            var ac1 = '';
-        }
+    const Mobilebanner = MobileBanner?.map((pro1, index1) => {
+        const ac1 = index1 === 0 ? 'active' : '';
         return (
-            <div className={`carousel-item  ${ac1}`}>
+            <div key={index1} className={`carousel-item ${ac1}`}>
                 <Link to='/product-listing'>
-                    <img className="d-block w-100  myslider" src={pro1.vImage} alt="First slide" />
+                    <img className="d-block w-100 myslider" src={pro1.vImage} alt={`Slide ${index1 + 1}`} />
                 </Link>
-
             </div>
         );
-    })
+    });
+
 
     // *****************************************Mini Banner Dynamic************************************
     const minibanner_list = mini_banner.map((banner, index) => {

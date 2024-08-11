@@ -30,7 +30,7 @@ const Register = () => {
 
   async function validateEmail() {
     const emailText = Email;
-    const pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
+    const pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
   
     if (!pattern.test(emailText)) {
       setErrorEmail("Invalid email address: " + emailText);
@@ -58,88 +58,54 @@ const Register = () => {
     }
   }
   
+  
 
   const something = (event) => {
     if (event.keyCode === 13) {
       register_data_save();
     }
   };
-
+  
   function register_data_save() {
     validateEmail();
-
-    if (FirstName) {
-      setErrorFirstName("");
-    } else {
-      setErrorFirstName("Please Enter Firstname");
-    }
-
-    if (LastName) {
-      setErrorLastName("");
-    } else {
-      setErrorLastName("Please Enter Firstname");
-    }
-    if (Password.length > 0) {
-      if (Password.length >= 6) {
-        setErrorPassword("");
-      } else {
-        setErrorPassword("Please Enter Maximum Six Digits");
-      }
-    } else {
-      setErrorPassword("Please Enter Password");
-    }
-
-    if (ConPassword.length > 0) {
-      if (ConPassword.length >= 6) {
-        setErrorConPassword("");
-      } else {
-        setPasswordMetch("");
-        setErrorConPassword("Please Enter Maximum Six Digits");
-      }
-    } else {
-      setPasswordMetch("");
-      setErrorConPassword("Please Enter Confirm Password");
-    }
-
-    if (Password === ConPassword) {
-      if (Password.length >= 6 && ConPassword.length >= 6) {
-        setPasswordMetch("");
-        setErrorPassword("");
-        setErrorConPassword("");
-      }
-    } else if (Password.length > 0 && ConPassword.length > 0) {
-      setErrorConPassword("");
+  
+    setErrorFirstName(FirstName ? "" : "Please Enter Firstname");
+    setErrorLastName(LastName ? "" : "Please Enter Lastname");
+  
+    setErrorPassword(Password.length === 0 ? "Please Enter Password" : (Password.length >= 6 ? "" : "Please Enter Maximum Six Digits"));
+    setErrorConPassword(ConPassword.length === 0 ? "Please Enter Confirm Password" : (ConPassword.length >= 6 ? "" : "Please Enter Maximum Six Digits"));
+  
+    setPasswordMetch(Password !== ConPassword ? "Password does not meet the requirement" : "");
+  
+    if (Password !== ConPassword || Password.length < 6 || ConPassword.length < 6) {
       setErrorPassword("");
-      setPasswordMetch("password does not meet the requirement");
+      setErrorConPassword("");
+      setPasswordMetch("Password does not meet the requirement");
     }
-
-    
-      var register = `${apiUrl}/api/register`;
-   
-
-    if (Password === ConPassword) {
-      if (FirstName && LastName && EmailDone) {
-        const fd = new FormData();
-        fd.append("vFirstName", FirstName);
-        fd.append("vLastName", LastName);
-        fd.append("vEmail", Email);
-        fd.append("vPassword", Password);
-
-        axios.post(register, fd).then((res) => {
-            if (res.data.Status === "0") {
-              Swal.fire("Good job!", "Registration Successfully", "success");
-              setTimeout(function () {
-                history.push("/login");
-                window.location.reload(1);
-              }, 3000);
-            } else {
-              Swal.fire("Error", "Network Connection Error !", "error");
-            }
-          })
-          .catch((error) => {});
-      }
+  
+    if (FirstName && LastName && EmailDone && Password === ConPassword && Password.length >= 6) {
+      const fd = new FormData();
+      fd.append("vFirstName", FirstName);
+      fd.append("vLastName", LastName);
+      fd.append("vEmail", Email);
+      fd.append("vPassword", Password);
+  
+      axios.post(`${apiUrl}/api/register`, fd)
+        .then((res) => {
+          if (res.data.Status === "0") {
+            Swal.fire("Good job!", "Registration Successfully", "success");
+            setTimeout(() => {
+              history.push("/login");
+              window.location.reload(1);
+            }, 3000);
+          } else {
+            Swal.fire("Error", "Network Connection Error !", "error");
+          }
+        })
+        .catch((error) => {});
     }
   }
+  
 
   return (
     <section className="registerForm">

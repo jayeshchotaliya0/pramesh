@@ -139,7 +139,7 @@ const Subcategory_edit = () => {
                                             <div className="row">
                                                 <div className="col-lg-6">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vTitle">Header Menu</label>
+                                                        <label className="form-control-label" htmlFor="vTitle">Header Menu</label>
                                                         <select
                                                             className="form-control"
                                                             onChange={(e) => setHeaderId(e.target.value)}
@@ -163,7 +163,7 @@ const Subcategory_edit = () => {
                                                 </div>
                                                 <div className="col-lg-6">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vTitle">Fabric</label>
+                                                        <label className="form-control-label" htmlFor="vTitle">Fabric</label>
                                                         <select className="form-control" onChange={(e) => setFabric(e.target.value)}>
                                                             <option value="">Select Fabric</option>
                                                             {FabricArray.map(function(cat){
@@ -181,14 +181,14 @@ const Subcategory_edit = () => {
 
                                                 <div className="col-lg-6">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vTitle">Material Title</label>
+                                                        <label className="form-control-label" htmlFor="vTitle">Material Title</label>
                                                         <input type="text" id="vTitle" onChange={(e) => setSubTitle(e.target.value)} className="form-control" placeholder="Title" value={SubTitle} />
                                                         <span className="red">{TitleError}</span>
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-6">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vImage">Material Image</label>
+                                                        <label className="form-control-label" htmlFor="vImage">Material Image</label>
                                                         <input type="file" id="vImage" onChange={(e) => setImage(e.target.files[0])} className="form-control vImage" />
                                                         <img src={Image} alt={Image} className="img1 h-101" />
                                                         {
@@ -203,7 +203,7 @@ const Subcategory_edit = () => {
                                                 
                                                 <div className="col-lg-6">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vEmail">Status</label>
+                                                        <label className="form-control-label" htmlFor="vEmail">Status</label>
                                                         <select className="form-control" onChange={(e) => setStatus(e.target.value)}>
                                                             <option selected={
                                                                 Status==='Inactive' ?

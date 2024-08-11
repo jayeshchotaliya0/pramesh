@@ -175,7 +175,7 @@ class Variants extends React.Component {
                 <div className="row clearfix ml-2">
                     <div className="col-lg-6">
                         <div className="form-group">
-                        <label className="form-control-label" for="vTitle">Variants Name</label>
+                        <label className="form-control-label" htmlFor="vTitle">Variants Name</label>
                         <select onChange={this.Change_variants}  name="iVariantId" className="form-control">
                                 <option>Select Variant Name</option>
                                 {

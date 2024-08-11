@@ -26,7 +26,7 @@ const Editvariants = (props) =>
                 <div className="row clearfix">
                     <div className="col-lg-6">
                         <div className="form-group">
-                            <label className="form-control-label" for="vTitle">Variants Name</label>
+                            <label className="form-control-label" htmlFor="vTitle">Variants Name</label>
                             {/* <Select
                                 name="VariantsId"
                                 onChange={this.Change_variants}

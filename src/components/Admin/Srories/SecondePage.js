@@ -118,7 +118,7 @@ const SecondePage = () => {
                                                 <div className="col-lg-4">
                                                     <div className="form-group">
                                                         <div className="form-group">
-                                                            <label className="form-control-label" for="vImage">First Image</label>
+                                                            <label className="form-control-label" htmlFor="vImage">First Image</label>
                                                             <input type="hidden" name="iStoriesId" value={iStoriesId} />
                                                             <input type="file" onChange={(e) => setImage(e.target.files)} name="vImage1" id="Stories1_image vImage" accept="image/*" className="form-control vImage" />
                                                             <span className="red">{Image_e}</span>
@@ -127,14 +127,14 @@ const SecondePage = () => {
                                                 </div>
                                                 <div className="col-lg-4">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vTitle">Title</label>
+                                                        <label className="form-control-label" htmlFor="vTitle">Title</label>
                                                         <input onChange={(e) => setTitle(e.target.value)} type="text" name="	vTitle1" id="vTitle" className="form-control" placeholder="Title" />
                                                         <span className="red">{Title_e}</span>
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-4">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vDescription">Description</label>
+                                                        <label className="form-control-label" htmlFor="vDescription">Description</label>
                                                         <textarea name="tDesc1" onChange={(e) => setTitle1(e.target.value)} id="vDescription" rows="4" className="form-control" placeholder="Description..."></textarea>
                                                         <span className="red">{Title1_e}</span>
                                                     </div>
@@ -143,7 +143,7 @@ const SecondePage = () => {
                                                 <div className="col-lg-4">
                                                     <div className="form-group">
                                                         <div className="form-group">
-                                                            <label className="form-control-label" for="vImage">Second Image</label>
+                                                            <label className="form-control-label" htmlFor="vImage">Second Image</label>
                                                             <input type="file" onChange={(e) => setImage(e.target.files)} name="vImage2" id="Stories1_image vImage" accept="image/*" className="form-control vImage" />
                                                             <span className="red">{Image_e}</span>
                                                         </div>
@@ -151,14 +151,14 @@ const SecondePage = () => {
                                                 </div>
                                                 <div className="col-lg-4">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vTitle">Sub Title</label>
+                                                        <label className="form-control-label" htmlFor="vTitle">Sub Title</label>
                                                         <input onChange={(e) => setTitle(e.target.value)} type="text" name="vSubTitle" id="vTitle" className="form-control" placeholder="Title" />
                                                         <span className="red">{Title_e}</span>
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-4">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vDescription">Description</label>
+                                                        <label className="form-control-label" htmlFor="vDescription">Description</label>
                                                         <textarea name="tDesc2" onChange={(e) => setTitle1(e.target.value)} id="vDescription" rows="4" className="form-control" placeholder="Description..."></textarea>
                                                         <span className="red">{Title1_e}</span>
                                                     </div>
@@ -168,7 +168,7 @@ const SecondePage = () => {
                                                 <div className="col-lg-4">
                                                     <div className="form-group">
                                                         <div className="form-group">
-                                                            <label className="form-control-label" for="vImage">Third Image</label>
+                                                            <label className="form-control-label" htmlFor="vImage">Third Image</label>
                                                             <input type="file" onChange={(e) => setImage(e.target.files)} name="vImage3" id="Stories1_image vImage" accept="image/*" className="form-control vImage" />
                                                             <span className="red">{Image_e}</span>
                                                         </div>
@@ -177,7 +177,7 @@ const SecondePage = () => {
                                                 
                                                 <div className="col-lg-6">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vDescription">Description</label>
+                                                        <label className="form-control-label" htmlFor="vDescription">Description</label>
                                                         <textarea onChange={(e) => setTitle7(e.target.value)} name="tDesc3" id="vDescription" rows="4" className="form-control" placeholder="Description..."></textarea>
                                                         <span className="red">{Title7_e}</span>
                                                     </div>
@@ -187,7 +187,7 @@ const SecondePage = () => {
                                                 <div className="col-lg-4">
                                                     <div className="form-group">
                                                         <div className="form-group">
-                                                            <label className="form-control-label" for="vImage">Fourth Image</label>
+                                                            <label className="form-control-label" htmlFor="vImage">Fourth Image</label>
                                                             <input onChange={(e) => setImage4(e.target.files)} name="vImage4[]" type="file" id="vImage" accept="image/*" className="form-control vImage" />
                                                             <span className="red">{Image4_e}</span>
                                                         </div>
@@ -196,7 +196,7 @@ const SecondePage = () => {
 
                                                 <div className="col-lg-6">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vEmail">Status</label>
+                                                        <label className="form-control-label" htmlFor="vEmail">Status</label>
                                                         <select name="eStatus" className="form-control">
                                                             <option value="inActive">Inactive</option>
                                                             <option value="Active">Active</option>

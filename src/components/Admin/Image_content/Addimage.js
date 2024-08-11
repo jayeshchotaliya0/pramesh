@@ -119,7 +119,7 @@ const AddImage = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Title
                             </label>
                             <input
@@ -137,7 +137,7 @@ const AddImage = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Banner Image
                               </label>
@@ -156,7 +156,7 @@ const AddImage = () => {
                         
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Main Image (HomePage)
                             </label>
                             <select
@@ -176,7 +176,7 @@ const AddImage = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vDescription"
+                              htmlFor="vDescription"
                             >
                               Description
                             </label>
@@ -193,7 +193,7 @@ const AddImage = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select

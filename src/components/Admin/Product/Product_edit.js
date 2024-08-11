@@ -290,7 +290,7 @@ const Product_edit = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Product Name <span style={{color:'red'}}>*</span>
                             </label>
                             <input
@@ -309,7 +309,7 @@ const Product_edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Header Menu <span style={{color:'red'}}>*</span>
                             </label>
                             <select
@@ -335,7 +335,7 @@ const Product_edit = () => {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <div className="form-group">
-                              <label className="form-control-label" for="vTitle">Fabric <span style={{color:'red'}}>*</span></label>
+                              <label className="form-control-label" htmlFor="vTitle">Fabric <span style={{color:'red'}}>*</span></label>
                                 <select name="iFabricId" className="form-control" onChange={headerMenuchangeevent}>
                                     <option value="">Select Fabric Name</option>
                                     {
@@ -355,7 +355,7 @@ const Product_edit = () => {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <div className="form-group">
-                              <label className="form-control-label" for="vTitle">
+                              <label className="form-control-label" htmlFor="vTitle">
                               Material <span style={{color:'red'}}>*</span></label>
                               <select  name="iSubcategoryId"  className="form-control"  onChange={(e) => setSubcategory(e.target.value)}
                               >
@@ -376,7 +376,7 @@ const Product_edit = () => {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <div className="form-group">
-                              <label className="form-control-label" for="vTitle"> Category  <span style={{color:'red'}}>*</span></label>
+                              <label className="form-control-label" htmlFor="vTitle"> Category  <span style={{color:'red'}}>*</span></label>
                               <select name="iCategoryId" className="form-control" onChange={(e)=>setiCategoryId(e.target.value)}>
                                 <option value="">Select Category</option>
                                 {   
@@ -395,7 +395,7 @@ const Product_edit = () => {
                         {/* <div className="col-lg-6">
                           <div className="form-group">
                             <div className="form-group">
-                              <label className="form-control-label" for="vTitle">Material<span style={{color:'red'}}>*</span></label>
+                              <label className="form-control-label" htmlFor="vTitle">Material<span style={{color:'red'}}>*</span></label>
                               <select name="iMaterialId" className="form-control" onChange={(e)=>setiMaterialId(e.target.value)}>
                                 <option value="">Please Material</option>
                                 {   
@@ -417,7 +417,7 @@ const Product_edit = () => {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <div className="form-group">
-                              <label className="form-control-label" for="vTitle">Color <span style={{color:'red'}}>*</span></label>
+                              <label className="form-control-label" htmlFor="vTitle">Color <span style={{color:'red'}}>*</span></label>
                               <select name="iColorId" className="form-control">
                                   <option value="">Select Color Name</option>
                                   {
@@ -447,7 +447,7 @@ const Product_edit = () => {
 
                         <div className="col-lg-6 mt-4">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Description <span style={{color:'red'}}>*</span>
                             </label>
                             <textarea
@@ -463,7 +463,7 @@ const Product_edit = () => {
                         </div>
                         <div className="col-lg-6 mt-4">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               More Information <span style={{color:'red'}}>*</span>
                             </label>
                             <textarea
@@ -480,7 +480,7 @@ const Product_edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select
@@ -508,7 +508,7 @@ const Product_edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               HomePage Display
                             </label>
                             <select

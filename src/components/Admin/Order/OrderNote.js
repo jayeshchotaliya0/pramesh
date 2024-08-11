@@ -112,7 +112,7 @@ const OrderNote = () => {
                                             <div className="row">
                                                 <div className="col-lg-12">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vTitle">Order Note</label>
+                                                        <label className="form-control-label" htmlFor="vTitle">Order Note</label>
                                                         <textarea onChange={(e) => setDesc(e.target.value)} className="form-control" value={ Desc ? Desc : '' } name="tDescription" rows="4" cols="50"></textarea>
                                                     </div>
                                                 </div>

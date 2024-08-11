@@ -205,7 +205,7 @@ const Login = (props) => {
                                     <input type="checkbox"  value="1" name="price1" id="price1" />
                                     <div className="state p-maroon">
                                         <i className="icon fa fa-check"></i>
-                                        <label for="price1">REMEMBER ME</label>
+                                        <label htmlFor="price1">REMEMBER ME</label>
                                     </div>
                                 </div>
                                 <div className="forgot">

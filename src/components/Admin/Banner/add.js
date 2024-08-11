@@ -130,7 +130,7 @@ const Useradd = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Title
                             </label>
                             <input
@@ -146,7 +146,7 @@ const Useradd = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Banner Type
                             </label>
                             <select
@@ -160,7 +160,7 @@ const Useradd = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Order
                             </label>
                             <input
@@ -176,7 +176,7 @@ const Useradd = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select
@@ -190,7 +190,7 @@ const Useradd = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vImage">
+                            <label className="form-control-label" htmlFor="vImage">
                               Banner Image
                             </label>
                             <input
@@ -209,7 +209,7 @@ const Useradd = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Show Type(Desktop/Mobile)
                             </label>
                             <select
@@ -227,7 +227,7 @@ const Useradd = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vDescription"
+                              htmlFor="vDescription"
                             >
                               Description
                             </label>

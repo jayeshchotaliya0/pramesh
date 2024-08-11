@@ -134,7 +134,7 @@ const Image_content_edit = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Title {TitleError}
                             </label>
                             <input
@@ -151,7 +151,7 @@ const Image_content_edit = () => {
                         <div className="col-lg-6"></div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select
@@ -170,7 +170,7 @@ const Image_content_edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Main Image (HomePage)
                             </label>
                             <select
@@ -214,7 +214,7 @@ const Image_content_edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vImage">
+                            <label className="form-control-label" htmlFor="vImage">
                               Banner Image
                             </label>
                             <input
@@ -237,7 +237,7 @@ const Image_content_edit = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vDescription"
+                              htmlFor="vDescription"
                             >
                               Description
                             </label>

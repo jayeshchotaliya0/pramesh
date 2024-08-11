@@ -204,7 +204,7 @@ const FirstPage_image = () => {
                                                             />
                                                             <label
                                                                 className="form-control-label"
-                                                                for="vImage"
+                                                                htmlFor="vImage"
                                                             >
                                                                  Image
                                                             </label>
@@ -225,7 +225,7 @@ const FirstPage_image = () => {
 
                                                 <div className="col-lg-12">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vEmail">Type</label>
+                                                        <label className="form-control-label" htmlFor="vEmail">Type</label>
                                                         <select name="eType" className="form-control">
                                                             <option value="0">FirstPage Show</option>
                                                             <option value="1">SecondPage Show</option>

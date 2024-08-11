@@ -134,7 +134,7 @@ const Fabric_Edit = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Header Menu
                             </label>
                             <select className="form-control" onChange={(e) => setiHeaderId(e.target.value)}>
@@ -151,7 +151,7 @@ const Fabric_Edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Fabric
                             </label>
                             <input
@@ -168,7 +168,7 @@ const Fabric_Edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select

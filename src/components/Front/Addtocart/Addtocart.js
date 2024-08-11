@@ -456,13 +456,13 @@ const handleWhatsAppClick = () => {
                   <div className="desc">
                     <div className="tabs">
                       <input type="radio" name="tabs" id="tabone" checked />
-                      <label for="tabone">DESCRIPTION</label>
+                      <label htmlFor="tabone">DESCRIPTION</label>
                       <div className="tab">
                         <p>{product.iDescription}</p>
                       </div>
 
                       <input type="radio" name="tabs" id="tabtwo" />
-                      <label for="tabtwo">MORE INFORMATION</label>
+                      <label htmlFor="tabtwo">MORE INFORMATION</label>
                       <div className="tab">
                         <p>{product.tMoreInformation}</p>
                       </div>

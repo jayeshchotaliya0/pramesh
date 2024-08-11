@@ -19,45 +19,35 @@ const Sidebar = () =>
                     {/* <!-- Nav items --> */}
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                        <Link to='/admin/'>
-                            <a className="nav-link active">
-                                <i className="fas fa-tachometer-alt text-primary"></i>
-                                <span className="nav-link-text">Dashboard</span>
-                            </a>
+                        <Link to='/admin/' className="nav-link active">
+                            <i className="fas fa-tachometer-alt text-primary"></i>
+                            <span className="nav-link-text">Dashboard</span>
                         </Link>
                       
                         </li>
                         <li className="nav-item">
-                            <Link to='/admin/listing'>
-                                <a className="nav-link">
-                                    <i className="fas fa-user-circle text-orange"></i>
-                                    <span className="nav-link-text">User</span>
-                                </a>
+                            <Link to='/admin/listing' className="nav-link">
+                                <i className="fas fa-user-circle text-orange"></i>
+                                <span className="nav-link-text">User</span>
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to='/admin/banner'>
-                                <a className="nav-link">
+                            <Link to='/admin/banner' className="nav-link">
                                     <i className="fas fa-sliders-h text-primary"></i>
                                     <span className="nav-link-text">Banner</span>
-                                </a>
                             </Link>
 
                         </li>
                         <li className="nav-item">
-                            <Link to='/admin/image-content'>
-                                <a className="nav-link">
+                            <Link to='/admin/image-content' className="nav-link">
                                     <i className="fas fa-images text-dark"></i>
                                     <span className="nav-link-text">Image Content</span>
-                                </a>
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to='/admin/stories'>
-                                <a className="nav-link">
+                            <Link to='/admin/stories' className="nav-link">
                                     <i className="fas fa-gem text-yellow"></i>
                                     <span className="nav-link-text">Stories</span>
-                                </a>
                             </Link>
                         </li>
                         <li className="nav-item">

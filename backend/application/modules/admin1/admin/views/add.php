@@ -99,7 +99,7 @@
                                             <input ui-jq="filestyle" type="file" id="image" name='image' data-icon="false" data-classbutton="btn btn-default" data-classinput="form-control inline v-middle input-s" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
                                             <div class="bootstrap-filestyle input-group">
                                                 <input type="text" class="form-control " disabled=""> 
-                                                <span class="group-span-filestyle input-group-btn" tabindex="0">  <label for="image" class="btn btn-default m-0">
+                                                <span class="group-span-filestyle input-group-btn" tabindex="0">  <label htmlFor="image" class="btn btn-default m-0">
                                                     <span class="glyphicon glyphicon-folder-open"></span> Choose file
                                                 </label>
                                             </span>

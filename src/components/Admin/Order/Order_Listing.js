@@ -184,7 +184,7 @@ class Order_Listing extends React.Component {
                                                                 />
                                                                 <label
                                                                     className="pending custom-control-label "
-                                                                    for={`customSwitches_${user.iOrderId}`}
+                                                                    htmlFor={`customSwitches_${user.iOrderId}`}
                                                                 ></label>
                                                             </div>
 
@@ -207,7 +207,7 @@ class Order_Listing extends React.Component {
                                                                 />
                                                                 <label
                                                                     className="reject custom-control-label"
-                                                                    for={`customSwitches_${index + 1 / 2}`}
+                                                                    htmlFor={`customSwitches_${index + 1 / 2}`}
                                                                 ></label>
                                                             </div>
                                                             <Link to={`/admin/order_view/${user.iOrderId}`}>

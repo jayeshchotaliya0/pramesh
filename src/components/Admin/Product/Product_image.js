@@ -204,7 +204,7 @@ const Product_image = () => {
                                                             />
                                                             <label
                                                                 className="form-control-label"
-                                                                for="vImage"
+                                                                htmlFor="vImage"
                                                             >
                                                                 Product Image
                                                             </label>

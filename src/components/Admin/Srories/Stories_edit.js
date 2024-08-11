@@ -272,7 +272,7 @@ const Stories_edit = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Stories Image
                               </label>
@@ -289,7 +289,7 @@ const Stories_edit = () => {
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Title
                             </label>
                             <input
@@ -309,7 +309,7 @@ const Stories_edit = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vDescription"
+                              htmlFor="vDescription"
                             >
                               Description
                             </label>
@@ -332,7 +332,7 @@ const Stories_edit = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 First Image
                               </label>
@@ -352,7 +352,7 @@ const Stories_edit = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Second Image
                               </label>
@@ -371,7 +371,7 @@ const Stories_edit = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Third Image
                               </label>
@@ -390,7 +390,7 @@ const Stories_edit = () => {
                         {/* <div className="col-lg-3">
                                                     <div className="form-group">
                                                         <div className="form-group">
-                                                            <label className="form-control-label" for="vVideo">Stories Video</label>
+                                                            <label className="form-control-label" htmlFor="vVideo">Stories Video</label>
                                                             <input type="file" name="stories_video" className="vVideo_change" accept="video/*" className="form-control" />
                                                             {
                                                                 vStories_Video
@@ -407,13 +407,13 @@ const Stories_edit = () => {
                                                 </div> */}
                         {/* <div className="col-lg-3">
                                                     <div className="form-group">
-                                                        <label className="form-control-label" for="vTitle">Video Link</label>
+                                                        <label className="form-control-label" htmlFor="vTitle">Video Link</label>
                                                         <input onChange={(e) => setvVideo_Link(e.target.value)} value={vVideo_Link} name="video_link" type="text" id="vTitle" className="form-control" placeholder="Title" />
                                                     </div>
                                                 </div> */}
                         <div className="col-lg-3">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Video Link 1
                             </label>
                             <input
@@ -429,7 +429,7 @@ const Stories_edit = () => {
                         </div>
                         <div className="col-lg-3">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Video Link 2
                             </label>
                             <input
@@ -445,7 +445,7 @@ const Stories_edit = () => {
                         </div>
                         <div className="col-lg-3">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Video Link 3
                             </label>
                             <input
@@ -461,7 +461,7 @@ const Stories_edit = () => {
                         </div>
                         <div className="col-lg-3">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Video Link 4
                             </label>
                             <input
@@ -477,7 +477,7 @@ const Stories_edit = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Title
                             </label>
                             <input
@@ -495,7 +495,7 @@ const Stories_edit = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vDescription"
+                              htmlFor="vDescription"
                             >
                               Description
                             </label>
@@ -517,7 +517,7 @@ const Stories_edit = () => {
                             <div className="form-group">
                               <label
                                 className="form-control-label"
-                                for="vImage"
+                                htmlFor="vImage"
                               >
                                 Stories Image
                               </label>
@@ -534,7 +534,7 @@ const Stories_edit = () => {
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
-                            <label className="form-control-label" for="vTitle">
+                            <label className="form-control-label" htmlFor="vTitle">
                               Title
                             </label>
                             <input
@@ -552,7 +552,7 @@ const Stories_edit = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vDescription"
+                              htmlFor="vDescription"
                             >
                               Description
                             </label>
@@ -570,7 +570,7 @@ const Stories_edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select

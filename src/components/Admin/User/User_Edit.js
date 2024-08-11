@@ -151,7 +151,7 @@ const User_Edit = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vFirstName"
+                              htmlFor="vFirstName"
                             >
                               FirstName
                             </label>
@@ -170,7 +170,7 @@ const User_Edit = () => {
                           <div className="form-group">
                             <label
                               className="form-control-label"
-                              for="vLastName"
+                              htmlFor="vLastName"
                             >
                               LastName
                             </label>
@@ -187,7 +187,7 @@ const User_Edit = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Email
                             </label>
                             <input
@@ -205,7 +205,7 @@ const User_Edit = () => {
 
                         <div className="col-lg-6">
                           <div className="form-group">
-                            <label className="form-control-label" for="vEmail">
+                            <label className="form-control-label" htmlFor="vEmail">
                               Status
                             </label>
                             <select
