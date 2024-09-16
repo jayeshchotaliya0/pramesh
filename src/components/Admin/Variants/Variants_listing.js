@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import  getEnvironment  from '../../../components/environment';
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 const $ = require("jquery");
@@ -18,40 +19,32 @@ class Variants_listing extends React.Component {
   }
 
   async componentDidMount() {
-    $(".example").DataTable().destroy();
-    setTimeout(function () {
+    const { apiUrl } = getEnvironment();
+    if ($.fn.DataTable.isDataTable(".example")) {
+      $(".example").DataTable().destroy();
+    }
+    setTimeout(() => {
       $(".example").DataTable({
         pageLength: 50,
       });
     }, 1000);
-
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var url = "http://localhost/pramesh/backend/api/all_variants_get";
-    } else {
-      var url = "https://prameshsilks.com/backend/api/all_variants_get";
-    }
+  
+    var url = `${apiUrl}/all_variants_get`;
     const response = await fetch(url);
     const data = await response.json();
-
     this.setState({ variants: data.data });
   }
+  
 
   deletedata(e) {
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var del = "http://localhost/pramesh/backend/api/delete_variants";
-    } else {
-      var del = "https://prameshsilks.com/backend/api/delete_variants";
-    }
-
+    const { apiUrl } = getEnvironment();
+    var del = `${apiUrl}/delete_variants`;
+  
     var iVariantId = e.target.id;
     const fd = new FormData();
     fd.append("iVariantId", iVariantId);
-    if (iVariantId != "undefined") {
-      const dataa = axios.post(del, fd);
+    if (iVariantId !== "undefined") {
+      axios.post(del, fd);
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -70,7 +63,7 @@ class Variants_listing extends React.Component {
           }
         })
         .then((res) => {
-          if (res.data.Status == "0") {
+          if (res.data.Status === "0") {
             toast.success(res.data.message, {
               position: "top-center",
               autoClose: 5000,
@@ -118,8 +111,8 @@ class Variants_listing extends React.Component {
                         <h3 className="mb-0">Variants Listing</h3>
                       </div>
                       <div className="col text-right">
-                        <Link to="/admin/variants/add">
-                          <a className="btn myBtn4">Add</a>
+                        <Link to="/admin/variants/add" className="btn myBtn4">
+                          Add
                         </Link>
                       </div>
                     </div>

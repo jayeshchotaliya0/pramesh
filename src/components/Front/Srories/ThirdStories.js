@@ -58,7 +58,7 @@ const ThirdStories = () => {
                             <div className="fourth_img_div">
                                 <img
                                     src={process.env.PUBLIC_URL + "/Stories/stories4.jpg"}
-                                    alt="img"
+                                    alt={process.env.PUBLIC_URL + "/Stories/stories4.jpg"}
                                     className="fourthstories_img"
                                 />
                             </div>
@@ -101,7 +101,7 @@ const ThirdStories = () => {
                             <div className="sec_img_div">
                                 <img
                                     src={process.env.PUBLIC_URL + "/Stories/stories26.jpg"}
-                                    alt=""
+                                    alt={process.env.PUBLIC_URL + "/Stories/stories26.jpg"}
                                     className="secstories_img"
                                 />
                             </div>
@@ -132,7 +132,7 @@ const ThirdStories = () => {
                             <div className="sec_img_div">
                                 <img
                                     src={process.env.PUBLIC_URL + "/Stories/stories5.jpg"}
-                                    alt=""
+                                    alt={process.env.PUBLIC_URL + "/Stories/stories5.jpg"}
                                     className="thirdstories_img"
                                 />
                             </div>
@@ -379,6 +379,7 @@ const ThirdStories = () => {
                             <div className="sec_img_div">
                                 <img
                                     src={process.env.PUBLIC_URL + "/Stories/stories32.jpg"}
+                                    alt={process.env.PUBLIC_URL + "/Stories/stories32.jpg"}
                                     className="thirdstories_img"
                                 />
                             </div>
@@ -407,6 +408,7 @@ const ThirdStories = () => {
                             <div className="bw_effect_div">
                                 <img
                                     src={process.env.PUBLIC_URL + "/Stories/stories33.jpg"}
+                                    alt={process.env.PUBLIC_URL + "/Stories/stories33.jpg"}
                                     className="fourthstories_img bw_effect"
                                 />
                                 <h2>KANSA</h2>
@@ -416,6 +418,7 @@ const ThirdStories = () => {
                             <div className="bw_effect_div">
                                 <img
                                     src={process.env.PUBLIC_URL + "/Stories/stories34.jpg"}
+                                    alt={process.env.PUBLIC_URL + "/Stories/stories34.jpg"}
                                     className="fourthstories_img bw_effect"
                                 />
                                 <h2>ROSAB</h2>
@@ -425,19 +428,15 @@ const ThirdStories = () => {
                             <div className="bw_effect_div">
                                 <img
                                     src={process.env.PUBLIC_URL + "/Stories/stories35.jpg"}
+                                    alt={process.env.PUBLIC_URL + "/Stories/stories35.jpg"}
                                     className="fourthstories_img bw_effect"
                                 />
                                 <h2>OCEANA</h2>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </section>
-
-
-
             <Footer />
         </>
     );

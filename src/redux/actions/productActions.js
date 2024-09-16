@@ -54,12 +54,12 @@ export const setMainproductimage = (mainproductimage) => {
         payload: mainproductimage
     }
 }
-export const setMainheader = (header) => {
-    return {
-        type: Actiontype.HEADER,
-        payload: header
-    }
-}
+// export const setMainheader = (header) => {
+//     return {
+//         type: Actiontype.HEADER,
+//         payload: header
+//     }
+// }
 export const setProductListing= (product) => {
     return {
         type: Actiontype.PRODUCT_LISTING,
@@ -94,12 +94,7 @@ export const setAllstories = (stories) => {
     }
 }
 
-export const setAllfabric = (fabricdata) => {
-    return {
-        type: Actiontype.FABRICDATA,
-        payload: fabricdata
-    }
-}
+// ...
 
 export const setSearchdata = (searchdata) => {
     return {

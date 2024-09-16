@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "../../Front/Navbar";
 import Footer from "../../Front/Footer";
 import ScrollToTop from "../../Front/ScrollToTop";
@@ -16,102 +16,58 @@ import  getEnvironment  from '../../environment';
 
 const AllProduct = () => {
     const iUserId   = localStorage.getItem("iUserId");
-    const envConfig = getEnvironment();
-    const apiUrl    = envConfig.apiUrl; 
+    const { apiUrl } = getEnvironment(); 
     const { id } = useParams();
     const [animation2, setanimation2]   = useState(false);
-    const [filter, setfilter]           = useState(false);
     const [show1, setshow1]             = useState(false)
     const [show2, setshow2]             = useState(false)
-    const [show3, setshow3]             = useState(false)
     const [ColorArray, setColorArray]   = useState([]);
-    const [FabricArray, setFabricArray] = useState([]);
-    const [ColorFilter, setColorFilter] = useState("");
+    const [iColorId, setColorFilter] = useState("");
     const [SelectedPrice, setSelectedPrice] = useState("");
-    const [iFabricId, setiFabricId]         = useState("");
     const [Sort, setSort]                   = useState("");
     const [Pagenumber, setPagenumber]       = useState(0);
     const [filterslide, setfilterslide]             = useState(false);
-    
     const dispatch = useDispatch();
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
 
+ 
+    const mainNavbar = useCallback(async () => {
+        const iCategoryId = atob(id);
+        try {
+            const response = await axios.post(`${apiUrl}/product_listing`, { iCategoryId });
+            if (response?.data?.data) {
+                dispatch(setProductListing(response?.data?.data));
+            }
+        } catch (error) { console.log("AllProduct.js",error) }
+    
+        try {
+            const colordata = await axios.get(`${apiUrl}/get_category`);
+            if (colordata.data.color) {
+                setColorArray(colordata.data.color);
+            }
+        } catch (error) { console.log("AllProduct.js",error) }
+    }, [id, apiUrl, dispatch, setColorArray]);
+    
+    useEffect(() => {
+        mainNavbar();
+    }, [mainNavbar]);
     
 
-    if (answer_array.length == 4) 
-    {
-        var iCategoryId = "";
-        var vProductName = '';
-    } else 
-    {
-        var vProductNm = answer_array[4];
-        var vProductName = vProductNm.split("/");
-
-        if (vProductName[0]=='search')
-        {
-            var vProductName = 'Search'+'@@'+vProductName[1];
-            var iCategoryId = "";
-        }
-        else if (vProductName[0] == 'color')
-        {
-            var vProductName = 'color' + '@@' + vProductName[1];
-            var iCategoryId = "";
-        }
-        else
-        {
-            var iCategoryId = answer_array[4];
-        }
-    }
-
-    const Filter = iFabricId + '/' + SelectedPrice + '/' + ColorFilter + '/' + Sort + '/' + iCategoryId + '/' + vProductName;
-    
-
-    
-
-
-    const product_listing = `${apiUrl}/product_listing`;
-    const Color = `${apiUrl}/get_category`;
-    
-
-    const mainNavbar = async () => {
-        const fd = new FormData();
-        fd.append("iCategoryId",id);
-        const data = axios.post(product_listing, fd)
-        .then((response) => {
-          if (response?.data?.data) {
-            dispatch(setProductListing(response?.data?.data));
-          }
-        }).catch((err) => {});
-
-        // *************************COLOR DATA GET***********************
-        const colordata = await axios.get(Color).catch((err) => {
-            
-        });
-        if (colordata.data.color) {
-            setColorArray(colordata.data.color);
-        }
-        if (colordata.data.fabric) {
-            setFabricArray(colordata.data.fabric);
-        }
-    };
     const AddtocartProduct = async (e) => {
-        var iProductId = e.target.id;
-        var vPrice = e.target.getAttribute("data-id");
+        const iProductId = e.target.id;
+        const vPrice = e.target.getAttribute("data-id");
 
-        if (answer_array[2] == "localhost:3000") {
-            var product_listing = `http://localhost/pramesh/backend/api/single_product_get?iProductId=${iProductId}@@${vPrice}`;
-        } else {
-            var product_listing = `https://prameshsilks.com/backend/api/single_product_get?iProductId=${iProductId}@@${vPrice}`;
-        }
+        const product_listing = `${apiUrl}/single_product_get?iProductId=${iProductId}@@${vPrice}`;
+       
         const productdata = await axios.get(product_listing);
         if (productdata.data.data) {
             dispatch(setAddtocartpage(productdata.data.data));
         }
     };
-    useEffect(() => {
-        mainNavbar();
-    }, []);
+
+    const numberWithCommas = (number) => {
+        const fixedNumber = Number(number).toFixed(2);
+        return fixedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
 
 // ************************************************WISH LIST ADDED DATA************************************************
     const wishlistAdded = (e) =>
@@ -121,18 +77,12 @@ const AllProduct = () => {
         fd.append("iProductId", iProductId);
         fd.append("iUserId", iUserId);
 
-        if (iProductId != '0') 
+        if (iProductId !== '0') 
         {
-            if (answer_array[2] == "localhost:3000") 
-            {
-                var wishlist_url = "http://localhost/pramesh/backend/api/wishlishadded";
-            } else {
-                var wishlist_url = "https://prameshsilks.com/backend/api/wishlishadded";
-            }
-            const dataa = axios
-                .post(wishlist_url, fd)
-                .then((res) => {
-                    if (res.data.Status == "0") 
+            const wishlist_url = `${apiUrl}/wishlishadded`;
+            
+            axios.post(wishlist_url, fd).then((res) => {
+                    if (res.data.Status === "0") 
                     {
                         mainNavbar();
                         dispatch(setWishlist(res.data.data));
@@ -157,7 +107,7 @@ const AllProduct = () => {
     }
 // ************************************************WISH LIST ADDED DATA END************************************************
     const Product_data = useSelector((state) => state.MainProductListing.MainProductListingArray);
-    const usersPerPage = 28;
+    const usersPerPage = 29;
     const pagesvisited = Pagenumber * usersPerPage;
 
     const displayproduct = Product_data.slice(
@@ -176,7 +126,7 @@ const AllProduct = () => {
                                         onClick={wishlistAdded} 
                                         id={`${product.iProductId}`} 
                                         className={`fa fa-heart ${
-                                            product.vWishlist=='1' ? 'hartred' : ''
+                                            product.vWishlist==='1' ? 'hartred' : ''
                                         }`} 
                                         aria-hidden="true">
                                     </i>
@@ -189,21 +139,12 @@ const AllProduct = () => {
                            
                         </div>
                         {product.image.map(function (Pimg, index) {
-                            // var $productid = encode_id(Pimg.iProductId);
-
-                            if (index == 0) {
-                                if (Pimg.vImage != "") {
-                                    var imagestyle = "";
-                                } else {
-                                    var imagestyle = "";
-                                }
-                            } else {
-                                if (Pimg.vImage != "") {
-                                    var imagestyle = "img2";
-                                } else {
-                                    var imagestyle = "";
-                                }
-                            }
+                           var imagestyle = "";
+                           if (index === 0 && Pimg.vImage !== "") {
+                               imagestyle = "";
+                           } else if (Pimg.vImage !== "") {
+                               imagestyle = "img2";
+                           }
                             return (
                                 <>
                                     <Link
@@ -217,7 +158,7 @@ const AllProduct = () => {
                                             onClick={AddtocartProduct}
                                             src={Pimg.vImage}
                                             className={`img-fluid catoImg ${imagestyle}`}
-                                            alt="Image"
+                                            alt={`Product: ${product.vProductName}`}
                                         />
                                     </Link>
                                 </>
@@ -225,7 +166,7 @@ const AllProduct = () => {
                         })}
                     </div>
                     <h3>{product.vProductName}</h3>
-                    <p> र {product.vPrice}</p>
+                    <p> र {numberWithCommas(product.vPrice)}</p>
                 </div>
             );
         }
@@ -238,84 +179,86 @@ const AllProduct = () => {
     };
 
     const filterclick = async (e) => {
-        var SortByFilter = e.target.value;
-        setSort(SortByFilter);
-        var Price = SelectedPrice;
-        var Filter = iFabricId + '/' + Price + '/' + ColorFilter + '/' + SortByFilter;
-
-        if (answer_array[2] == "localhost:3000") {
-            var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-        } else {
-            var product_listing = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
-        }
-
-        const productdata = await axios.get(product_listing);
+        try {
+            var SortByFilter = e.target.value;
+            const iCategoryId = atob(id)
+            
+            setSort(SortByFilter);
+            // var Price = SelectedPrice;
         
-        if (productdata.data.data) {
-            dispatch(setProductListing(productdata.data.data));
+            const filters = {Price:SelectedPrice,iColorId,SortByFilter,iCategoryId};
+            const filteredFilters = {};
+            for (const key in filters) {
+                if (filters[key] !== '') {
+                    filteredFilters[key] = filters[key];
+                }
+            }
+            const response = await axios.post(`${apiUrl}/product_listing`, filteredFilters);
+            if (response.data.data) {
+                dispatch(setProductListing(response.data.data));
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
+
     // *********************************FILTER*************************************
-    const category_filter = async (e) => {
-        var Price = e.target.value;
+    const priceFilter = async (e) => {
+        const Price = e.target.value;
+        const iCategoryId = atob(id)
         setSelectedPrice(Price);
-
-        var Filter = iFabricId + '/' + Price + '/' + ColorFilter + '/' + Sort;
-
-        if (answer_array[2] == "localhost:3000") {
-            var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-        } else {
-            var product_listing = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
+        const filters = { Price, iColorId,Sort,iCategoryId};
+    
+        // Filter out blank variables
+        const filteredFilters = {};
+        for (const key in filters) {
+            if (filters[key] !== '') {
+                filteredFilters[key] = filters[key];
+            }
         }
-
-        const productdata = await axios.get(product_listing);
-
-        if (productdata.data.data) {
-            dispatch(setProductListing(productdata.data.data));
+        try {
+            const productdata = await axios.post(`${apiUrl}/product_listing`, filteredFilters);
+    
+            if (productdata.data && productdata.data.data) {
+                dispatch(setProductListing(productdata.data.data));
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
     };
+    
     // *****************************************************SUBCATEGORY FILTER********************************************
-    const fabric_filter = async (e) => {
-        var iFabricIddata = e.target.value;
-        setiFabricId(iFabricIddata);
-        var Price = SelectedPrice;
-        var Filter = iFabricIddata + '/' + Price + '/' + ColorFilter + '/' + Sort;
-        if (answer_array[2] == "localhost:3000") {
-            var product_listing = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-        } else {
-            var product_listing = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
-        }
-        const productdata = await axios.get(product_listing);
-        if (productdata.data.data) {
-            dispatch(setProductListing(productdata.data.data));
-        }
-    };
 
     const ClickColorFilter = async (e) => {
-        var iColorId = e.target.value;
+        const iColorId = e.target.value;
         setColorFilter(iColorId);
-        var Price = SelectedPrice;
-        var Filter = iFabricId + '/' + Price + '/' + iColorId + '/' + Sort;
-
-        if (answer_array[2] == "localhost:3000") {
-            var color_url = `http://localhost/pramesh/backend/api/product_listing?Filter=${Filter}`;
-        } else {
-            var color_url = `https://prameshsilks.com/backend/api/product_listing?Filter=${Filter}`;
+        const Price = SelectedPrice;
+        const FilterData = {Price,iColorId,Sort};
+    
+        // Filter out blank variables
+        const filteredData = {};
+        for (const key in FilterData) {
+            if (FilterData[key] !== '') {
+                filteredData[key] = FilterData[key];
+            }
         }
-        const productdata = await axios.get(color_url);
-
-        if (productdata.data.data) {
-            dispatch(setProductListing(productdata.data.data));
+    
+        try {
+            const productdata = await axios.post(`${apiUrl}/product_listing`, filteredData);
+    
+            if (productdata.data && productdata.data.data) {
+                dispatch(setProductListing(productdata.data.data));
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
     };
-
-    const maindata = useSelector((state) => state.Mainproductlisting.MainproductArray);
-
+    
     const show_1 = () => {
-        if (show1 == false) {
+        if (show1 === false) {
             setshow1(true);
         }
-        if (show1 == true) {
+        if (show1 === true) {
             setshow1(false);
             gsap.fromTo(
                 "#show1",
@@ -326,10 +269,10 @@ const AllProduct = () => {
     };
 
     const show_2 = () => {
-        if (show2 == false) {
+        if (show2 === false) {
             setshow2(true);
         }
-        if (show2 == true) {
+        if (show2 === true) {
             setshow2(false);
             gsap.fromTo(
                 "#show2",
@@ -339,22 +282,22 @@ const AllProduct = () => {
         }
     };
 
-    const show_3 = () => {
-        if (show3 == false) {
-            setshow3(true);
-        }
-        if (show3 == true) {
-            setshow3(false);
-            gsap.fromTo(
-                "#show3",
-                { y: -50, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.5 }
-            );
-        }
-    };
+    // const show_3 = () => {
+    //     if (show3 === false) {
+    //         setshow3(true);
+    //     }
+    //     if (show3 === true) {
+    //         setshow3(false);
+    //         gsap.fromTo(
+    //             "#show3",
+    //             { y: -50, opacity: 0 },
+    //             { y: 0, opacity: 1, duration: 0.5 }
+    //         );
+    //     }
+    // };
 
     function animEffect2() {
-        if (animation2 == false) {
+        if (animation2 === false) {
             setanimation2(true);
             gsap.fromTo(
                 ".catoFlex2",
@@ -362,25 +305,24 @@ const AllProduct = () => {
                 { y: 0, opacity: 1, duration: 0.5 }
             );
         }
-        if (animation2 == true) {
+        if (animation2 === true) {
             setanimation2(false);
         }
     }
 
     const filterSlide = () => {
-        if (filterslide == false) {
+        if (filterslide === false) {
             setfilterslide(true)
         } else {
             setfilterslide(false)
         }
 
     }
-
+   
     return (
         <>
             <Navbar />
             <ScrollToTop />
-
             <section className="festive2 container-fluid mt-5 position-relative" style={{ overflowX: "hidden" }}>
                 <h1>FESTIVE ENSEMBLES</h1>
                 <p>EFFORTLESS STYLES TO THROW ON AND GO... </p>
@@ -423,8 +365,9 @@ const AllProduct = () => {
                                         <div className="pretty p-icon p-smooth">
                                             <input
                                                 type="radio"
-                                                onClick={category_filter}
+                                                onClick={priceFilter}
                                                 name="price1"
+                                                value="ALL"
                                                 id="price1"
                                             />
                                             <div className="state p-maroon">
@@ -436,7 +379,7 @@ const AllProduct = () => {
                                         <div className="pretty p-icon p-smooth">
                                             <input
                                                 type="radio"
-                                                onClick={category_filter}
+                                                onClick={priceFilter}
                                                 value="5000-10000"
                                                 name="price1"
                                                 id="price1"
@@ -449,7 +392,7 @@ const AllProduct = () => {
                                         <div className="pretty p-icon p-smooth">
                                             <input
                                                 type="radio"
-                                                onClick={category_filter}
+                                                onClick={priceFilter}
                                                 value="10000-20000"
                                                 name="price1"
                                                 id="price2"
@@ -462,7 +405,7 @@ const AllProduct = () => {
                                         <div className="pretty p-icon p-smooth">
                                             <input
                                                 type="radio"
-                                                onClick={category_filter}
+                                                onClick={priceFilter}
                                                 value="30000-40000"
                                                 name="price1"
                                                 id="price3"
@@ -472,6 +415,13 @@ const AllProduct = () => {
                                                 <label htmlFor="price3">30000 - 40000</label>
                                             </div>
                                         </div>
+                                        <div className="pretty p-icon p-smooth">
+                                            <input type="radio" onClick={priceFilter} value="40000" name="price1" id="price3"/>
+                                            <div className="state p-maroon">
+                                                <i className="icon fa fa-check"></i>
+                                                <label htmlFor="price4">40,000 - More</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -479,7 +429,7 @@ const AllProduct = () => {
                                     <h2 onClick={show_2} className="d-flex justify-content-between"> <span>COLOUR</span>  <span className="ml-5"><i className="fa fa-chevron-down" aria-hidden="true"></i></span></h2>
                                     <div id="show2" className={`flex ${show2 ? "d-none" : ""}`}>
                                         <div className="pretty p-icon p-smooth">
-                                            <input type="radio" onClick={ClickColorFilter} name="colour" id="allcolor" />
+                                            <input type="radio" value="ALL" onClick={ClickColorFilter} name="colour" id="allcolor" />
                                             <div className="state p-maroon">
                                                 <i className="icon fa fa-check"></i>
                                                 <label htmlFor="allcolor">All COLOR {show2}</label>
@@ -496,36 +446,6 @@ const AllProduct = () => {
                                                 </div>
                                             })
                                         }
-                                    </div>
-                                </div>
-
-                                <div className="fabric" style={{display:'none'}}>
-                                    <h2 onClick={show_3} className="d-flex justify-content-between"> <span>FABRIC</span>  <span className="ml-5"><i className="fa fa-chevron-down" aria-hidden="true"></i></span></h2>
-                                    <div id='show3' className={`flex ${show3 ? "d-none" : ""}`}>
-                                        <div className="pretty p-icon p-smooth">
-                                            <input type="radio" onClick={fabric_filter} name="silk" id="silk" />
-                                            <div className="state p-maroon">
-                                                <i className="icon fa fa-check"></i>
-                                                <label htmlFor="silk">All FABRIC</label>
-                                            </div>
-                                        </div>
-                                        {FabricArray.map(function (Fabric, index) {
-                                            return (
-                                                <div className="pretty p-icon p-smooth">
-                                                    <input
-                                                        type="radio"
-                                                        onClick={fabric_filter}
-                                                        value={Fabric.iFabricId}
-                                                        name="silk"
-                                                        id="silk"
-                                                    />
-                                                    <div className="state p-maroon">
-                                                        <i className="icon fa fa-check"></i>
-                                                        <label htmlFor="silk">{Fabric.vTitle}</label>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
                                     </div>
                                 </div>
                             </div>
@@ -610,7 +530,7 @@ const AllProduct = () => {
                             <img
                                 src={process.env.PUBLIC_URL + "/Images/Record_not_found.svg"}
                                 className="img-fluid catoImg"
-                                alt="Image"
+                                alt={process.env.PUBLIC_URL + "/Images/Record_not_found.svg"}
                             />
                         </div>
                     )}

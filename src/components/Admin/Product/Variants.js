@@ -15,8 +15,8 @@ class Variants extends React.Component {
     
     async componentDidMount() 
     {
-        const envConfig = getEnvironment();
-        const apiUrl    = envConfig.apiUrl;
+        const {apiUrl} = getEnvironment();
+    
         //*******************************variants data get ***************************** */
         const variant_url =  `${apiUrl}/get_variants`;
         const response = await fetch(variant_url);
@@ -50,8 +50,7 @@ class Variants extends React.Component {
     
     option_create(iVariantsId)
     {
-        const envConfig = getEnvironment();
-        const apiUrl    = envConfig.apiUrl;
+        const { apiUrl } = getEnvironment();
         var urls = `${apiUrl}/get_variants_wise_option?iVariantsId=${iVariantsId}`;
     
         axios.get(urls)
@@ -78,45 +77,45 @@ class Variants extends React.Component {
             rows
         });
     };
-    handleAddRow = () => 
-    {
-        const indexid = this.state.rows?.length-1;
+    // handleAddRow = () => 
+    // {
+    //     const indexid = this.state.rows?.length-1;
 
-        if(this.state.rows?.length>0)
-        {
-            const price      = document.getElementsByClassName("price_"+indexid);
-            const optionName = document.getElementsByClassName("optionName_"+indexid);
+    //     if(this.state.rows?.length>0)
+    //     {
+    //         const price      = document.getElementsByClassName("price_"+indexid);
+    //         const optionName = document.getElementsByClassName("optionName_"+indexid);
 
-            if(price[0].value>0 && optionName[0].value>0)
-            {
-                price[0].style.border= "";
-                optionName[0].style.border= "";
-                const item = { iOptionId:"", vPrice: 0, vQty:"",vSku:"",vWeight:"" };
-                this.setState({ rows: [...this.state.rows, item] });
-            }
-            else
-            { 
-                if(price[0].value>0)
-                {
-                    price[0].style.border= "";
-                }
-                else
-                {
-                    price[0].style.border      = "1px solid red";
-                }
+    //         if(price[0].value>0 && optionName[0].value>0)
+    //         {
+    //             price[0].style.border= "";
+    //             optionName[0].style.border= "";
+    //             const item = { iOptionId:"", vPrice: 0, vQty:"",vSku:"",vWeight:"" };
+    //             this.setState({ rows: [...this.state.rows, item] });
+    //         }
+    //         else
+    //         { 
+    //             if(price[0].value>0)
+    //             {
+    //                 price[0].style.border= "";
+    //             }
+    //             else
+    //             {
+    //                 price[0].style.border      = "1px solid red";
+    //             }
 
-                if(optionName[0].value>0)
-                {
-                    optionName[0].style.border = "";
-                }
-                else
-                {
-                    optionName[0].style.border = "1px solid red";
-                }
-            }
-        }
+    //             if(optionName[0].value>0)
+    //             {
+    //                 optionName[0].style.border = "";
+    //             }
+    //             else
+    //             {
+    //                 optionName[0].style.border = "1px solid red";
+    //             }
+    //         }
+    //     }
         
-    };
+    // };
    
     handleRemoveSpecificRow = (idx) => () => {
         const rows = [...this.state.rows]
@@ -126,21 +125,13 @@ class Variants extends React.Component {
 
     delete = (idx) => () => 
     {
-        var answer = window.location.href;
-        const answer_array = answer.split('/');
-        if (answer_array[2] == 'localhost:3000') {
-            var del = 'http://localhost/pramesh/backend/api/product_variyant_delete';
-        }
-        else {
-            var del = 'https://prameshsilks.com/backend/api/product_variyant_delete';
-        }
+        const { apiUrl } = getEnvironment();
+
+        const del = `${apiUrl}/product_variyant_delete`;
+      
         const fd = new FormData();
         fd.append("iProduct_variantsId", idx);
-        axios({
-            method: "post",
-            url: del,
-            data: fd,
-        })
+        axios({method: "post",url: del,data: fd,})
         .then(function (res) {
             if (res.data.Status == '0') {
                 toast.success(res.data.message, {
@@ -154,7 +145,6 @@ class Variants extends React.Component {
                 });
 
                 setTimeout(function () {
-                    // history.push("/admin/product/listing");
                     window.location.reload(1);
                 }, 1000);
             }
@@ -247,7 +237,7 @@ class Variants extends React.Component {
                                             <td>
                                                 <input
                                                     type="number" name="qty[]" value={this?.state?.rows[idx]?.vQty} onChange={this.handleChange(idx)}
-                                                    className="form-control"/>
+                                                    className={`form-control qty_${idx} `}/>
                                             </td>
                                             <td>
                                                 <input type="text" name="sku[]" value={this?.state?.rows[idx]?.vSku}
@@ -258,11 +248,11 @@ class Variants extends React.Component {
                                                     onChange={this.handleChange(idx)} className="form-control" />
                                             </td>
                                             <td>
-                                                { this?.state?.rows[idx]?.iVariantId != '0' ?
+                                                {/* { this?.state?.rows[idx]?.iVariantId != '0' ?
                                                         <a onClick={this.handleAddRow} id="click_add_row" className="btn btn-outline-primary btn-sm">Add Row</a>
                                                     :<></> }
                                                 
-                                                { idx!='0' ?  <button className="btn btn-outline-danger btn-sm" onClick={this.handleRemoveSpecificRow(idx)} > Remove</button> : "" }
+                                                { idx!='0' ?  <button className="btn btn-outline-danger btn-sm" onClick={this.handleRemoveSpecificRow(idx)} > Remove</button> : "" } */}
                                             </td>
                                         </tr>
                                     ))

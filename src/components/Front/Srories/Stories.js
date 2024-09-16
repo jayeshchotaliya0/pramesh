@@ -1,69 +1,82 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import "../../../css/home.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useSelector } from "react-redux";
 import Footer from "../Footer";
 import { Link } from "react-router-dom";
+import  getEnvironment  from '../../../components/environment';
+import axios from "axios";
 
 const Stories = () => {
-  var settings = {
-    dots: false,
-    cssEase: "linear",
-    infinite: true,
-    speed: 1000,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 1000,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 550,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+  const {apiUrl} = getEnvironment(); 
+  const [story, setStory] = useState([]);
+  // var settings = {
+  //   dots: false,
+  //   cssEase: "linear",
+  //   infinite: true,
+  //   speed: 1000,
+  //   slidesToShow: 4,
+  //   slidesToScroll: 1,
+  //   initialSlide: 0,
+  //   responsive: [
+  //     {
+  //       breakpoint: 1200,
+  //       settings: {
+  //         slidesToShow: 3,
+  //         slidesToScroll: 3,
+  //         infinite: true,
+  //         dots: false,
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 1000,
+  //       settings: {
+  //         slidesToShow: 2,
+  //         slidesToScroll: 2,
+  //         initialSlide: 2,
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 550,
+  //       settings: {
+  //         slidesToShow: 1,
+  //         slidesToScroll: 1,
+  //       },
+  //     },
+  //   ],
+  // };
 
-  const StoriesArray = useSelector(
-    (state) => state.MainMiniallstoriesdata.AllstoriesdataArray
-  );
+  
+  useEffect(() => {
+    const storyData = async () => {
+      const StoriesArray = await axios.get(`${apiUrl}/stories`);
+      if (StoriesArray?.data?.data) {
+        setStory(StoriesArray?.data?.data);
+      }
+    };
+    storyData();
+  }, [apiUrl]);
+
+
+  // const StoriesArray = useSelector((state) => state.MainMiniallstoriesdata.AllstoriesdataArray);
   // **************First  Stage *************************
-  var vStories1_image = StoriesArray.vStories1_image;
-  var vStories1_Title = StoriesArray.vStories1_Title;
-  var vStories1_Desc = StoriesArray.vStories1_Desc;
+  var vStories1_image = story.vStories1_image;
+  var vStories1_Title = story.vStories1_Title;
+  var vStories1_Desc = story.vStories1_Desc;
   // ************** Second Stage *************************
-  var vSecond_image1 = StoriesArray.vSecond_image1;
-  var vSecond_image2 = StoriesArray.vSecond_image2;
-  var vSecond_image3 = StoriesArray.vSecond_image3;
+  var vSecond_image1 = story.vSecond_image1;
+  var vSecond_image2 = story.vSecond_image2;
+  var vSecond_image3 = story.vSecond_image3;
   // ************** Third Stage *************************
-  var vVideo_Link1 = StoriesArray.vVideo_Link1;
-  var vVideo_Link2 = StoriesArray.vVideo_Link2;
+  var vVideo_Link1 = story.vVideo_Link1;
+  var vVideo_Link2 = story.vVideo_Link2;
   // var vVideo_Link3 = StoriesArray.vVideo_Link3;
   // var vVideo_Link4 = StoriesArray.vVideo_Link4;
   // ************** Four Stage *************************
-  var vSecond_image = StoriesArray.vSecond_image;
-  var vSecond_Title = StoriesArray.vSecond_Title;
-  var vSecond_Desc = StoriesArray.vSecond_Desc;
+  var vSecond_image = story.vSecond_image;
+  var vSecond_Title = story.vSecond_Title;
+  var vSecond_Desc = story.vSecond_Desc;
 
   return (
     <>
@@ -118,6 +131,7 @@ const Stories = () => {
                 width="100%"
                 height="350"
                 src={vVideo_Link1}
+                title="Video Player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
@@ -130,6 +144,7 @@ const Stories = () => {
                 width="100%"
                 height="350"
                 src={vVideo_Link2}
+                title="Video Player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
@@ -146,6 +161,7 @@ const Stories = () => {
                 width="100%"
                 height="350"
                 src={vVideo_Link1}
+                title="Video Player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
@@ -158,6 +174,7 @@ const Stories = () => {
                 width="100%"
                 height="350"
                 src={vVideo_Link2}
+                title="Video Player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen

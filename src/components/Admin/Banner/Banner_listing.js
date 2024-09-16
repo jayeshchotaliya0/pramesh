@@ -23,7 +23,6 @@ class Banner_listing extends React.Component {
   async componentDidMount() {
     const envConfig = getEnvironment();
     const apiUrl = envConfig.apiUrl;
-  
     try {
       const url = `${apiUrl}/all_banner_get`;
       const response = await fetch(url);
@@ -91,8 +90,6 @@ class Banner_listing extends React.Component {
               window.location.reload(1);
             }, 1000);
           } else {
-            alert("22233333");
-
             toast.error(res.data.message, {
               position: "top-center",
               autoClose: 5000,

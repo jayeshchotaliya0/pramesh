@@ -5,26 +5,27 @@ import Sidebar from "../Sidebar";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import  getEnvironment  from '../../../components/environment';
+import { useParams } from 'react-router-dom';
+
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Header_menu_edit = () => {
   let history     = useHistory();
-  const envConfig = getEnvironment();
-  const apiUrl    = envConfig.apiUrl; 
+  const { apiUrl } = getEnvironment();
 
   const [Title, setTitle] = useState("");
   const [Image, setImage] = useState("");
   const [Status, setStatus] = useState("");
   const [Gif, setGif] = useState(false);
 
-
   const [TitleError, setTitleError] = useState("");
   const [ImageError, setImageError] = useState("");
   const [UrlError, setUrlError] = useState("");
   const [disable, setdisable] = useState(false);
 
-  var iHeaderId = window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1);
+  const { id: iHeaderId } = useParams();
 
   function Update_Header_Menu() {
     if (Title) {
@@ -87,19 +88,18 @@ const Header_menu_edit = () => {
     }
   }
 
- 
-  var urls = `${apiUrl}/all_categoy_menu_get?iHeaderId=${iHeaderId}`;
- 
   useEffect(() => {
     axios
-      .get(urls)
-      .then((res) => {
-        setTitle(res.data.data.vTitle);
-        setImage(res.data.data.vImage);
-        setStatus(res.data.data.eStatus);
-      })
-      .catch((err) => {});
-  }, []);
+      .get(`${apiUrl}/all_categoy_menu_get?iHeaderId=${iHeaderId}`)
+      .then(({ data }) => {
+        const { vTitle, vImage, eStatus } = data.data;
+        setTitle(vTitle);
+        setImage(vImage);
+        setStatus(eStatus);
+      }).catch((err) => {
+        // Handle errors if needed
+      });
+  }, [iHeaderId]);
 
   return (
     <>

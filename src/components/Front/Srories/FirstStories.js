@@ -18,6 +18,7 @@ const FirstStories = () => {
             <div>
               <img
                 src={process.env.PUBLIC_URL + "/Stories/rosa.jpg"}
+                alt={process.env.PUBLIC_URL + "/Stories/rosa.jpg"}
                 className="firststories_img"
               />
             </div>
@@ -27,6 +28,7 @@ const FirstStories = () => {
             <div>
               <img
                 src={process.env.PUBLIC_URL + "/Stories/goodearth5.jpg"}
+                alt={process.env.PUBLIC_URL + "/Stories/goodearth5.jpg"}
                 className="firststories_img"
               />
             </div>
@@ -36,6 +38,7 @@ const FirstStories = () => {
             <div>
               <img
                 src={process.env.PUBLIC_URL + "/Stories/goodearth6.jpg"}
+                alt={process.env.PUBLIC_URL + "/Stories/goodearth6.jpg"}
                 className="firststories_img"
               />
             </div>
@@ -45,6 +48,7 @@ const FirstStories = () => {
             <div>
               <img
                 src={process.env.PUBLIC_URL + "/Stories/goodearth7.jpg"}
+                alt={process.env.PUBLIC_URL + "/Stories/goodearth7.jpg"}
                 className="firststories_img"
               />
             </div>
@@ -53,6 +57,7 @@ const FirstStories = () => {
             <div>
               <img
                 src={process.env.PUBLIC_URL + "/Stories/goodearth8.jpg"}
+                alt={process.env.PUBLIC_URL + "/Stories/goodearth8.jpg"}
                 className="firststories_img"
               />
             </div>
@@ -61,6 +66,7 @@ const FirstStories = () => {
             <div>
               <img
                 src={process.env.PUBLIC_URL + "/Stories/goodearth9.jpg"}
+                alt={process.env.PUBLIC_URL + "/Stories/goodearth9.jpg"}
                 className="firststories_img"
               />
             </div>
@@ -69,6 +75,7 @@ const FirstStories = () => {
             <div>
               <img
                 src={process.env.PUBLIC_URL + "/Stories/goodearth10.jpg"}
+                alt={process.env.PUBLIC_URL + "/Stories/goodearth10.jpg"}
                 className="firststories_img"
               />
             </div>

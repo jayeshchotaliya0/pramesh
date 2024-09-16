@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../../css/home.css";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router";
+import  getEnvironment  from '../../environment';
 import axios from "axios";
+
 const Register = () => {
   let history = useHistory();
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
+  const {apiUrl} = getEnvironment(); 
   const [FirstName, setFirstName] = useState("");
   const [ErrorFirstName, setErrorFirstName] = useState("");
 
@@ -27,40 +28,36 @@ const Register = () => {
   const [PasswordMetch, setPasswordMetch] = useState("");
   
 
-  function validateEmail() {
-    var emailText = Email;
-    var pattern =
-      /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
-    if (pattern.test(emailText)) {
-      if (answer_array[2] == "localhost:3000") {
-        var email_verify = "http://localhost/pramesh/backend/api/email_varify";
-      } else {
-        var email_verify =
-          "https://prameshsilks.com/backend/api/email_varify";
-      }
-
-      const fd = new FormData();
-      fd.append("vEmail", emailText);
-
-      const dataa = axios.post(email_verify, fd).then((res) => {
-        if (res.data.Status == 1) {
-          setEmailDone(false);
-          console.log("firse aagye");
-          setErrorEmail("email address already exists");
-          return false;
-        } else {
-          setEmailDone(true);
-          console.log("teste");
-          setErrorEmail("");
-          return true;
-        }
-      });
-    } else {
-      setErrorEmail("Invalid email address:" + emailText);
+  async function validateEmail() {
+    const emailText = Email;
+    const pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
+  
+    if (!pattern.test(emailText)) {
+      setErrorEmail("Invalid email address: " + emailText);
       setEmailDone(true);
       return false;
     }
+    try {
+      const fd = new FormData();
+      fd.append("vEmail", emailText);
+  
+      const res = await axios.post(`${apiUrl}/email_varify`, fd);
+  
+      if (res.data.Status === "1") {
+        setEmailDone(false);
+        setErrorEmail("Email address already exists");
+        return false;
+      } else {
+        setEmailDone(true);
+        setErrorEmail("");
+        return true;
+      }
+    } catch (error) {
+      console.error("Error verifying email:", error);
+      return false;
+    }
   }
+  
 
   const something = (event) => {
     if (event.keyCode === 13) {
@@ -116,11 +113,9 @@ const Register = () => {
       setPasswordMetch("password does not meet the requirement");
     }
 
-    if (answer_array[2] == "localhost:3000") {
-      var register = "http://localhost/pramesh/backend/api/register";
-    } else {
-      var register = "https://prameshsilks.com/backend/api/register";
-    }
+    
+      var register = `${apiUrl}/api/register`;
+   
 
     if (Password === ConPassword) {
       if (FirstName && LastName && EmailDone) {
@@ -130,10 +125,8 @@ const Register = () => {
         fd.append("vEmail", Email);
         fd.append("vPassword", Password);
 
-        const dataa = axios
-          .post(register, fd)
-          .then((res) => {
-            if (res.data.Status == "0") {
+        axios.post(register, fd).then((res) => {
+            if (res.data.Status === "0") {
               Swal.fire("Good job!", "Registration Successfully", "success");
               setTimeout(function () {
                 history.push("/login");

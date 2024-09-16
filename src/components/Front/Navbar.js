@@ -11,13 +11,10 @@ import  getEnvironment  from '../../components/environment';
 import "../../css/home.css";
 
 import {
-  setMainheader,
   setProductListing,
-  setMainproductdata,
   setAddtocartsavedata,
   setAddtocartsubtotal,
-  setAllstories,
-  setAllfabric,
+  // setAllfabric,
   setSearchdata,
   setWishlist,
   setTermsCondition,
@@ -25,13 +22,12 @@ import {
 
 const Navbar = () => {
   let history     = useHistory();
-  const envConfig = getEnvironment();
-  const apiUrl    = envConfig.apiUrl;   
+  const {apiUrl} = getEnvironment(); 
   const cookie    = localStorage.getItem("cookie");
   const iUserId   = localStorage.getItem("iUserId");
   const Name      = localStorage.getItem("Name");
   const vGoogleId = localStorage.getItem("vGoogleId");
-  const clientId  = "3076278999-d3dc119t0ircn8573inrgl6inivo6mrg.apps.googleusercontent.com";
+  const clientId  = "786432191499-mdt18r1nb3qndnefpdfe3htpjnej79f5.apps.googleusercontent.com";
   const GuestcheckoutId = localStorage.getItem("GuestcheckoutId"); 
 
   const [slide, setSlide]   = useState(false);
@@ -41,7 +37,8 @@ const Navbar = () => {
   const [stick, setstick]   = useState(false);
   const [image_zooming, setimage_zooming] = useState("");
   const [Calorcategory, setCalorcategory] = useState([]);
-  const [SingleProductSearch, setSingleProductSearch] = useState("");
+  const [headerMenu, setHeaderMenu] = useState([]);
+  const [subHeaderMenu, setsubHeaderMenu] = useState([]);
 
   const poped = () => {
     if (pop == false) {
@@ -91,6 +88,11 @@ const Navbar = () => {
       window.location.reload();
       console.clear();
   };
+  const numberWithCommas = (number) => {
+    const fixedNumber = Number(number).toFixed(2);
+    return fixedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
   const logPop = () => {
     if (logpop == false) {
       setlogpop(true);
@@ -127,18 +129,19 @@ const Navbar = () => {
 
   const dispatch = useDispatch();
     const header  = `${apiUrl}/header`;
-    const srories = `${apiUrl}/stories`;
-    const url     = `${apiUrl}/main_product_listing`;
+    
     const cartdatasave  = `${apiUrl}/addtocartdataget?cookie=${cookie}@@${iUserId}`;
-    const terms         = "${apiUrl}/all_terms_condition_get";
+    const terms         = `${apiUrl}/all_terms_condition_get`;
   
 
   const mainNavbar = async () => {
     // ***************HEADER***************
     const headerdata = await axios.get(header).catch((err) => { });
     if (headerdata.data.data) {
-      dispatch(setMainheader(headerdata.data.data));
-      dispatch(setAllfabric(headerdata.data.fabric));
+      setHeaderMenu(headerdata?.data?.data)
+      setsubHeaderMenu(headerdata.data.fabric);
+      // dispatch(setMainheader(headerdata.data.data));
+      // dispatch(setAllfabric(headerdata.data.fabric));
     }
     // *********************ADD TO CART DATA ******************
     const addtocart = await axios.get(cartdatasave);
@@ -149,12 +152,6 @@ const Navbar = () => {
     }
     if (addtocart.data.wishlist) {
       dispatch(setWishlist(addtocart.data.wishlist));
-    }
-    // *********************ALL STORIES DATA ******************
-    const StoriesArray = await axios.get(srories);
-
-    if (StoriesArray.data.data) {
-      dispatch(setAllstories(StoriesArray.data.data));
     }
     // *********************ALL Terms DATA ******************
     const TermsArray = await axios.get(terms);
@@ -189,22 +186,12 @@ const Navbar = () => {
     }
   };
 
-  const Header_data = useSelector((state) => state.Mainheader.MainheaderArray);
-  const Addtocart = useSelector(
-    (state) => state.MainAddtocartsavedata.MainAddtocartsavedataArray
-  );
-  const SubTotal = useSelector(
-    (state) => state.MainAddtocartsubtotal.MainAddtocartsubtotalArray
-  );
-  const AllFabricData = useSelector(
-    (state) => state.MainMiniallfabricdata.AllFabricdataArray
-  );
-  const SearchData = useSelector(
-    (state) => state.MainMiniallsearchdata.AllSearchdataArray
-  );
-  const WishlistData = useSelector(
-    (state) => state.MainMiniallwishdata.AllWishlistArray
-  );
+  // const Header_data = useSelector((state) => state.Mainheader.MainheaderArray);
+  const Addtocart   = useSelector((state) => state.MainAddtocartsavedata.MainAddtocartsavedataArray);
+  const SubTotal    = useSelector((state) => state.MainAddtocartsubtotal.MainAddtocartsubtotalArray);
+  // const AllFabricData = useSelector((state) => state.MainMiniallfabricdata.AllFabricdataArray);
+  const SearchData    = useSelector((state) => state.MainMiniallsearchdata.AllSearchdataArray);
+  const WishlistData  = useSelector((state) => state.MainMiniallwishdata.AllWishlistArray);
 
   if (SearchData.length == 1) {
   }
@@ -218,24 +205,12 @@ const Navbar = () => {
 
   const SubcategortClick = async (e) => {
     var iSubCategoryId = e.target.id;
-    const product_listing = `${apiUrl}/product_listing`;
-    const fd = new FormData();
-    fd.append("iSubCategoryId", iSubCategoryId);
-    const data = axios.post(product_listing, fd)
+    axios.post(`${apiUrl}/product_listing`, {iSubCategoryId})
     .then((response) => {
       if (response?.data?.data) {
         dispatch(setProductListing(response?.data?.data));
       }
     }).catch((err) => {});
-  };
-
-  const mainproductdata = async () => {
-    const maindata = await axios.get(url).catch((err) => {
-
-    });
-    if (maindata.data.data) {
-      dispatch(setMainproductdata(maindata.data.data));
-    }
   };
 
   const show_addtocart_data = () => {
@@ -245,9 +220,7 @@ const Navbar = () => {
     setSlide(false);
   };
 
-  useEffect(() => {
-    mainproductdata();
-  }, []);
+
 
   document.onclick = function (e) {
     if (e.target.id != "test" && e.target.id != "test2" && search == true) {
@@ -259,7 +232,6 @@ const Navbar = () => {
       );
     }
   };
-
   return (
     <>
       <nav
@@ -292,7 +264,7 @@ const Navbar = () => {
 
         <div className="  collapse navbar-collapse " id="navbarNavDropdown">
           <ul className="navbar-nav">
-            {Header_data.map(function (header, index) {
+            {headerMenu.map(function (header, index) {
               if (header.sub.length > 0) {
                 var x = header.sub.length;
                 if (x > 20) {
@@ -319,7 +291,7 @@ const Navbar = () => {
                       aria-labelledby="navbarDropdownMenuLink"
                     >
                       {/* <div className="row nItem pl-5"> */}
-                      {AllFabricData.map(function (fabric, ids) {
+                      {subHeaderMenu.map(function (fabric, ids) {
                         if (fabric.iHeaderId == header.iHeaderId) {
                           return (
                             <>
@@ -459,15 +431,16 @@ const Navbar = () => {
                 onChange={AllSearchData}
                 id="test2"
               />
-              {SingleProductSearch ? (
+              {/* {SingleProductSearch ? (
                 <></>
               ) : (
                 // <a href={`/product-listing/${'search/' + SingleProductSearch}`}>
                 //     <i className="fa fa-search"></i>
                 // </a>
-                <i className="fa fa-search">{SingleProductSearch}</i>
-              )}
+               
+              )} */}
 
+               <i className="fa fa-search"></i>
               <div
                 className={`drop ${SearchData.length >= 7 ? "dropdownshow" : ""
                   }`}
@@ -550,7 +523,7 @@ const Navbar = () => {
                       <p>
                         Qty : <span>{addtoct.vQty}</span>
                       </p>
-                      <h4>र {addtoct.vTotal}</h4>
+                      <h4>र {numberWithCommas(addtoct.vTotal)}</h4>
                     </div>
                   </div>
                 </>
@@ -567,7 +540,7 @@ const Navbar = () => {
 
         <div className="total p-3">
           <h2>CART SUBTOTAL :</h2>
-          <h3>र {SubTotal}</h3>
+          <h3>र {numberWithCommas(SubTotal)}</h3>
         </div>
         <div className="checkout">
           <Link style={{ display: "contents" }} to="/viewcart">

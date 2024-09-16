@@ -6,7 +6,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
-
+import  getEnvironment  from '../../../components/environment';
 
 const $ = require("jquery");
 $.DataTable = require("datatables.net");
@@ -20,42 +20,31 @@ class Banner_listing extends React.Component {
   }
 
   async componentDidMount() {
+    const { apiUrl } = getEnvironment();
     $(".example").DataTable().destroy();
-    setTimeout(function () {
+    setTimeout(() => {
       $(".example").DataTable({
         pageLength: 50,
       });
     }, 1000);
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var url = "http://localhost/pramesh/backend/api/all_image_content_get";
-    } else {
-      var url =
-        "https://prameshsilks.com/backend/api/all_image_content_get";
+  
+    try {
+      const response = await fetch(`${apiUrl}/all_image_content_get`);
+      const { data } = await response.json();
+      this.setState({ banner: data });
+    } catch (error) {
+      console.error('Error in componentDidMount:', error);
     }
-
-    const response = await fetch(url);
-    const data = await response.json();
-    this.setState({ banner: data.data });
   }
 
   deletedata(e) {
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var del = "http://localhost/pramesh/backend/api/image_content_delete";
-    } else {
-      var del =
-        "https://prameshsilks.com/backend/api/image_content_delete";
-    }
-
+    const { apiUrl } = getEnvironment();
     var iContentId = e.target.id;
 
     const fd = new FormData();
     fd.append("iContentId", iContentId);
     if (iContentId) {
-      const dataa = axios.post(del, fd);
+      const dataa = axios.post(`${apiUrl}/image_content_delete`, fd);
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",

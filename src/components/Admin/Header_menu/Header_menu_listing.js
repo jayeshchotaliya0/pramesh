@@ -20,34 +20,28 @@ class Header_menu_listing extends React.Component {
     this.deleteHeaderData = this.deleteHeaderData.bind(this);
   }
 
- 
   async componentDidMount() {
-    const envConfig = getEnvironment();
-    const apiUrl    = envConfig.apiUrl;  
+    const { apiUrl } = getEnvironment();
+  
     $(".example").DataTable().destroy();
-    setTimeout(function () {
-      $(".example").DataTable({
-        pageLength: 50,
-      });
-    }, 1000);
-
-    var url = `${apiUrl}/all_categoy_menu_get`;
-    const response  = await fetch(url);
-    const data      = await response.json();
-    this.setState({ headerMenuArray: data.data });
+    setTimeout(() => $(".example").DataTable({ pageLength: 50 }), 1000);
+  
+    try {
+      const response = await fetch(`${apiUrl}/all_categoy_menu_get`);
+      const { data } = await response.json();
+      this.setState({ headerMenuArray: data });
+    } catch (error) {
+      console.error('Error in componentDidMount:', error);
+    }
   }
 
   deleteHeaderData(e) {
-    const envConfig = getEnvironment();
-    const apiUrl    = envConfig.apiUrl;
-    
-    var del = `${apiUrl}/delete_header_menu`;
-  
+    const { apiUrl } = getEnvironment();
     var iHeaderId = e.target.id;
     const fd = new FormData();
     fd.append("iHeaderId", iHeaderId);
     if (iHeaderId != "undefined") {
-      const dataa = axios.post(del, fd);
+      axios.post(`${apiUrl}/delete_header_menu`, fd);
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -98,7 +92,6 @@ class Header_menu_listing extends React.Component {
 
   render() {
     var headerMenuArray = this.state.headerMenuArray;
-    console.log("cknkdfhkdhfhdf",headerMenuArray);
     return (
       <>
         <Sidebar />

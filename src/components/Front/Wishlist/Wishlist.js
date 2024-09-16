@@ -105,7 +105,7 @@ const Wishlist = () => {
                             >
                                 <img
                                     src={process.env.PUBLIC_URL + "/Images/festive1.png"}
-                                    alt="Image"
+                                    alt="Festive decoration"
                                     className="mr-3"
                                 />
                                 <div>

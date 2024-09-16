@@ -7,12 +7,13 @@ import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import  getEnvironment  from '../../../components/environment';
+import { useParams } from 'react-router-dom';
 
 const Fabric_Edit = () => {
   let history = useHistory();
-  const iFabricId = window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1);
-  const envConfig = getEnvironment();
-  const apiUrl    = envConfig.apiUrl;
+  const { id: iFabricId } = useParams();
+  const envConfig   = getEnvironment();
+  const apiUrl      = envConfig.apiUrl;
   const [iHeaderMenuArray, setHeaderMenuArray] = useState([]);
   
   const [Fabric, setFabric]           = useState("");
@@ -88,20 +89,26 @@ const Fabric_Edit = () => {
     }
   }
 
-  const allFabricUrl = `${apiUrl}/all_fabric_get?iFabricId=${iFabricId}`;
-
+ 
   useEffect(() => {
-    axios
-      .get(allFabricUrl)
-      .then((res) => {
-        setHeaderMenuArray(res.data.category);
-        setiHeaderId(res.data.data.iHeaderId);
-        setFabric(res.data.data.vTitle);
-        setStatus(res.data.data.eStatus);
-      })
-      .catch((err) => {});
-  }, []);
-
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${apiUrl}/all_fabric_get?iFabricId=${iFabricId}`);
+        const { category, data } = res.data;
+  
+        setHeaderMenuArray(category);
+        setiHeaderId(data.iHeaderId);
+        setFabric(data.vTitle);
+        setStatus(data.eStatus);
+      } catch (err) {
+        // Handle errors if needed
+        console.error('Error in useEffect:', err);
+      }
+    };
+  
+    fetchData();
+  }, [iFabricId]);
+  
   return (
     <>
       <Sidebar />
@@ -130,26 +137,13 @@ const Fabric_Edit = () => {
                             <label className="form-control-label" for="vTitle">
                               Header Menu
                             </label>
-                            <select
-                              className="form-control"
-                              onChange={(e) => setiHeaderId(e.target.value)}
-                            >
-                              <option value="">Select Category</option>
-                              {iHeaderMenuArray.map(function (cat, index) {
-                                  return (
-                                    <option
-                                      selected={
-                                        cat.iHeaderId == iHeaderId
-                                          ? "selected"
-                                          : ""
-                                      }
-                                      value={cat.iHeaderId}
-                                    >
-                                      {cat.vTitle}
-                                    </option>
-                                  );
-                                
-                              })}
+                            <select className="form-control" onChange={(e) => setiHeaderId(e.target.value)}>
+                              <option value="">Select Header Menu</option>
+                              {iHeaderMenuArray.map((cat, index) => (
+                                <option key={index} value={cat.iHeaderId} selected={cat.iHeaderId == iHeaderId ? "selected" : ""}>
+                                  {cat.vTitle}
+                                </option>
+                              ))}
                             </select>
                             <span className="red">{iHeaderError}</span>
                           </div>

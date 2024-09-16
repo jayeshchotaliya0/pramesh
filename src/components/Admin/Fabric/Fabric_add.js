@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect} from "react";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import axios from "axios";

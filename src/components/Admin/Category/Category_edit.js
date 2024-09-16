@@ -6,9 +6,13 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useParams } from "react-router";
+import  getEnvironment  from '../../../components/environment';
+
 
 const Category_edit = () => {
+  const envConfig = getEnvironment();
+  const apiUrl    = envConfig.apiUrl;      
+
   let history = useHistory();
   const [Title, setTitle] = useState("");
   const [Image, setImage] = useState("");
@@ -19,7 +23,7 @@ const Category_edit = () => {
   const [ImageError, setImageError] = useState("");
   const [disable, setdisable] = useState(false);
 
-  var iCategoryId = window.location.pathname.substring(
+  const iCategoryId = window.location.pathname.substring(
     window.location.pathname.lastIndexOf("/") + 1
   );
 
@@ -35,14 +39,8 @@ const Category_edit = () => {
       setImageError("Please Select Image");
     }
 
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-
-    if (answer_array[2] == "localhost:3000") {
-      var url = "http://localhost/pramesh/backend/api/category_add";
-    } else {
-      var url = "https://prameshsilks.com/backend/api/category_add";
-    }
+    const url = `${apiUrl}/category_add`;
+  
     const fd = new FormData();
     fd.append("vTitle", Title);
     fd.append("vImage", Image);
@@ -50,8 +48,7 @@ const Category_edit = () => {
     fd.append("iCategoryId", iCategoryId);
     if (Title && Image) {
       setGif(true);
-      const dataa = axios
-        .post(url, fd)
+      axios.post(url, fd)
         .then((res) => {
           setdisable(true);
 
@@ -92,17 +89,9 @@ const Category_edit = () => {
     }
   }
 
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
-  if (answer_array[2] == "localhost:3000") {
-    var urls = `http://localhost/pramesh/backend/api/all_category_get?iCategoryId=${iCategoryId}`;
-  } else {
-    var urls = `https://prameshsilks.com/backend/api/all_category_get?iCategoryId=${iCategoryId}`;
-  }
-
   useEffect(() => {
     axios
-      .get(urls)
+      .get(`${apiUrl}/all_category_get?iCategoryId=${iCategoryId}`)
       .then((res) => {
         setTitle(res.data.data.vTitle);
         setImage(res.data.data.vImage);

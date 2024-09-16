@@ -21,6 +21,56 @@ class Api extends MX_Controller
         date_default_timezone_set('Asia/Calcutta');
 
     }
+	public function delete_image()
+	{
+		$table = $_POST['table'];
+		
+		$dbImages = [];
+		$result  = $this->content_model->get_by_all_table_image($table);
+	
+		foreach ($result as $file) 
+		{
+			array_push($dbImages,basename($file->vImage));
+		}
+
+		$base_path = $this->config->item('base_path');
+		if($table==='banner')
+		{ 
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/banner/";
+		}
+		else if($table==='category')
+		{
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/category/";
+		}
+		else if($table==='image_content')
+		{
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/Image_content/";
+		}
+		else if($table==='product_image')
+		{
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/Product/";
+		}
+		else if($table==='subcategory')
+		{
+			$imageDir = "";
+			$imageDir = $base_path."/backend/image/subcategory/";
+		}
+
+		$files = scandir($imageDir);
+
+		foreach ($files as $file) {
+			if (!in_array($file, $dbImages)) {
+				$filePath = $imageDir . '/' . $file;
+				if (unlink($filePath)) {
+					echo "Deleted file: $file <br>";
+				} 
+			}
+		}
+	}
 
 	public function login()
 	{	
@@ -1533,7 +1583,7 @@ class Api extends MX_Controller
 	public function color_add()
 	{	
 		
-		$iColorId = $_GET['iColorId'];
+		$iColorId 	= $_POST['iColorId'] ?? '';
 
 	    $data['vColor']              	= $_POST['vColor'];
         $data['dtAddedDate']            = date("Y-m-d h:i:s");
@@ -2329,12 +2379,22 @@ class Api extends MX_Controller
 	{
 		$desktop     		= $this->content_model->get_by_all_banner_front();
 		$mobile     		= $this->content_model->get_by_all_banner_front_mobile();
+		$mini_banner     	= $this->content_model->get_by_all_mini_banner_front();
+		$first_image     	= $this->content_model->get_by_all_first_image();
+		$second_image       = $this->content_model->get_by_all_second_image();
+		$third_image     	= $this->content_model->get_by_all_third_image();
+
+
 		if(count($desktop) > 0 || count($mobile) > 0)
 		{
 			$data['Status']     = '1';
 			$data['message']  	= 'Banner Data Get Successfully';
 			$data['data']       = $desktop;
 			$data['mobile']     = $mobile;
+			$data['mini_banner'] = $mini_banner;
+			$data['first_image'] = $first_image;
+			$data['second_image'] = $second_image;
+			$data['third_image']  = $third_image;
 		}
 		else
 		{
@@ -2346,78 +2406,78 @@ class Api extends MX_Controller
  		echo json_encode($data);
 	}
 
-	public function mini_banner()
-	{
-		$result     		= $this->content_model->get_by_all_mini_banner_front();
-		if(count($result) > 0)
-		{
-			$data['Status']     = '1';
-			$data['message']  	= 'Banner Data Get Successfully';
-			$data['data']       = $result;
-		}
-		else
-		{
-			$data['Status']     = '0';
-			$data['message']  	= 'Data Not Found';
-			$data['data']     	= array();
-		}
+	// public function mini_banner()
+	// {
+	// 	$result     		= $this->content_model->get_by_all_mini_banner_front();
+	// 	if(count($result) > 0)
+	// 	{
+	// 		$data['Status']     = '1';
+	// 		$data['message']  	= 'Banner Data Get Successfully';
+	// 		$data['data']       = $result;
+	// 	}
+	// 	else
+	// 	{
+	// 		$data['Status']     = '0';
+	// 		$data['message']  	= 'Data Not Found';
+	// 		$data['data']     	= array();
+	// 	}
 		
- 		echo json_encode($data);
-	}
-	public function first_image()
-	{
-		$result     		= $this->content_model->get_by_all_first_image();
-		if(count($result) > 0)
-		{
-			$data['Status']     = '1';
-			$data['message']  	= 'Image Data Get Successfully';
-			$data['data']       = $result;
-		}
-		else
-		{
-			$data['Status']     = '0';
-			$data['message']  	= 'Data Not Found';
-			$data['data']     	= array();
-		}
+ 	// 	echo json_encode($data);
+	// }
+	// public function first_image()
+	// {
+	// 	$result     		= $this->content_model->get_by_all_first_image();
+	// 	if(count($result) > 0)
+	// 	{
+	// 		$data['Status']     = '1';
+	// 		$data['message']  	= 'Image Data Get Successfully';
+	// 		$data['data']       = $result;
+	// 	}
+	// 	else
+	// 	{
+	// 		$data['Status']     = '0';
+	// 		$data['message']  	= 'Data Not Found';
+	// 		$data['data']     	= array();
+	// 	}
 		
- 		echo json_encode($data);
-	}
-	public function second_image()
-	{
-		$result     		= $this->content_model->get_by_all_second_image();
-		if(count($result) > 0)
-		{
-			$data['Status']     = '1';
-			$data['message']  	= 'Image Data Get Successfully';
-			$data['data']       = $result;
-		}
-		else
-		{
-			$data['Status']     = '0';
-			$data['message']  	= 'Data Not Found';
-			$data['data']     	= array();
-		}
+ 	// 	echo json_encode($data);
+	// }
+	// public function second_image()
+	// {
+	// 	$result     		= $this->content_model->get_by_all_second_image();
+	// 	if(count($result) > 0)
+	// 	{
+	// 		$data['Status']     = '1';
+	// 		$data['message']  	= 'Image Data Get Successfully';
+	// 		$data['data']       = $result;
+	// 	}
+	// 	else
+	// 	{
+	// 		$data['Status']     = '0';
+	// 		$data['message']  	= 'Data Not Found';
+	// 		$data['data']     	= array();
+	// 	}
 		
- 		echo json_encode($data);
-	}
-	public function third_image()
-	{
-		$result     		= $this->content_model->get_by_all_third_image();
-		if(count($result) > 0)
-		{
-			$data['Status']     = '1';
-			$data['message']  	= 'Image Data Get Successfully';
-			$data['data']       = $result;
-		}
-		else
-		{
-			$data['Status']     = '0';
-			$data['message']  	= 'Data Not Found';
-			$data['data']     	= array();
-		}
+ 	// 	echo json_encode($data);
+	// }
+	// public function third_image()
+	// {
+	// 	$result     		= $this->content_model->get_by_all_third_image();
+	// 	if(count($result) > 0)
+	// 	{
+	// 		$data['Status']     = '1';
+	// 		$data['message']  	= 'Image Data Get Successfully';
+	// 		$data['data']       = $result;
+	// 	}
+	// 	else
+	// 	{
+	// 		$data['Status']     = '0';
+	// 		$data['message']  	= 'Data Not Found';
+	// 		$data['data']     	= array();
+	// 	}
 		
- 		echo json_encode($data);
-	}
+ 	// 	echo json_encode($data);
+	// }
 	public function homepage_product()
 	{
 		$result     		= $this->product_model->get_by_homepage_product();
@@ -2495,59 +2555,19 @@ class Api extends MX_Controller
 
 	public function product_listing()
 	{	
-        
-		$iFabricId 			= explode("/",$_GET['Filter']);
+		$json 			= file_get_contents('php://input');
+        $postData 		= json_decode($json, true);
 
-		if(!empty($iFabricId[0]) && $iFabricId[0]!='on')
-		{
-			$iFabricIddata = $iFabricId[0];
-		}
-
-		if(!empty($iFabricId[1]) && $iFabricId[1]!='on')
-		{
-			$Price = $iFabricId[1];
-		}
-
-		if(!empty($iFabricId[2]) && $iFabricId[2]!='on')
-		{
-			$iColorId = $iFabricId[2];
-		}
-		if(!empty($iFabricId[3]) && $iFabricId[3]!='on')
-		{
-			$OrderBy = $iFabricId[3];
-		}
-		if(!empty($iFabricId[4]) && $iFabricId[4]!='on')
-		{
-			// $iCategoryId = $iFabricId[4];
-		}
-		if(!empty($iFabricId[5]) && $iFabricId[5]!='on')
-		{
-			$searchdata = explode("@@",$iFabricId[5]);
-
-			if($searchdata[0]=='Search')
-			{
-				$vProductName = $searchdata[1];
-			}
-			else if($searchdata[0]=='color')
-			{
-				$color = $searchdata[1];
-			}
-		}
-		// **********************New Create Filter**************
-		$iSubCategoryId = $_POST['iSubCategoryId'] ?  $_POST['iSubCategoryId'] : '';
-		$iCategoryId = $_POST['iCategoryId'] ?  $_POST['iCategoryId'] : '';
+		$iSubCategoryId = $postData['iSubCategoryId'] ?  $postData['iSubCategoryId'] : '';
+		$vPrice 		= $postData['Price'] ?  $postData['Price'] : '';
 		
-
 		$critearea = array();
-		$critearea['iFabricId'] 		= $iFabricIddata;
-		$critearea['vPrice'] 			= $Price;
-		$critearea['iColorId'] 			= $iColorId;
-		$critearea['OrderBy'] 			= $OrderBy;
-		$critearea['iCategoryId'] 		= $iCategoryId;
 		$critearea['iSubcategoryId']  	= $iSubCategoryId;
-		$critearea['vProductName']  	= $vProductName;
-		$critearea['vColor']  			= $color;
-		
+		$critearea['vPrice'] 	= ($postData['Price'] !== 'ALL') ? $vPrice : null;
+		$critearea['iColorId'] 	= ($postData['iColorId'] !== 'ALL') ? $postData['iColorId'] : null;			
+		$critearea['OrderBy']    = $postData['SortByFilter'] ?  $postData['SortByFilter'] : 'DESC';
+		$critearea['iCategoryId']    = $postData['iCategoryId'] ?  $postData['iCategoryId'] : '';
+
 		$result   = $this->product_model->get_by_all_product_listing($critearea);
 
 		$countArray = array();
@@ -2560,8 +2580,7 @@ class Api extends MX_Controller
 			} 
 		}
 
-
-		if(count($result) > 0)
+		if($result)
 		{
 			$data['Status']     = '1';
 			$data['message']  	= 'Product Data Get Successfully';
@@ -2577,15 +2596,16 @@ class Api extends MX_Controller
 		
  		echo json_encode($data);
 	}
+
 	public function single_product_get()
 	{
-		$idorprice  = explode("@@",$this->input->get('iProductId'));
-		$iProductId = $idorprice[0];
-		$vPrice     = $idorprice[1];
+		$json 			= file_get_contents('php://input');
+        $postData 		= json_decode($json, true);
 		
-
+		$iProductId = $postData['iProductId']? $postData['iProductId'] : '';
+		$vPrice     = $postData['vPrice']? $postData['vPrice'] : '';
 		$result     		= $this->product_model->get_by_product_id_with_image($iProductId,$vPrice);
-		
+
 		$iCategoryId        = $result[0]->iCategoryId;
 		$Slider     		= $this->product_model->get_by_category_wise_product($iCategoryId);
 

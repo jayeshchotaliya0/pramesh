@@ -86,5 +86,5 @@ Prototype : FTP file transfer protocoll
 Host       : ftp.justcodenow.com
 ENC         : use explicity ftp over tls if avalable 
 logontype : Normal
-User : mahesh@justcodenow.com
-pass : 9cSt^dMyFCaM
+User : maheshbhai@justcodenow.com
+pass : Jayes9cSt^dMyFCaMCHOT

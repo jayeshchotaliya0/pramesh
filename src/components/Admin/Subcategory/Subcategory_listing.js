@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
@@ -42,8 +42,8 @@ class Subcategory_listing extends React.Component {
     var iSubcategoryId = e.target.id;
     const fd = new FormData();
     fd.append("iSubcategoryId", iSubcategoryId);
-    if (iSubcategoryId != "undefined") {
-      const dataa = axios.post(del, fd);
+    if (iSubcategoryId !== "undefined") {
+      axios.post(del, fd);
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -62,7 +62,7 @@ class Subcategory_listing extends React.Component {
           }
         })
         .then((res) => {
-          if (res.data.Status == "0") {
+          if (res.data.Status === "0") {
             toast.success(res.data.message, {
               position: "top-center",
               autoClose: 5000,
@@ -136,7 +136,7 @@ class Subcategory_listing extends React.Component {
                           <tr  key={index}>
                             <th>{index + 1}</th>
                             <td>
-                              <img className="h-101 w-101" src={cat.vImage} />
+                              <img className="h-101 w-101" alt={cat.vImage} src={cat.vImage} />
                             </td>
                             <td>{cat.vSubTitle}</td>
                             <td>{cat.vTitle}</td>
@@ -144,14 +144,8 @@ class Subcategory_listing extends React.Component {
                             <td>{cat.eStatus}</td>
 
                             <td>
-                              <Link
-                                to={`/admin/subcategory/edit/${cat.iSubcategoryId}`}
-                              >
-                                <a>
-                                  <button className="btn myBtn3">Edit</button>
-                                </a>
-                                &nbsp;&nbsp;&nbsp;
-                              </Link>
+                              <Link to={`/admin/subcategory/edit/${cat.iSubcategoryId}`} className="btn myBtn3">
+                               Edit &nbsp;&nbsp;&nbsp;</Link>
 
                               <button
                                 id={`${cat.iSubcategoryId}`}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
@@ -6,6 +6,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import  getEnvironment  from '../../../components/environment';
 const $ = require("jquery");
 $.DataTable = require("datatables.net");
 
@@ -16,41 +17,40 @@ class Category_listing extends React.Component {
       category: [],
     };
   }
-
+          
   async componentDidMount() {
-    $(".example").DataTable().destroy();
+    const envConfig = getEnvironment();
+    const apiUrl = envConfig.apiUrl;
+  
+    // Initialize DataTable if it's not already initialized
+    if ($.fn.DataTable.isDataTable(".example")) {
+      $(".example").DataTable().destroy();
+    }
+  
     setTimeout(function () {
       $(".example").DataTable({
         pageLength: 50,
       });
     }, 1000);
-
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var url = "http://localhost/pramesh/backend/api/all_category_get";
-    } else {
-      var url = "https://prameshsilks.com/backend/api/all_category_get";
+  
+    try {
+      const response = await fetch(`${apiUrl}/all_category_get`);
+      const data = await response.json();
+      this.setState({ category: data.data });
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-    const response = await fetch(url);
-    const data = await response.json();
-    this.setState({ category: data.data });
   }
-
+  
   deletedata(e) {
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-    if (answer_array[2] == "localhost:3000") {
-      var del = "http://localhost/pramesh/backend/api/delete_category";
-    } else {
-      var del = "https://prameshsilks.com/backend/api/delete_category";
-    }
-
-    var iCategoryId = e.target.id;
+    const envConfig = getEnvironment();
+    const apiUrl    = envConfig.apiUrl;
+  
+    const iCategoryId = e.target.id;
     const fd = new FormData();
     fd.append("iCategoryId", iCategoryId);
     if (iCategoryId != "undefined") {
-      const dataa = axios.post(del, fd);
+      const dataa = axios.post(`${apiUrl}/delete_category`, fd);
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",

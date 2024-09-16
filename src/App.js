@@ -8,9 +8,7 @@ require("isomorphic-fetch");
 //   import("./components/Front/HomePage/HomePage")
 // );
 
-const Addtocart = React.lazy(() =>
-  import("./components/Front/Addtocart/Addtocart")
-);
+const Addtocart = React.lazy(() => import("./components/Front/Addtocart/Addtocart"));
 const PageNotFound = React.lazy(() =>
   import("./components/Front/Errorpage/Errorpage")
 );
@@ -100,8 +98,8 @@ const Register = React.lazy(() =>
 const Login = React.lazy(() => import("./components/Front/Login/Login"));
 const GuestCheckout = React.lazy(() => import("./components/Front/Login/GuestCheckout"));
 
-const MainCategory  = React.lazy(() => import("./components/Front/HomePage/Maincategory"));
-const HomePage      = React.lazy(() => import("./components/Front/HomePage/HomePage"));
+const MainCategory = React.lazy(() => import("./components/Front/HomePage/Maincategory"));
+const HomePage = React.lazy(() => import("./components/Front/HomePage/HomePage"));
 
 
 const AllProduct = React.lazy(() => {
@@ -257,22 +255,18 @@ const LazyProductImage = React.lazy(() =>
   import("./components/Admin/Product/Product_image")
 );
 // ***************Header Menu Components *******************
-const LazyHeader_listing = React.lazy(() =>import("./components/Admin/Header_menu/Header_menu_listing"));
-const LazyHeader_menuadd_listing = React.lazy(() =>import("./components/Admin/Header_menu/add"));
-const LazyHeader_menuedit_listing = React.lazy(() =>import("./components/Admin/Header_menu/Header_menu_edit"));
+const LazyHeader_listing = React.lazy(() => import("./components/Admin/Header_menu/Header_menu_listing"));
+const LazyHeader_menuadd_listing = React.lazy(() => import("./components/Admin/Header_menu/add"));
+const LazyHeader_menuedit_listing = React.lazy(() => import("./components/Admin/Header_menu/Header_menu_edit"));
 
 // ***************Header Menu Components END****************
 
 // ***************Materials Components *******************
-const LazyMaterial_listing      = React.lazy(() =>import("./components/Admin/Material/Matirial_listing"));
-const LazyMaterialadd_listing   = React.lazy(() =>import("./components/Admin/Material/add"));
-const LazyMaterialedit_listing  = React.lazy(() =>import("./components/Admin/Material/Matirial_edit"));
+const LazyMaterial_listing = React.lazy(() => import("./components/Admin/Material/Matirial_listing"));
+const LazyMaterialadd_listing = React.lazy(() => import("./components/Admin/Material/add"));
+const LazyMaterialedit_listing = React.lazy(() => import("./components/Admin/Material/Matirial_edit"));
 
 // ***************Materials Components END****************
-
-
-
-
 
 // ***************Category Components*******************
 const LazyCategory_listing = React.lazy(() =>
@@ -335,7 +329,7 @@ class App extends React.Component {
     const vUserName = localStorage.getItem("vUserName");
     const iUserId = localStorage.getItem("iUserId");
     const GuestcheckoutId = localStorage.getItem("GuestcheckoutId");
-    
+
     const hours = 10;
     const now = new Date().getTime();
 
@@ -355,7 +349,7 @@ class App extends React.Component {
     if (cookie === null) {
       localStorage.setItem("cookie", now);
     }
-    
+
     return (
       <Router>
         {/* **********************************FRONT********************************************************** */}
@@ -363,21 +357,12 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/lan" component={Language} />
-
             <Route exact path="/register" component={Register} />
-            <Route
-              exact
-              path="/login"
-              component={iUserId ? HomePage : Login}
-            />
+            <Route exact path="/login" component={iUserId ? HomePage : Login}/>
             <Route exact path="/typeofsarees" component={MainCategory} />
             <Route exact path="/product-listing" component={AllProduct} />
             <Route exact path="/product-listing/:id" component={AllProduct} />
-            <Route
-              exact
-              path="/product-listing/:name/:id"
-              component={Product_listing}
-            />
+            <Route exact path="/product-listing/:name/:id" component={Product_listing} />
             <Route exact path="/addtocart/:id/:id" component={Addtocart} />
             <Route exact path="/wishlist" component={Wishlist} />
             <Route exact path="/aboutus" component={About} />
@@ -385,17 +370,8 @@ class App extends React.Component {
             <Route exact path="/termscondition" component={TermsConditions} />
             <Route exact path="/paymentsuccess" component={PaymentSuccess} />
             <Route exact path="/loginType" component={iUserId ? HomePage : GuestCheckout} />
-
-            <Route
-              exact
-              path="/checkout"
-              component={iUserId>0 || GuestcheckoutId ? Checkout : GuestCheckout}
-            />
-            <Route
-              exact
-              path="/verifyotp"
-              component={iUserId ? PageNotFound : Verifyotp}
-            />
+            <Route exact path="/checkout" component={iUserId > 0 || GuestcheckoutId ? Checkout : GuestCheckout}/>
+            <Route exact path="/verifyotp" component={iUserId ? PageNotFound : Verifyotp}/>
             <Route exact path="/viewcart" component={Viewcart} />
 
             {/* *************************Stories Page ****************************************** */}
@@ -405,17 +381,9 @@ class App extends React.Component {
             <Route exact path="/ThirdStories" component={ThirdStories} />
             <Route exact path="/FourthStories" component={FourthStories} />
             <Route exact path="/FifthStories" component={FifthStories} />
-
             <Route exact path="/contactus" component={ContactUs} />
-
             <Route exact path="/admin/login" component={LazyLogin} />
-            <Route
-              exact
-              path="/admin/"
-              component={LazyDashboard}
-              iAdminId={iAdminId}
-              vUserName={vUserName}
-            />
+            <Route exact path="/admin/" component={LazyDashboard} />
 
             {/* *********************************USER COMPONENT************************************ */}
 
@@ -434,11 +402,7 @@ class App extends React.Component {
             {/* *********************************BANNER COMPONENT************************************ */}
             <Route exact path="/admin/banner" component={LazyBanner_listing} />
             <Route exact path="/admin/banner/add" component={LazyAdd} />
-            <Route
-              exact
-              path="/admin/banner/edit/:id"
-              component={LazyBanner_edit}
-            />
+            <Route exact path="/admin/banner/edit/:id" component={LazyBanner_edit} />
 
             {/* *********************************IMAGE CONTENT COMPONENT************************************ */}
             <Route
@@ -497,13 +461,13 @@ class App extends React.Component {
               component={LazyProductImage}
             />
             {/* **********************************Header COMPONENT************************************ */}
-            <Route exact path="/admin/header_menu/listing" component={LazyHeader_listing}/>
-            <Route exact path="/admin/header_menu/add" component={LazyHeader_menuadd_listing}/>
-            <Route exact path="/admin/header_menu/edit/:id" component={LazyHeader_menuedit_listing}/>
+            <Route exact path="/admin/header_menu/listing" component={LazyHeader_listing} />
+            <Route exact path="/admin/header_menu/add" component={LazyHeader_menuadd_listing} />
+            <Route exact path="/admin/header_menu/edit/:id" component={LazyHeader_menuedit_listing} />
 
-            <Route exact path="/admin/material/listing" component={LazyMaterial_listing}/>
-            <Route exact path="/admin/material/add" component={LazyMaterialadd_listing}/>
-            <Route exact path="/admin/material/edit/:id" component={LazyMaterialedit_listing}/>
+            <Route exact path="/admin/material/listing" component={LazyMaterial_listing} />
+            <Route exact path="/admin/material/add" component={LazyMaterialadd_listing} />
+            <Route exact path="/admin/material/edit/:id" component={LazyMaterialedit_listing} />
 
 
             {/* **********************************CATEGORY COMPONENT************************************ */}
@@ -527,7 +491,7 @@ class App extends React.Component {
 
             <Route
               exact
-              path="/admin/subcategory/listing/:id"
+              path="/admin/subcategory/listing"
               component={LazySubcategory_listing}
             />
             <Route

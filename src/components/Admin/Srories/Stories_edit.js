@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import "react-dropzone-uploader/dist/styles.css";
-import Dropzone from "react-dropzone-uploader";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
@@ -38,10 +37,10 @@ const Stories_edit = () => {
     window.location.pathname.lastIndexOf("/") + 1
   );
 
-  let images = [];
-  const handleChangeStatus = ({ meta }, status) => {
-    images.push(meta.name);
-  };
+  // let images = [];
+  // const handleChangeStatus = ({ meta }, status) => {
+  //   images.push(meta.name);
+  // };
   // *********************************************************DATA ADDED************************************
   // function chosenVideo(e) {
   //     var file = e.target.files[0];

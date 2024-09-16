@@ -6,9 +6,13 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import  getEnvironment  from '../../../components/environment';
 
 const Color_add = () => {
   let history = useHistory();
+  const envConfig = getEnvironment();
+  const apiUrl    = envConfig.apiUrl;  
+
   const [Color, setColor] = useState("");
   const [ColorError, setColorError] = useState("");
 
@@ -17,64 +21,42 @@ const Color_add = () => {
   const [disable, setdisable] = useState(false);
 
   function addcolor() {
-    if (Color) {
-      setColorError("");
-    } else {
-      setColorError("Please Enter Color Name");
-    }
-
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-
-    if (answer_array[2] == "localhost:3000") {
-      var url = "http://localhost/pramesh/backend/api/color_add";
-    } else {
-      var url = "https://prameshsilks.com/backend/api/color_add";
-    }
+    setColorError(Color ? "" : "Please Enter Color Name");
+  
+    if (!Color) return;
+  
     const fd = new FormData();
     fd.append("vColor", Color);
     fd.append("eStatus", Status);
-    if (Color) {
-      setGif(true);
-      const dataa = axios
-        .post(url, fd)
-        .then((res) => {
-          setdisable(true);
-
-          if (res.data.Status == "0") {
-            setGif(false);
-            setdisable(true);
-            toast.success(res.data.message, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            setTimeout(function () {
-              history.push("/admin/color/listing");
-              // window.location.reload(1);
-            }, 2000);
-          } else {
-            setGif(false);
-            setdisable(false);
-            toast.error(res.data.message, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-          }
-        })
-        .catch((error) => {});
-    }
+  
+    setGif(true);
+  
+    axios.post(`${apiUrl}/color_add`, fd)
+      .then((res) => {
+        setdisable(res.data.Status === "0");
+        setGif(false);
+  
+        const toastFunction = res.data.Status === "0" ? toast.success : toast.error;
+  
+        toastFunction(res.data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+  
+        if (res.data.Status === "0") {
+          setTimeout(() => {
+            history.push("/admin/color/listing");
+          }, 2000);
+        }
+      })
+      .catch((error) => {});
   }
+  
 
   return (
     <>

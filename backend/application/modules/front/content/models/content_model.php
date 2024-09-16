@@ -40,6 +40,14 @@ class Content_model extends CI_Model
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
+    public function get_by_all_table_image($table)
+    {   
+        $this->db->from($table);
+        $query=$this->db->get();
+        $data = $query->result();
+        return $data;
+    }
+
     public function get_by_all_banner()
     {   
         $this->db->from($this->table);
@@ -157,6 +165,7 @@ class Content_model extends CI_Model
 // ******************************FRONT API *************************************************
     public function get_by_all_banner_front()
     {   
+        $this->db->select('vImage');
         $this->db->from($this->table);
         $this->db->where('eStatus','Active');
         $this->db->where('vBannerType','1');
@@ -182,6 +191,7 @@ class Content_model extends CI_Model
 
     public function get_by_all_mini_banner_front()
     {   
+        $this->db->select('vImage');
         $this->db->from($this->table);
         $this->db->where('eStatus','Active');
         $this->db->where('vBannerType','2');

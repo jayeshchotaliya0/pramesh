@@ -16,71 +16,37 @@ import  getEnvironment  from '../../../components/environment';
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
-    const envConfig = getEnvironment();
-    const apiUrl    = envConfig.apiUrl;
-
     const [image_zooming, setimage_zooming] = useState('');
     const [MobileBanner, setMobileBanner]   = useState([]);
     const dispatch = useDispatch();
 
-    var urls        = `${apiUrl}/banner`;
-    var minibanner  = `${apiUrl}/mini_banner`;
-    var FirstImage  = `${apiUrl}/first_image`;
-    var Secondimage = `${apiUrl}/second_image`;
-    var Thirdimage  = `${apiUrl}/third_image`;
-    var homepage_producturl = `${apiUrl}/homepage_product`;
-    
     // *******************banner Data Get*****************************
-    const fetchbanner = async () => {
-        const response = await axios.get(urls).catch((err) => {
-        });
-
-        const res = await axios.get(minibanner).catch((err) => {
-        });
-
-        const firstimage = await axios.get(FirstImage).catch((err) => {
-        });
-
-        if (response.data.data) {
-            dispatch(setProducts(response.data.data));
-            setMobileBanner(response.data.mobile);
-        }
-        if (res.data.data) {
-            dispatch(setMinibanner(res.data.data));
-        }
-        if (firstimage.data.data) {
-            dispatch(setFirstImage(firstimage.data.data));
-        }
-
-    };
-    const fetchsecondimage = async () => {
-        const secondimage = await axios.get(Secondimage).catch((err) => {
-        });
-        if (secondimage.data.data) {
-            dispatch(setSecondImage(secondimage.data.data));
-        }
-    };
-    const fetchthirddimage = async () => {
-        const thirdimage = await axios.get(Thirdimage).catch((err) => {
-        });
-
-        const homepage_data = await axios.get(homepage_producturl).catch((err) => {
-        });
-
-        if (thirdimage.data.data) {
-            dispatch(setThirdImage(thirdimage.data.data));
-        }
-        if (homepage_data.data.data) {
-            dispatch(setHomepagedata(homepage_data.data.data));
-        }
-    };
-
+    
     useEffect(() => {
+        const {apiUrl} = getEnvironment();
+        const fetchbanner = async () => {
+            const response = await axios.get(`${apiUrl}/banner`).catch((err) => {
+            });
+            if (response.data.data) {
+                dispatch(setProducts(response.data.data));
+                setMobileBanner(response.data.mobile);
+                dispatch(setMinibanner(response.data.mini_banner));
+                dispatch(setFirstImage(response.data.first_image));
+                dispatch(setSecondImage(response.data.second_image));
+                dispatch(setThirdImage(response.data.third_image));
+            }
+        };
         fetchbanner();
-        fetchsecondimage();
     }, []);
 
     useEffect(() => {
+        const {apiUrl} = getEnvironment();
+        const fetchthirddimage = async () => {
+            const homepage_data = await axios.get(`${apiUrl}/homepage_product`).catch((err) => { });
+            if (homepage_data.data.data) {
+                dispatch(setHomepagedata(homepage_data.data.data));
+            }
+        };
         fetchthirddimage();
     }, []);
 
@@ -88,33 +54,25 @@ const HomePage = () => {
         setimage_zooming(e.currentTarget.src)
     }
 
+    const numberWithCommas = (number) => {
+        const fixedNumber = Number(number).toFixed(2);
+        return fixedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
     const products_data     = useSelector((state) => state.allProducts.products);
     const mini_banner       = useSelector((state) => state.minibanner.minibanner);
-    const firstiamgedata    = useSelector((state) => state.FirstimageData.FirstiamgeArray);
-    const secondiamgedata   = useSelector((state) => state.SecondimageData.SecondiamgeArray);
-    const thirdiamgedata    = useSelector((state) => state.ThirdimageData.ThirdiamgeArray);
+    const { vImage: img }   = useSelector((state) => state.FirstimageData.FirstiamgeArray);
+    const { vImage: img1 }  = useSelector((state) => state.SecondimageData.SecondiamgeArray);
+    const { vImage: img2 }  = useSelector((state) => state.ThirdimageData.ThirdiamgeArray);
     const homepage_productdata = useSelector((state) => state.Homepageproduct.HomepageproductArray);
 
-    var img     = firstiamgedata.vImage;
-    var img1    = secondiamgedata.vImage;
-    var img2    = thirdiamgedata.vImage;
-
-    const bannerList = products_data.map((pro, index) => {
-        if (index == '0') {
-            var ac = 'active';
-        }
-        else {
-            var ac = '';
-        }
-        return (
-            <div className={`carousel-item  ${ac}`}>
-                <Link to='/product-listing'>
-                    <img className="d-block w-100  myslider" src={pro.vImage} alt="First slide" />
-                </Link>
-
-            </div>
-        );
-    })
+    const bannerList = products_data.map((pro, index) => (
+        <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+          <Link to='/product-listing'>
+            <img className="d-block w-100 myslider" src={pro.vImage} alt={`Slide ${index + 1}`} />
+          </Link>
+        </div>
+      ));
     // *****************************************BannerMobile  Dynamic************************************
     const Mobilebanner = MobileBanner.map((pro1, index1) => {
         if (index1 == '0') {
@@ -343,7 +301,7 @@ const HomePage = () => {
                                         </Link>
                                     </div>
                                     <h3>{product.vProductName}</h3>
-                                    <p> र {product.vPrice}</p>
+                                    <p> र {numberWithCommas(product.vPrice)}</p>
                                 </div>
                             </>
                         ))

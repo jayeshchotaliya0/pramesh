@@ -5,15 +5,15 @@ import Sidebar from "../Sidebar";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
+import  getEnvironment  from '../../../components/environment';
 import "react-toastify/dist/ReactToastify.css";
+import { useParams } from "react-router-dom/cjs/react-router-dom";
 
 const News_Edit = () => {
   let history = useHistory();
-  var answer = window.location.href;
-  const answer_array = answer.split("/");
-  var iNewsLetterId = window.location.pathname.substring(
-    window.location.pathname.lastIndexOf("/") + 1
-  );
+  const { apiUrl } = getEnvironment();
+  const { id: iNewsLetterId } = useParams();
+
   const [Email, setEmail] = useState("");
   const [EmailError, setEmailError] = useState("");
 
@@ -27,17 +27,12 @@ const News_Edit = () => {
       setEmailError("Please Enter Email Address");
     }
 
-    if (answer_array[2] == "localhost:3000") {
-      var url = `http://localhost/pramesh/backend/api/News_letter_add?iNewsLetterId=${iNewsLetterId}`;
-    } else {
-      var url = `https://prameshsilks.com/backend/api/News_letter_add?iNewsLetterId=${iNewsLetterId}`;
-    }
     const fd = new FormData();
     fd.append("vEmail", Email);
     if (Email) {
       setGif(true);
       const dataa = axios
-        .post(url, fd)
+        .post(`${apiUrl}/News_letter_add?iNewsLetterId=${iNewsLetterId}`, fd)
         .then((res) => {
           setdisable(true);
 
@@ -78,20 +73,22 @@ const News_Edit = () => {
     }
   }
 
-  if (answer_array[2] == "localhost:3000") {
-    var url = `http://localhost/pramesh/backend/api/all_news_letter_get?iNewsLetterId=${iNewsLetterId}`;
-  } else {
-    var url = `https://prameshsilks.com/backend/api/all_news_letter_get?iNewsLetterId=${iNewsLetterId}`;
-  }
+
+  const url = `${apiUrl}/all_news_letter_get?iNewsLetterId=${iNewsLetterId}`;
 
   useEffect(() => {
-    axios
-      .get(url)
-      .then((res) => {
-        setEmail(res.data.data.vEmail);
-      })
-      .catch((err) => {});
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(url);
+        setEmail(data.data.vEmail);
+      } catch (error) {
+        // Handle errors if needed
+      }
+    };
+
+    fetchData();
   }, []);
+
 
   return (
     <>
@@ -119,7 +116,7 @@ const News_Edit = () => {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <label className="form-control-label" for="vTitle">
-                              Color
+                              Email
                             </label>
                             <input
                               type="text"

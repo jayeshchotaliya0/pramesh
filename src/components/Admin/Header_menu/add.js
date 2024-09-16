@@ -33,9 +33,7 @@ const HeaderMenuAdd = () => {
       setImageError("Please Select Image");
     }
 
-    const envConfig = getEnvironment();
-    const apiUrl    = envConfig.apiUrl; 
-
+    const { apiUrl } = getEnvironment();
     var url = `${apiUrl}/header_menu_add`;
 
     const fd = new FormData();

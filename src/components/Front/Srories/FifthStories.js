@@ -16,6 +16,7 @@ const FifthStories = () => {
               <div>
                 <img
                   src={process.env.PUBLIC_URL + "/Stories/goodearth2.jpg"}
+                  alt={process.env.PUBLIC_URL + "/Stories/goodearth2.jpg"}
                   className="firststories_img"
                 />
               </div>
@@ -68,18 +69,21 @@ const FifthStories = () => {
                       <div className="carousel-item active">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal1.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal1.jpg"}
                           className="fifthstories_img"
                         />
                       </div>
                       <div className="carousel-item">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal2.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal2.jpg"}
                           className="fifthstories_img"
                         />
                       </div>
                       <div className="carousel-item">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal3.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal3.jpg"}
                           className="fifthstories_img"
                         />
                       </div>
@@ -125,6 +129,7 @@ const FifthStories = () => {
                       <div className="carousel-item active">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal4.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal4.jpg"}
                           className="fourthstories_img"
                         />
                       </div>
@@ -132,6 +137,7 @@ const FifthStories = () => {
                       <div className="carousel-item">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal4.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal4.jpg"}
                           className="fourthstories_img"
                         />
                       </div>
@@ -181,6 +187,7 @@ const FifthStories = () => {
                 <div>
                   <img
                     src={process.env.PUBLIC_URL + "/Stories/mahal5.jpg"}
+                    alt={process.env.PUBLIC_URL + "/Stories/mahal5.jpg"}
                     className="firststories_img"
                   />
                 </div>
@@ -189,6 +196,7 @@ const FifthStories = () => {
                 <div>
                   <img
                     src={process.env.PUBLIC_URL + "/Stories/mahal6.jpg"}
+                    alt={process.env.PUBLIC_URL + "/Stories/mahal6.jpg"}
                     className="firststories_img"
                   />
                 </div>
@@ -231,18 +239,21 @@ const FifthStories = () => {
                       <div className="carousel-item active">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal7.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal7.jpg"}
                           className="fifthstories_img"
                         />
                       </div>
                       <div className="carousel-item">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal8.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal8.jpg"}
                           className="fifthstories_img"
                         />
                       </div>
                       <div className="carousel-item">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal9.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal9.jpg"}
                           className="fifthstories_img"
                         />
                       </div>
@@ -297,6 +308,7 @@ const FifthStories = () => {
                       <div className="carousel-item active">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal10.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal10.jpg"}
                           className="fourthstories_img  w-100"
                         />
                       </div>
@@ -304,12 +316,14 @@ const FifthStories = () => {
                       <div className="carousel-item">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal11.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal11.jpg"}
                           className="fourthstories_img  w-100"
                         />
                       </div>
                       <div className="carousel-item">
                         <img
                           src={process.env.PUBLIC_URL + "/Stories/mahal12.jpg"}
+                          alt={process.env.PUBLIC_URL + "/Stories/mahal12.jpg"}
                           className="fourthstories_img  w-100"
                         />
                       </div>
@@ -370,6 +384,7 @@ const FifthStories = () => {
                     <div className="carousel-item active">
                       <img
                         src={process.env.PUBLIC_URL + "/Stories/mahal13.jpg"}
+                        alt={process.env.PUBLIC_URL + "/Stories/mahal13.jpg"}
                         className="fourthstories_img"
                       />
                     </div>
@@ -377,18 +392,21 @@ const FifthStories = () => {
                     <div className="carousel-item">
                       <img
                         src={process.env.PUBLIC_URL + "/Stories/mahal14.jpg"}
+                        alt={process.env.PUBLIC_URL + "/Stories/mahal14.jpg"}
                         className="fourthstories_img"
                       />
                     </div>
                     <div className="carousel-item">
                       <img
                         src={process.env.PUBLIC_URL + "/Stories/mahal15.jpg"}
+                        alt={process.env.PUBLIC_URL + "/Stories/mahal15.jpg"}
                         className="fourthstories_img"
                       />
                     </div>
                     <div className="carousel-item">
                       <img
                         src={process.env.PUBLIC_URL + "/Stories/mahal16.jpg"}
+                        alt={process.env.PUBLIC_URL + "/Stories/mahal16.jpg"}
                         className="fourthstories_img"
                       />
                     </div>
@@ -450,12 +468,14 @@ const FifthStories = () => {
                     <div className="carousel-item active">
                       <img
                         src={process.env.PUBLIC_URL + "/Stories/mahal18.jpg"}
+                        alt={process.env.PUBLIC_URL + "/Stories/mahal18.jpg"}
                         className="fifthstories_img"
                       />
                     </div>
                     <div className="carousel-item">
                       <img
                         src={process.env.PUBLIC_URL + "/Stories/mahal19.jpg"}
+                        alt={process.env.PUBLIC_URL + "/Stories/mahal19.jpg"}
                         className="fifthstories_img"
                       />
                     </div>

@@ -1,34 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Navbar from "../../Front/Navbar";
 import Footer from "../../Front/Footer";
 import axios from 'axios';
 import { setTermsCondition } from "../../../redux/actions/productActions";
+import  getEnvironment  from '../../../components/environment';
+
 const ReturnExchange = () => {
+    const {apiUrl} = getEnvironment();
     const dispatch = useDispatch();
-    var answer = window.location.href;
-    const answer_array = answer.split("/");
-
-    if (answer_array[2] == "localhost:3000") {
-        var url = "http://localhost/pramesh/backend/api/all_terms_condition_get";
-    } else {
-        var url = "https://prameshsilks.com/backend/api/all_terms_condition_get";
-    }
-
-    const mainNavbar = async () => {
-        const termsdata = await axios.get(url).catch((err) => {
-            
-        });
-
-        if (termsdata.data.data) {
-            dispatch(setTermsCondition(termsdata.data.data));
-        }
-    };
-
+   
     useEffect(() => {
+        const mainNavbar = async ()=>
+        {
+            try{
+                const termsdata = await axios.get(`${apiUrl}/all_terms_condition_get`).catch((err) => {});
+                if (termsdata.data.data) {
+                    dispatch(setTermsCondition(termsdata.data.data));
+                }
+            }
+            catch(error)
+            {
+                console.log(error)
+            }
+        }
         mainNavbar();
-    }, []);
+    }, [apiUrl,dispatch]);
     const Terms = useSelector((state) => state.MainMiniTermsdata.AllTermsArray);
     return (
         <>
